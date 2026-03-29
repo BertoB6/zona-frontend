@@ -1,4 +1,4 @@
-// ==================== LISTA DE 12 JOGOS ====================
+// ==================== LISTA DE 13 JOGOS ====================
 const jogos = [
     {
         id: 1,
@@ -35,7 +35,7 @@ const jogos = [
         nome: "Naruto Shippuden Ultimate Ninja",
         categoria: "Luta",
         plataforma: "PSP",
-        imagem: "naruto1",
+        imagem: "Naruto1",
         download: "compartilhar.html",
         pago: false,
         preco: ""
@@ -55,7 +55,7 @@ const jogos = [
         nome: "God of War - Ghost of Sparta",
         categoria: "Aventura",
         plataforma: "PSP",
-        imagem: "godof",
+        imagem: "Godof",
         download: "checkout.html",
         pago: true,
         preco: "25 MT"
@@ -85,7 +85,7 @@ const jogos = [
         nome: "FIFA 21 Mod 14",
         categoria: "Futebol",
         plataforma: "APK Android",
-        imagem: "Fc1",
+        imagem: "Fifa1",
         download: "checkout.html",
         pago: true,
         preco: "25 MT"
@@ -115,10 +115,21 @@ const jogos = [
         nome: "James Bond",
         categoria: "Missão",
         plataforma: "PSP",
-        imagem: "james1",
+        imagem: "James1",
         download: "compartilhar.html",
         pago: false,
         preco: ""
+    },
+    {
+        id: 13,
+        nome: "Dragon Ball Shin Budokai 8",
+        categoria: "Luta",
+        plataforma: "PSP",
+        imagem: "dragonball",
+        download: "https://www.mediafire.com/file/9p4ww69euyj5gx1/DRAGON_BALL_Z_SHIN_BUDOKAI_8_BY_TV_.7z/file",
+        pago: false,
+        preco: "",
+        senha: "DBZSB8TV"
     }
 ];
 
@@ -161,10 +172,7 @@ function renderizarJogos(jogosArray) {
         const card = document.createElement('div');
         card.className = 'card';
         
-        // Definir ícone da plataforma
         const plataformaIcon = jogo.plataforma === "APK Android" ? "📱" : "🎮";
-        
-        // CORREÇÃO: caminho correto das imagens na pasta imagens/
         const imagemPath = `imagens/${jogo.imagem}.jpg`;
         
         card.innerHTML = `
@@ -187,7 +195,7 @@ function renderizarJogos(jogosArray) {
     });
 }
 
-// Função principal de download
+// Função principal de download (com suporte a senha)
 function baixar(jogo) {
     if (jogo.pago) {
         // Jogo pago: abre popup com preço
@@ -197,9 +205,12 @@ function baixar(jogo) {
             popup.style.display = "flex";
         }
     } else {
-        // Jogo grátis: redireciona para compartilhar.html
+        // Jogo grátis: verifica se tem senha
+        if (jogo.senha) {
+            alert(`🔐 Jogo: ${jogo.nome}\n📌 Senha: ${jogo.senha}\n\nGuarde a senha para extrair o arquivo.`);
+        }
         if (jogo.download && jogo.download !== "#") {
-            window.location.href = jogo.download;
+            window.open(jogo.download, "_blank");
         } else {
             alert(`Acesso a ${jogo.nome} requer partilha!\n\nVocê será redirecionado para a página de compartilhamento.`);
             window.location.href = "compartilhar.html";
@@ -298,7 +309,6 @@ function mostrarSuporte() {
 
 // ==================== FUNÇÕES DE UI ====================
 
-// Abrir/fechar menu lateral
 function abrirMenu() {
     sideMenu.classList.add('active');
     overlay.classList.add('active');
@@ -309,7 +319,6 @@ function fecharMenu() {
     overlay.classList.remove('active');
 }
 
-// Abrir/fechar barra de pesquisa
 function toggleSearchBar() {
     searchBar.classList.toggle('active');
     if (searchBar.classList.contains('active')) {
@@ -328,47 +337,70 @@ function fecharBarraPesquisa() {
     }
 }
 
-// ==================== EVENTOS ====================
-
-// Menu
-if (menuBtn) {
-    menuBtn.addEventListener('click', abrirMenu);
+// ==================== URL PARAMETER (para links diretos) ====================
+function carregarJogoPorURL() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const jogoSlug = urlParams.get('jogo');
+    
+    if (jogoSlug) {
+        const slugMap = {
+            'need-for-speed': 'Need for Speed',
+            'fc-mobile-24': 'FC Mobile 24',
+            'naruto-shippuden': 'Naruto Shippuden Ultimate Ninja',
+            'mortal-kombat-11': 'Mortal Kombat 11',
+            'ea-fc-26': 'EA FC 26',
+            'god-of-war': 'God of War - Ghost of Sparta',
+            'dream-league-mod': 'Dream League Soccer Mod',
+            'dls-real-madrid': 'Dream League Soccer Mod Real Madrid',
+            'fifa-21-mod': 'FIFA 21 Mod 14',
+            'efootball-26': 'eFootball 26 Mod Africa',
+            'dfl-26': 'DFL 26',
+            'james-bond': 'James Bond',
+            'dragon-ball-shin-budokai-8': 'Dragon Ball Shin Budokai 8'
+        };
+        
+        const nomeJogo = slugMap[jogoSlug];
+        if (nomeJogo) {
+            setTimeout(() => {
+                const cards = document.querySelectorAll('.card');
+                for (let card of cards) {
+                    if (card.querySelector('h3')?.innerText === nomeJogo) {
+                        card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        card.style.border = '2px solid #00ff9c';
+                        card.style.transform = 'scale(1.02)';
+                        setTimeout(() => {
+                            card.style.border = '';
+                            card.style.transform = '';
+                        }, 3000);
+                        break;
+                    }
+                }
+            }, 500);
+        }
+    }
 }
 
+// ==================== EVENTOS ====================
+
+if (menuBtn) menuBtn.addEventListener('click', abrirMenu);
 if (closeMenu) closeMenu.addEventListener('click', fecharMenu);
 if (overlay) overlay.addEventListener('click', fecharMenu);
 
-// Pesquisa
-if (searchBtn) {
-    searchBtn.addEventListener('click', toggleSearchBar);
-}
+if (searchBtn) searchBtn.addEventListener('click', toggleSearchBar);
+if (searchInput) searchInput.addEventListener('input', (e) => buscarJogos(e.target.value));
 
-if (searchInput) {
-    searchInput.addEventListener('input', (e) => {
-        buscarJogos(e.target.value);
-    });
-}
-
-// Opções do menu
 if (menuHome) menuHome.addEventListener('click', mostrarHome);
 if (menuApresentacao) menuApresentacao.addEventListener('click', mostrarApresentacao);
 if (menuSuporte) menuSuporte.addEventListener('click', mostrarSuporte);
 
-// Botão de download premium
-if (btnDownloadPremium) {
-    btnDownloadPremium.addEventListener('click', baixarPremium);
-}
+if (btnDownloadPremium) btnDownloadPremium.addEventListener('click', baixarPremium);
 
-// Fechar popup ao clicar fora
 if (popup) {
     popup.addEventListener('click', (e) => {
-        if (e.target === popup) {
-            fecharPopup();
-        }
+        if (e.target === popup) fecharPopup();
     });
 }
 
-// Fechar barra de pesquisa ao clicar fora
 document.addEventListener('click', (e) => {
     if (searchBar.classList.contains('active')) {
         if (!searchBar.contains(e.target) && e.target !== searchBtn) {
@@ -379,3 +411,4 @@ document.addEventListener('click', (e) => {
 
 // ==================== INICIALIZAÇÃO ====================
 renderizarJogos(jogos);
+carregarJogoPorURL();
