@@ -35,7 +35,7 @@ const jogos = [
         nome: "Naruto Shippuden Ultimate Ninja",
         categoria: "Luta",
         plataforma: "PSP",
-        imagem: "Naruto1",
+        imagem: "naruto1",
         download: "compartilhar.html",
         pago: false,
         preco: ""
