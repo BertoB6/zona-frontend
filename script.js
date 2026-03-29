@@ -115,7 +115,7 @@ const jogos = [
         nome: "James Bond",
         categoria: "Missão",
         plataforma: "PSP",
-        imagem: "James1",
+        imagem: "james1",
         download: "compartilhar.html",
         pago: false,
         preco: ""
