@@ -16,7 +16,7 @@ const jogos = [
         categoria: "Corrida",
         plataforma: "PSP",
         imagem: "need1",
-        download: "https://www.mediafire.com/file/vag827ld18jt1da/NFS_MW_5-1-0.%255BZonaGamer%255D.zip/file",
+        download: "compartilhar.html",
         pago: false,
         preco: ""
     },
@@ -26,7 +26,7 @@ const jogos = [
         categoria: "Futebol",
         plataforma: "PSP",
         imagem: "Fc1",
-        download: "https://www.mediafire.com/file/o61rqho4wy7g6u3/EA+SPORTS+FC+24+PSP+Normal+Camera+MPROGAMING.COM.iso/file",
+        download: "compartilhar.html",
         pago: false,
         preco: ""
     },
@@ -36,7 +36,7 @@ const jogos = [
         categoria: "Luta",
         plataforma: "PSP",
         imagem: "Naruto1",
-        download: "https://www.mediafire.com/file/ynh1we3korascai/003_-_Dragon_Ball_-_Sparking_Zero%2528USA%2529_%2528En%252CFr%252CEs%2529.zip/file",
+        download: "compartilhar.html",
         pago: false,
         preco: ""
     },
@@ -66,7 +66,7 @@ const jogos = [
         categoria: "Futebol",
         plataforma: "APK Android",
         imagem: "Dls1",
-        download: "https://www.mediafire.com/file/f2d4ezkux56ephj/APK+DLS+26+V2+CON+MONEDAS+%28DIFICULTAD+AVANZADA%29+BY+GIIODROID,+AR+GAMING,+DROICER,+GAMEIN+Y+EPDF.zip/file",
+        download: "compartilhar.html",
         pago: false,
         preco: ""
     },
@@ -76,7 +76,7 @@ const jogos = [
         categoria: "Futebol",
         plataforma: "APK Android",
         imagem: "dls2",
-        download: "https://www.mediafire.com/file/9zxc3bn6cs18p33/DLS+26+MOD+REAL+MADRID+BY+HOS.zip/file?dkey=7f5ubls8y0q&r=15",
+        download: "compartilhar.html",
         pago: false,
         preco: ""
     },
@@ -96,7 +96,7 @@ const jogos = [
         categoria: "Futebol",
         plataforma: "APK Android",
         imagem: "Efootball1",
-        download: "https://www.mediafire.com/file/ttb3m1h5x8wkxn8/eFootball_PES_2026_PSP_CAF+EDITION_YEET+GAMING.rar.png.7z/file?dkey=sue5z99z2sw&r=1937",
+        download: "compartilhar.html",
         pago: false,
         preco: ""
     },
@@ -108,7 +108,7 @@ const jogos = [
         imagem: "DFL26",
         download: "checkout.html",
         pago: true,
-        preco: "25"
+        preco: "25 MT"
     },
     {
         id: 12,
@@ -116,7 +116,7 @@ const jogos = [
         categoria: "Missão",
         plataforma: "PSP",
         imagem: "James1",
-        download: "https://www.mediafire.com/file/ijue8dflf9qmbkj/Super_GamerX%2528007_james_Bond_Russia_Love%2529_Vinay.7z/file?fbclid=IwZXh0bgNhZW0CMTAAAR3FWmrBSjHTzWe2Sfh8C94mMYQr4XfWEtMVoJgnamumXbt2Z_DVIqWZRn4_aem_gTRemKv8Hnohj8puWL167Q",
+        download: "compartilhar.html",
         pago: false,
         preco: ""
     }
@@ -164,8 +164,11 @@ function renderizarJogos(jogosArray) {
         // Definir ícone da plataforma
         const plataformaIcon = jogo.plataforma === "APK Android" ? "📱" : "🎮";
         
+        // CORREÇÃO: caminho correto das imagens na pasta imagens/
+        const imagemPath = `imagens/${jogo.imagem}.jpg`;
+        
         card.innerHTML = `
-            <img src="${jogo.imagem}.jpg" alt="${jogo.nome}" loading="lazy" onerror="this.src='https://via.placeholder.com/400x300?text=${encodeURIComponent(jogo.nome)}'">
+            <img src="${imagemPath}" alt="${jogo.nome}" loading="lazy" onerror="this.src='https://via.placeholder.com/400x300?text=${encodeURIComponent(jogo.nome)}'">
             <h3>${jogo.nome}</h3>
             <div>
                 <span class="categoria">${jogo.categoria}</span>
@@ -194,11 +197,12 @@ function baixar(jogo) {
             popup.style.display = "flex";
         }
     } else {
-        // Jogo grátis: vai direto para o link
+        // Jogo grátis: redireciona para compartilhar.html
         if (jogo.download && jogo.download !== "#") {
-            window.open(jogo.download, "_blank");
+            window.location.href = jogo.download;
         } else {
-            alert(`Download de ${jogo.nome} iniciado!\n\nPlataforma: ${jogo.plataforma}`);
+            alert(`Acesso a ${jogo.nome} requer partilha!\n\nVocê será redirecionado para a página de compartilhamento.`);
+            window.location.href = "compartilhar.html";
         }
     }
 }

@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<title>ZonaXP - Ganhe Jogos Grátis</title>
+
+<style>
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: #0a0a0a;
+    color: white;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    padding: 20px;
+    min-height: 100vh;
+}
+
+.container {
+    max-width: 500px;
+    width: 100%;
+    margin: auto;
+}
+
+.card {
+    background: linear-gradient(135deg, #111, #1a1a1a);
+    border-radius: 25px;
+    padding: 25px;
+    border: 1px solid rgba(255,0,79,0.3);
+    animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #333;
+}
+
+.logo {
+    font-size: 1.6rem;
+    font-weight: bold;
+    background: linear-gradient(135deg, #ff004f, #8000ff, #00ff9c);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.pontos {
+    background: linear-gradient(135deg, #ff004f, #8000ff);
+    padding: 5px 12px;
+    border-radius: 50px;
+    font-weight: bold;
+    font-size: 0.9rem;
+}
+
+.descricao {
+    text-align: center;
+    margin-bottom: 20px;
+    padding: 15px;
+    background: rgba(0,255,156,0.1);
+    border-radius: 15px;
+}
+
+.descricao h2 {
+    font-size: 1.2rem;
+    color: #00ff9c;
+    margin-bottom: 8px;
+}
+
+.descricao p {
+    font-size: 0.85rem;
+    color: #ccc;
+}
+
+.link-area {
+    background: #0a0a0a;
+    border: 2px dashed #ff004f;
+    border-radius: 15px;
+    padding: 15px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.link-url {
+    font-size: 0.8rem;
+    color: #00ff9c;
+    word-break: break-all;
+    margin-bottom: 10px;
+}
+
+.btn-copiar {
+    background: #ff004f;
+    border: none;
+    padding: 8px 20px;
+    border-radius: 50px;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn-copiar:hover {
+    background: #cc0040;
+}
+
+.check-area {
+    background: rgba(255,0,79,0.1);
+    border-radius: 12px;
+    padding: 15px;
+    margin-bottom: 20px;
+}
+
+.check-area label {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+}
+
+.check-area input {
+    width: 22px;
+    height: 22px;
+    cursor: pointer;
+    accent-color: #ff004f;
+}
+
+.check-area small {
+    display: block;
+    margin-left: 34px;
+    margin-top: 8px;
+    color: #888;
+    font-size: 0.75rem;
+}
+
+.btn-ganhar {
+    width: 100%;
+    padding: 16px;
+    background: linear-gradient(90deg, #ff004f, #8000ff);
+    border: none;
+    border-radius: 12px;
+    color: white;
+    font-weight: bold;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: 0.3s;
+    margin-bottom: 20px;
+}
+
+.btn-ganhar:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 20px rgba(255,0,79,0.4);
+}
+
+.btn-ganhar:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* PROGRESSO DAS PARTILHAS */
+.progresso-area {
+    background: #0a0a0a;
+    border-radius: 12px;
+    padding: 15px;
+    margin-bottom: 20px;
+    text-align: center;
+    border: 1px solid #333;
+}
+
+.progresso-label {
+    font-size: 0.8rem;
+    color: #888;
+    margin-bottom: 8px;
+}
+
+.progresso-bar {
+    background: #222;
+    border-radius: 10px;
+    height: 20px;
+    overflow: hidden;
+    margin-bottom: 8px;
+}
+
+.progresso-fill {
+    background: linear-gradient(90deg, #ff004f, #8000ff);
+    width: 0%;
+    height: 100%;
+    transition: width 0.3s ease;
+    border-radius: 10px;
+}
+
+.progresso-texto {
+    font-size: 0.9rem;
+    font-weight: bold;
+    color: #00ff9c;
+}
+
+.timer-area {
+    background: rgba(0,255,156,0.15);
+    border-radius: 12px;
+    padding: 12px;
+    text-align: center;
+    margin-bottom: 20px;
+    display: none;
+    border: 1px solid rgba(0,255,156,0.3);
+}
+
+.timer {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #00ff9c;
+    font-family: monospace;
+}
+
+.jogos-area {
+    margin-top: 20px;
+    display: none;
+}
+
+.jogos-title {
+    text-align: center;
+    margin-bottom: 15px;
+    color: #ff004f;
+    font-size: 0.9rem;
+}
+
+.jogos-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.jogo-card {
+    background: #0a0a0a;
+    border-radius: 12px;
+    padding: 12px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border: 1px solid rgba(0,255,156,0.3);
+}
+
+.jogo-img {
+    width: 55px;
+    height: 55px;
+    background: #1a1a1a;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+    overflow: hidden;
+}
+
+.jogo-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.jogo-info {
+    flex: 1;
+}
+
+.jogo-nome {
+    font-weight: bold;
+    font-size: 0.9rem;
+}
+
+.jogo-categoria {
+    font-size: 0.7rem;
+    color: #888;
+}
+
+.btn-baixar {
+    background: #00ff9c;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 8px;
+    color: #0a0a0a;
+    font-weight: bold;
+    font-size: 0.75rem;
+    cursor: pointer;
+}
+
+.btn-baixar:hover {
+    background: #00cc7a;
+}
+
+.popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.95);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+    display: none;
+}
+
+.popup {
+    background: linear-gradient(135deg, #111, #1a1a1a);
+    border-radius: 20px;
+    padding: 25px;
+    max-width: 320px;
+    width: 90%;
+    text-align: center;
+    border: 1px solid #ff004f;
+}
+
+.popup h3 {
+    color: #ff004f;
+    margin-bottom: 15px;
+}
+
+.popup .regra {
+    background: rgba(0,255,156,0.1);
+    padding: 12px;
+    border-radius: 10px;
+    margin: 15px 0;
+}
+
+.popup .regra strong {
+    color: #00ff9c;
+}
+
+.popup button {
+    margin-top: 15px;
+    padding: 12px;
+    background: linear-gradient(90deg, #ff004f, #8000ff);
+    border: none;
+    border-radius: 10px;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    width: 100%;
+}
+
+.notification {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    right: 20px;
+    max-width: 350px;
+    margin: 0 auto;
+    background: #1a1a1a;
+    border-left: 4px solid #00ff9c;
+    padding: 12px 15px;
+    border-radius: 12px;
+    transform: translateX(-120%);
+    transition: transform 0.3s ease;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.notification.show {
+    transform: translateX(0);
+}
+
+.notification-icon {
+    font-size: 1.2rem;
+}
+
+.notification-content {
+    flex: 1;
+}
+
+.notification-title {
+    font-weight: bold;
+    font-size: 0.8rem;
+    color: #00ff9c;
+}
+
+.notification-message {
+    font-size: 0.7rem;
+    color: #ccc;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+    <div class="card">
+        
+        <div class="header">
+            <div class="logo">ZonaXP</div>
+            <div class="pontos" id="jogosCountDisplay">0/3</div>
+        </div>
+        
+        <div class="descricao">
+            <h2>🎮 Ganhe Jogos Grátis!</h2>
+            <p>Partilhe o link e ganhe 1 jogo por vez</p>
+        </div>
+        
+        <div class="link-area">
+            <div class="link-url" id="channelLink">https://whatsapp.com/channel/0029VaZxXP...</div>
+            <button class="btn-copiar" onclick="copiarLink()">📋 COPIAR LINK</button>
+        </div>
+        
+        <!-- PROGRESSO DAS PARTILHAS -->
+        <div class="progresso-area">
+            <div class="progresso-label">📢 PROGRESSO DAS PARTILHAS</div>
+            <div class="progresso-bar">
+                <div class="progresso-fill" id="progressoFill"></div>
+            </div>
+            <div class="progresso-texto" id="progressoTexto">0 / 7 partilhas</div>
+        </div>
+        
+        <div class="check-area">
+            <label>
+                <input type="checkbox" id="shareConfirm">
+                <span>✅ Já partilhei o link em grupos e contactos</span>
+            </label>
+            <small>💡 Partilhe e depois confirme aqui para ganhar +1 partilha</small>
+        </div>
+        
+        <button class="btn-ganhar" id="ganharBtn" disabled>
+            🎁 CONFIRMAR PARTILHA
+        </button>
+        
+        <div class="timer-area" id="timerArea">
+            <div class="timer-label">⏱️ Jogo disponível por</div>
+            <div class="timer" id="timer">05:00</div>
+        </div>
+        
+        <div class="jogos-area" id="jogosArea">
+            <div class="jogos-title">🎮 JOGO DESBLOQUEADO</div>
+            <div class="jogos-grid" id="jogosGrid"></div>
+        </div>
+        
+    </div>
+</div>
+
+<div class="popup-overlay" id="popupInfo">
+    <div class="popup">
+        <h3>🎮 Como funciona?</h3>
+        <p>1️⃣ Copie o link do canal</p>
+        <p>2️⃣ Partilhe em <strong>7 grupo/contato</strong></p>
+        <p>4️3 Repita 7 vezes</p>
+        <div class="regra">
+            <strong>⭐ 7 partilhas = 1 jogo grátis</strong><br>
+            Máximo 3 jogos por dia<br>
+        </div>
+        <button onclick="fecharPopup()">Entendi! 👍</button>
+    </div>
+</div>
+
+<div id="notification" class="notification">
+    <div class="notification-icon">✅</div>
+    <div class="notification-content">
+        <div class="notification-title">Sucesso!</div>
+        <div class="notification-message"></div>
+    </div>
+</div>
+
+<script>
+
+// ==================== CONFIGURAÇÕES ====================
+const CANAL_LINK = "https://whatsapp.com/channel/0029Vb7YAqi3bbV9tuuiyC1p";
+const WHATSAPP_NUMBER = "858523520";
+const PARTILHAS_POR_JOGO = 7;
+const MAX_JOGOS = 3;
+const TEMPO_JOGO = 300; // 5 minutos
+
+// ==================== JOGOS GRÁTIS ====================
+const jogosGratis = [
+    { id: 2, nome: "Need for Speed", categoria: "Corrida", plataforma: "PSP", imagem: "need1", download: "https://www.mediafire.com/file/vag827ld18jt1da/NFS_MW_5-1-0.%255BZonaGamer%255D.zip/file" },
+    { id: 3, nome: "FC Mobile 24", categoria: "Futebol", plataforma: "PSP", imagem: "Fc1", download: "https://www.mediafire.com/file/o61rqho4wy7g6u3/EA+SPORTS+FC+24+PSP+Normal+Camera+MPROGAMING.COM.iso/file" },
+    { id: 4, nome: "Naruto Shippuden", categoria: "Luta", plataforma: "PSP", imagem: "Naruto1", download: "https://www.mediafire.com/file/ynh1we3korascai/003_-_Dragon_Ball_-_Sparking_Zero%2528USA%2529_%2528En%252CFr%252CEs%2529.zip/file" },
+    { id: 7, nome: "Dream League Soccer Mod", categoria: "Futebol", plataforma: "APK", imagem: "Dls1", download: "https://www.mediafire.com/file/f2d4ezkux56ephj/APK+DLS+26+V2+CON+MONEDAS+%28DIFICULTAD+AVANZADA%29+BY+GIIODROID,+AR+GAMING,+DROICER,+GAMEIN+Y+EPDF.zip/file" },
+    { id: 8, nome: "DLS Mod Real Madrid", categoria: "Futebol", plataforma: "APK", imagem: "dls2", download: "https://www.mediafire.com/file/9zxc3bn6cs18p33/DLS+26+MOD+REAL+MADRID+BY+HOS.zip/file?dkey=7f5ubls8y0q&r=15" },
+    { id: 10, nome: "eFootball 26 Mod Africa", categoria: "Futebol", plataforma: "APK", imagem: "Efootball1", download: "https://www.mediafire.com/file/ttb3m1h5x8wkxn8/eFootball_PES_2026_PSP_CAF+EDITION_YEET+GAMING.rar.png.7z/file?dkey=sue5z99z2sw&r=1937" },
+    { id: 12, nome: "James Bond", categoria: "Missão", plataforma: "PSP", imagem: "James1", download: "https://www.mediafire.com/file/ijue8dflf9qmbkj/Super_GamerX%2528007_james_Bond_Russia_Love%2529_Vinay.7z/file?fbclid=IwZXh0bgNhZW0CMTAAAR3FWmrBSjHTzWe2Sfh8C94mMYQr4XfWEtMVoJgnamumXbt2Z_DVIqWZRn4_aem_gTRemKv8Hnohj8puWL167Q" }
+];
+
+// ==================== VARIÁVEIS ====================
+let partilhasAtuais = 0;      // Partilhas no jogo atual (0 a 7)
+let totalJogosGanhos = 0;     // Total de jogos já ganhos (máx 3)
+let jogoAtual = null;          // Jogo atual desbloqueado
+let timerAtivo = false;
+let tempoRestante = TEMPO_JOGO;
+let timerInterval = null;
+let podePartilhar = true;      // Se pode fazer novas partilhas
+let aguardandoTimer = false;    // Se está aguardando timer para próximo jogo
+
+// Elementos DOM
+const jogosCountDisplay = document.getElementById('jogosCountDisplay');
+const shareConfirm = document.getElementById('shareConfirm');
+const ganharBtn = document.getElementById('ganharBtn');
+const progressoFill = document.getElementById('progressoFill');
+const progressoTexto = document.getElementById('progressoTexto');
+const timerArea = document.getElementById('timerArea');
+const timerDisplay = document.getElementById('timer');
+const jogosArea = document.getElementById('jogosArea');
+const jogosGrid = document.getElementById('jogosGrid');
+
+// ==================== FUNÇÕES ====================
+
+function mostrarPopup() {
+    document.getElementById('popupInfo').style.display = 'flex';
+}
+
+function fecharPopup() {
+    document.getElementById('popupInfo').style.display = 'none';
+}
+
+function mostrarNotificacao(titulo, mensagem, sucesso = true) {
+    const notification = document.getElementById('notification');
+    const icon = notification.querySelector('.notification-icon');
+    const title = notification.querySelector('.notification-title');
+    const message = notification.querySelector('.notification-message');
+    
+    icon.innerHTML = sucesso ? '✅' : '⚠️';
+    title.innerHTML = titulo;
+    title.style.color = sucesso ? '#00ff9c' : '#ff004f';
+    message.innerHTML = mensagem;
+    
+    notification.classList.add('show');
+    setTimeout(() => notification.classList.remove('show'), 4000);
+}
+
+function copiarLink() {
+    navigator.clipboard.writeText(CANAL_LINK).then(() => {
+        mostrarNotificacao('Link copiado!', 'Partilhe em 1 grupo/contato', true);
+    }).catch(() => {
+        const textarea = document.createElement('textarea');
+        textarea.value = CANAL_LINK;
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textarea);
+        mostrarNotificacao('Link copiado!', 'Partilhe em 1 grupo/contato', true);
+    });
+}
+
+function atualizarProgresso() {
+    const percentual = (partilhasAtuais / PARTILHAS_POR_JOGO) * 100;
+    progressoFill.style.width = `${percentual}%`;
+    progressoTexto.innerHTML = `${partilhasAtuais} / ${PARTILHAS_POR_JOGO} partilhas`;
+}
+
+function sortearJogo() {
+    return jogosGratis[Math.floor(Math.random() * jogosGratis.length)];
+}
+
+function desbloquearJogo() {
+    jogoAtual = sortearJogo();
+    totalJogosGanhos++;
+    jogosCountDisplay.textContent = `${totalJogosGanhos}/${MAX_JOGOS}`;
+    
+    // Mostrar o jogo
+    jogosArea.style.display = 'block';
+    jogosGrid.innerHTML = '';
+    
+    const jogoDiv = document.createElement('div');
+    jogoDiv.className = 'jogo-card';
+    jogoDiv.innerHTML = `
+        <div class="jogo-img">
+            <img src="imagens/${jogoAtual.imagem}.jpg" onerror="this.src='https://via.placeholder.com/55x55?text=🎮'">
+        </div>
+        <div class="jogo-info">
+            <div class="jogo-nome">${jogoAtual.nome}</div>
+            <div class="jogo-categoria">${jogoAtual.categoria} • ${jogoAtual.plataforma}</div>
+        </div>
+        <button class="btn-baixar" onclick="baixarJogo()">
+            ⬇️ BAIXAR
+        </button>
+    `;
+    jogosGrid.appendChild(jogoDiv);
+    
+    // Iniciar timer
+    iniciarTimer();
+    
+    mostrarNotificacao('🎉 Jogo desbloqueado!', `${jogoAtual.nome} disponível por 5 minutos`, true);
+    
+    // Verificar se atingiu 3 jogos
+    if (totalJogosGanhos === MAX_JOGOS) {
+        setTimeout(() => {
+            const enviarPrint = confirm('🎉 Parabéns! Você ganhou os 3 jogos!\n\nEnvie o print das suas partilhas.\n\nClique em OK para abrir o WhatsApp.');
+            if (enviarPrint) {
+                const mensagem = `Olá ZonaXP! 👋%0A%0A` +
+                                `Completei ${totalJogosGanhos} jogos grátis!%0A%0A` +
+                                `Segue o print das minhas partilhas.`;
+                window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${mensagem}`, '_blank');
+            }
+        }, 500);
+    }
+}
+
+function iniciarTimer() {
+    if (timerInterval) clearInterval(timerInterval);
+    
+    timerAtivo = true;
+    podePartilhar = false;
+    aguardandoTimer = false;
+    tempoRestante = TEMPO_JOGO;
+    timerArea.style.display = 'block';
+    
+    // Desabilitar checkbox e botão durante o timer
+    shareConfirm.disabled = true;
+    ganharBtn.disabled = true;
+    shareConfirm.checked = false;
+    
+    timerInterval = setInterval(() => {
+        if (tempoRestante <= 0) {
+            clearInterval(timerInterval);
+            timerAtivo = false;
+            timerArea.style.display = 'none';
+            
+            // Remover jogo atual
+            jogoAtual = null;
+            jogosArea.style.display = 'none';
+            jogosGrid.innerHTML = '';
+            
+            // Verificar se ainda pode ganhar mais jogos
+            if (totalJogosGanhos < MAX_JOGOS) {
+                // Liberar para nova rodada de partilhas
+                podePartilhar = true;
+                aguardandoTimer = true;
+                
+                // Resetar partilhas para começar do 0
+                partilhasAtuais = 0;
+                atualizarProgresso();
+                
+                // Reativar checkbox e botão
+                shareConfirm.disabled = false;
+                shareConfirm.checked = false;
+                ganharBtn.disabled = true;
+                
+                mostrarNotificacao('⏰ Tempo esgotado!', 'O jogo expirou. Comece novas partilhas para outro jogo!', false);
+            } else {
+                // Já atingiu o máximo
+                mostrarNotificacao('🎮 Limite atingido!', 'Você já ganhou 3 jogos hoje. Volte amanhã!', false);
+                shareConfirm.disabled = true;
+                ganharBtn.disabled = true;
+            }
+        } else {
+            tempoRestante--;
+            const minutos = Math.floor(tempoRestante / 60);
+            const segundos = tempoRestante % 60;
+            timerDisplay.textContent = `${minutos.toString().padStart(2, '0')}:${segundos.toString().padStart(2, '0')}`;
+        }
+    }, 1000);
+}
+
+function confirmarPartilha() {
+    // Verificações
+    if (!shareConfirm.checked) {
+        mostrarNotificacao('Atenção!', 'Confirme que partilhou o link', false);
+        return;
+    }
+    
+    if (!podePartilhar) {
+        if (timerAtivo) {
+            mostrarNotificacao('Aguarde!', 'Espere o tempo do jogo atual terminar', false);
+        } else {
+            mostrarNotificacao('Aguarde!', 'Espere o próximo jogo ser liberado', false);
+        }
+        return;
+    }
+    
+    if (totalJogosGanhos >= MAX_JOGOS) {
+        mostrarNotificacao('Limite atingido!', 'Você já ganhou 3 jogos hoje', false);
+        return;
+    }
+    
+    // Adicionar 1 partilha
+    partilhasAtuais++;
+    atualizarProgresso();
+    
+    // Reset checkbox
+    shareConfirm.checked = false;
+    ganharBtn.disabled = true;
+    
+    // Verificar se completou as 7 partilhas
+    if (partilhasAtuais >= PARTILHAS_POR_JOGO) {
+        // Desbloquear jogo
+        desbloquearJogo();
+    } else {
+        // Ainda faltam partilhas
+        const faltam = PARTILHAS_POR_JOGO - partilhasAtuais;
+        mostrarNotificacao('✅ Partilha confirmada!', `Faltam ${faltam} partilhas para ganhar o jogo`, true);
+        
+        // Reativar botão após 2 segundos
+        setTimeout(() => {
+            if (!timerAtivo && podePartilhar && shareConfirm.disabled === false) {
+                ganharBtn.disabled = false;
+            }
+        }, 2000);
+    }
+}
+
+function baixarJogo() {
+    if (!timerAtivo || !jogoAtual) {
+        mostrarNotificacao('Acesso expirado!', 'O jogo não está mais disponível', false);
+        return;
+    }
+    window.open(jogoAtual.download, '_blank');
+    mostrarNotificacao('Download iniciado!', jogoAtual.nome, true);
+}
+
+// ==================== EVENTOS ====================
+shareConfirm.addEventListener('change', () => {
+    if (shareConfirm.checked && podePartilhar && !timerAtivo && totalJogosGanhos < MAX_JOGOS) {
+        ganharBtn.disabled = false;
+    } else {
+        ganharBtn.disabled = true;
+    }
+});
+
+ganharBtn.addEventListener('click', confirmarPartilha);
+
+// Mostrar popup automaticamente
+setTimeout(() => {
+    mostrarPopup();
+}, 500);
+
+</script>
+
+</body>
+</html>
