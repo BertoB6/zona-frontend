@@ -85,7 +85,7 @@ const jogos = [
         nome: "FIFA 21 Mod 14",
         categoria: "Futebol",
         plataforma: "APK Android",
-        imagem: "Fifa1",
+        imagem: "Fc1",
         download: "checkout.html",
         pago: true,
         preco: "25 MT"
