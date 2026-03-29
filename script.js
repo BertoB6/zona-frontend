@@ -55,7 +55,7 @@ const jogos = [
         nome: "God of War - Ghost of Sparta",
         categoria: "Aventura",
         plataforma: "PSP",
-        imagem: "Godof",
+        imagem: "godof",
         download: "checkout.html",
         pago: true,
         preco: "25 MT"
