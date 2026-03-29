@@ -35,7 +35,7 @@ const jogos = [
         nome: "Naruto Shippuden Ultimate Ninja",
         categoria: "Luta",
         plataforma: "PSP",
-        imagem: "Naruto1",
+        imagem: "naruto1",
         download: "compartilhar.html",
         pago: false,
         preco: ""
@@ -55,7 +55,7 @@ const jogos = [
         nome: "God of War - Ghost of Sparta",
         categoria: "Aventura",
         plataforma: "PSP",
-        imagem: "Godof",
+        imagem: "godof",
         download: "checkout.html",
         pago: true,
         preco: "25 MT"
@@ -85,7 +85,7 @@ const jogos = [
         nome: "FIFA 21 Mod 14",
         categoria: "Futebol",
         plataforma: "APK Android",
-        imagem: "Fifa1",
+        imagem: "Fc1",
         download: "checkout.html",
         pago: true,
         preco: "25 MT"
@@ -115,7 +115,7 @@ const jogos = [
         nome: "James Bond",
         categoria: "Missão",
         plataforma: "PSP",
-        imagem: "James1",
+        imagem: "james1",
         download: "compartilhar.html",
         pago: false,
         preco: ""
@@ -126,7 +126,7 @@ const jogos = [
         categoria: "Luta",
         plataforma: "PSP",
         imagem: "dragonball",
-        download: "https://www.mediafire.com/file/9p4ww69euyj5gx1/DRAGON_BALL_Z_SHIN_BUDOKAI_8_BY_TV_.7z/file",
+        download: "compartilhar.html",
         pago: false,
         preco: "",
         senha: "DBZSB8TV"
