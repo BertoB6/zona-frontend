@@ -1,6 +1,141 @@
-// ==================== VARIÁVEIS GLOBAIS ====================
-let jogos = [];
-let jogosFiltrados = [];
+
+// ==================== LISTA DE 13 JOGOS ====================
+const jogos = [
+    {
+        id: 1,
+        nome: "Mortal Kombat 11",
+        categoria: "Luta",
+        plataforma: "PSP",
+        imagem: "mortal1",
+        download: "checkout.html",
+        pago: true,
+        preco: "25 MT"
+    },
+    {
+        id: 2,
+        nome: "Need for Speed",
+        categoria: "Corrida",
+        plataforma: "PSP",
+        imagem: "need1",
+        download: "compartilhar.html",
+        pago: false,
+        preco: ""
+    },
+    {
+        id: 3,
+        nome: "FC Mobile 24",
+        categoria: "Futebol",
+        plataforma: "PSP",
+        imagem: "Fc1",
+        download: "compartilhar.html",
+        pago: false,
+        preco: ""
+    },
+    {
+        id: 4,
+        nome: "Naruto Shippuden Ultimate Ninja",
+        categoria: "Luta",
+        plataforma: "PSP",
+        imagem: "naruto1",
+        download: "compartilhar.html",
+        pago: false,
+        preco: ""
+    },
+    {
+        id: 5,
+        nome: "EA FC 26",
+        categoria: "Futebol",
+        plataforma: "PSP",
+        imagem: "Eafc1",
+        download: "checkout.html",
+        pago: true,
+        preco: "25 MT"
+    },
+    {
+        id: 6,
+        nome: "God of War - Ghost of Sparta",
+        categoria: "Aventura",
+        plataforma: "PSP",
+        imagem: "godof",
+        download: "checkout.html",
+        pago: true,
+        preco: "25 MT"
+    },
+    {
+        id: 7,
+        nome: "Dream League Soccer Mod",
+        categoria: "Futebol",
+        plataforma: "APK Android",
+        imagem: "Dls1",
+        download: "compartilhar.html",
+        pago: false,
+        preco: ""
+    },
+    {
+        id: 8,
+        nome: "Dream League Soccer Mod Real Madrid",
+        categoria: "Futebol",
+        plataforma: "APK Android",
+        imagem: "dls2",
+        download: "compartilhar.html",
+        pago: false,
+        preco: ""
+    },
+    {
+        id: 9,
+        nome: "FIFA 21 Mod 14",
+        categoria: "Futebol",
+        plataforma: "APK Android",
+        imagem: "Fc1",
+        download: "checkout.html",
+        pago: true,
+        preco: "25 MT"
+    },
+    {
+        id: 10,
+        nome: "eFootball 26 Mod Africa",
+        categoria: "Futebol",
+        plataforma: "APK Android",
+        imagem: "Efootball1",
+        download: "compartilhar.html",
+        pago: false,
+        preco: ""
+    },
+    {
+        id: 11,
+        nome: "DFL 26",
+        categoria: "Futebol",
+        plataforma: "APK Android",
+        imagem: "DFL26",
+        download: "checkout.html",
+        pago: true,
+        preco: "25 MT"
+    },
+    {
+        id: 12,
+        nome: "James Bond",
+        categoria: "Missão",
+        plataforma: "PSP",
+        imagem: "james1",
+        download: "compartilhar.html",
+        pago: false,
+        preco: ""
+    },
+    {
+        id: 13,
+        nome: "Dragon Ball Shin Budokai 8",
+        categoria: "Luta",
+        plataforma: "PSP",
+        imagem: "dragonball",
+        download: "compartilhar.html",
+        pago: false,
+        preco: "",
+        senha: "DBZSB8TV"
+    }
+];
+
+// Variáveis globais
+let jogosFiltrados = [...jogos];
 let jogoSelecionado = null;
 
 // Elementos DOM
@@ -21,23 +156,9 @@ const menuHome = document.getElementById("menuHome");
 const menuApresentacao = document.getElementById("menuApresentacao");
 const menuSuporte = document.getElementById("menuSuporte");
 
-// ==================== CARREGAR JOGOS DO JSON ====================
-async function carregarJogos() {
-    try {
-        const response = await fetch('jogos.json');
-        if (!response.ok) throw new Error('Erro ao carregar jogos');
-        jogos = await response.json();
-        jogosFiltrados = [...jogos];
-        renderizarJogos(jogos);
-        carregarJogoPorURL();
-    } catch (error) {
-        console.error('Erro:', error);
-        container.innerHTML = '<div style="text-align: center; padding: 50px;"><h3>❌ Erro ao carregar jogos</h3><p>Tente recarregar a página</p></div>';
-    }
-}
-
 // ==================== FUNÇÕES PRINCIPAIS ====================
 
+// Função para renderizar jogos no grid 2x2
 function renderizarJogos(jogosArray) {
     if (!container) return;
     
@@ -75,14 +196,17 @@ function renderizarJogos(jogosArray) {
     });
 }
 
+// Função principal de download (com suporte a senha)
 function baixar(jogo) {
     if (jogo.pago) {
+        // Jogo pago: abre popup com preço
         jogoSelecionado = jogo;
         if (popup && priceText) {
             priceText.innerHTML = `${jogo.preco}<br><span style="font-size: 0.9rem; color: #888;">${jogo.nome}</span>`;
             popup.style.display = "flex";
         }
     } else {
+        // Jogo grátis: verifica se tem senha
         if (jogo.senha) {
             alert(`🔐 Jogo: ${jogo.nome}\n📌 Senha: ${jogo.senha}\n\nGuarde a senha para extrair o arquivo.`);
         }
@@ -95,6 +219,7 @@ function baixar(jogo) {
     }
 }
 
+// Função para baixar jogo premium após confirmação
 function baixarPremium() {
     if (jogoSelecionado && jogoSelecionado.download) {
         window.open(jogoSelecionado.download, "_blank");
@@ -104,6 +229,7 @@ function baixarPremium() {
     }
 }
 
+// Fechar popup
 function fecharPopup() {
     if (popup) {
         popup.style.display = "none";
@@ -111,6 +237,7 @@ function fecharPopup() {
     jogoSelecionado = null;
 }
 
+// Buscar jogos em tempo real
 function buscarJogos(termo) {
     if (!termo.trim()) {
         jogosFiltrados = [...jogos];
@@ -124,8 +251,7 @@ function buscarJogos(termo) {
     renderizarJogos(jogosFiltrados);
 }
 
-// ==================== FUNÇÕES DO MENU ====================
-
+// Funções do menu
 function mostrarHome() {
     renderizarJogos(jogos);
     fecharMenu();
@@ -198,7 +324,7 @@ function toggleSearchBar() {
     searchBar.classList.toggle('active');
     if (searchBar.classList.contains('active')) {
         searchInput.focus();
-        if (searchInput.value === '' && jogos.length > 0) {
+        if (searchInput.value === '') {
             renderizarJogos(jogos);
         }
     }
@@ -208,16 +334,16 @@ function fecharBarraPesquisa() {
     searchBar.classList.remove('active');
     if (searchInput) {
         searchInput.value = '';
-        if (jogos.length > 0) renderizarJogos(jogos);
+        renderizarJogos(jogos);
     }
 }
 
-// ==================== URL PARAMETER ====================
+// ==================== URL PARAMETER (para links diretos) ====================
 function carregarJogoPorURL() {
     const urlParams = new URLSearchParams(window.location.search);
     const jogoSlug = urlParams.get('jogo');
     
-    if (jogoSlug && jogos.length > 0) {
+    if (jogoSlug) {
         const slugMap = {
             'need-for-speed': 'Need for Speed',
             'fc-mobile-24': 'FC Mobile 24',
@@ -285,4 +411,5 @@ document.addEventListener('click', (e) => {
 });
 
 // ==================== INICIALIZAÇÃO ====================
-carregarJogos();
+renderizarJogos(jogos);
+carregarJogoPorURL();
