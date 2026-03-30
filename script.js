@@ -131,7 +131,17 @@ const jogos = [
         pago: false,
         preco: "",
         senha: "DBZSB8TV"
-    }
+    },
+   {
+       id: 14,
+       nome: "Spider Man Friend or Foe",
+       categoria: "aventura, luta",
+       plantaforma: "PSP",
+       imagem: "spider1",
+       download:"compartilhar.html",
+       pago: false,
+       preco:"",
+   }
 ];
 
 // Variáveis globais
