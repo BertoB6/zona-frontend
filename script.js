@@ -1,148 +1,32 @@
+// ==================== CONFIGURAÇÃO DO BACKEND ====================
+const API_URL = 'https://zona-backend-v3h1.onrender.com'; // ← ADICIONE ESTA LINHA
 
-// ==================== LISTA DE 13 JOGOS ====================
-const jogos = [
-    {
-        id: 1,
-        nome: "Mortal Kombat 11",
-        categoria: "Luta",
-        plataforma: "PSP",
-        imagem: "mortal1",
-        download: "checkout.html",
-        pago: true,
-        preco: "25 MT"
-    },
-    {
-        id: 2,
-        nome: "Need for Speed",
-        categoria: "Corrida",
-        plataforma: "PSP",
-        imagem: "need1",
-        download: "compartilhar.html",
-        pago: false,
-        preco: ""
-    },
-    {
-        id: 3,
-        nome: "FC Mobile 24",
-        categoria: "Futebol",
-        plataforma: "PSP",
-        imagem: "Fc1",
-        download: "compartilhar.html",
-        pago: false,
-        preco: ""
-    },
-    {
-        id: 4,
-        nome: "Naruto Shippuden Ultimate Ninja",
-        categoria: "Luta",
-        plataforma: "PSP",
-        imagem: "naruto1",
-        download: "compartilhar.html",
-        pago: false,
-        preco: ""
-    },
-    {
-        id: 5,
-        nome: "EA FC 26",
-        categoria: "Futebol",
-        plataforma: "PSP",
-        imagem: "Eafc1",
-        download: "checkout.html",
-        pago: true,
-        preco: "25 MT"
-    },
-    {
-        id: 6,
-        nome: "God of War - Ghost of Sparta",
-        categoria: "Aventura",
-        plataforma: "PSP",
-        imagem: "godof",
-        download: "checkout.html",
-        pago: true,
-        preco: "25 MT"
-    },
-    {
-        id: 7,
-        nome: "Dream League Soccer Mod",
-        categoria: "Futebol",
-        plataforma: "APK Android",
-        imagem: "Dls1",
-        download: "compartilhar.html",
-        pago: false,
-        preco: ""
-    },
-    {
-        id: 8,
-        nome: "Dream League Soccer Mod Real Madrid",
-        categoria: "Futebol",
-        plataforma: "APK Android",
-        imagem: "dls2",
-        download: "compartilhar.html",
-        pago: false,
-        preco: ""
-    },
-    {
-        id: 9,
-        nome: "FIFA 21 Mod 14",
-        categoria: "Futebol",
-        plataforma: "APK Android",
-        imagem: "Fc1",
-        download: "checkout.html",
-        pago: true,
-        preco: "25 MT"
-    },
-    {
-        id: 10,
-        nome: "eFootball 26 Mod Africa",
-        categoria: "Futebol",
-        plataforma: "APK Android",
-        imagem: "Efootball1",
-        download: "compartilhar.html",
-        pago: false,
-        preco: ""
-    },
-    {
-        id: 11,
-        nome: "DFL 26",
-        categoria: "Futebol",
-        plataforma: "APK Android",
-        imagem: "DFL26",
-        download: "checkout.html",
-        pago: true,
-        preco: "25 MT"
-    },
-    {
-        id: 12,
-        nome: "James Bond",
-        categoria: "Missão",
-        plataforma: "PSP",
-        imagem: "james1",
-        download: "compartilhar.html",
-        pago: false,
-        preco: ""
-    },
-    {
-        id: 13,
-        nome: "Dragon Ball Shin Budokai 8",
-        categoria: "Luta",
-        plataforma: "PSP",
-        imagem: "dragonball",
-        download: "compartilhar.html",
-        pago: false,
-        preco: "",
-        senha: "DBZSB8TV"
-    },
-   {
-       id: 14,
-       nome: "Spider Man Friend or Foe",
-       categoria: "aventura, luta",
-       plantaforma: "PSP",
-       imagem: "spider1",
-       download:"compartilhar.html",
-       pago: false,
-       preco:"",
-   }
-];
+// Depois, onde você carrega os jogos:
+async function carregarJogos() {
+    const response = await fetch(`${API_URL}/api/jogos`);
+    // ...
+}
+
+// ==================== CARREGAR JOGOS DO BACKEND ====================
+let jogos = [];
+let jogosFiltrados = [];
+let jogoSelecionado = null;
+
+// Carregar jogos da API
+async function carregarJogosAPI() {
+    try {
+        const response = await fetch('/api/jogos');
+        const data = await response.json();
+        jogos = data.jogos;
+        jogosFiltrados = [...jogos];
+        renderizarJogos(jogosFiltrados);
+    } catch (error) {
+        console.error('Erro ao carregar jogos:', error);
+        mostrarNotificacao('Erro ao carregar jogos', 'Tente novamente mais tarde', false);
+    }
+}
+
+// Remover a declaração fixa de jogos e substituir pela chamada no final
 
 // Variáveis globais
 let jogosFiltrados = [...jogos];
@@ -421,5 +305,4 @@ document.addEventListener('click', (e) => {
 });
 
 // ==================== INICIALIZAÇÃO ====================
-renderizarJogos(jogos);
-carregarJogoPorURL();
+carregarJogosAPI();
