@@ -1,35 +1,9 @@
 // ==================== CONFIGURAÇÃO DO BACKEND ====================
-const API_URL = 'https://zona-backend-v3h1.onrender.com'; // ← ADICIONE ESTA LINHA
-
-// Depois, onde você carrega os jogos:
-async function carregarJogos() {
-    const response = await fetch(`${API_URL}/api/jogos`);
-    // ...
-}
+const API_URL = 'https://zona-backend-v3h1.onrender.com';
 
 // ==================== CARREGAR JOGOS DO BACKEND ====================
 let jogos = [];
 let jogosFiltrados = [];
-let jogoSelecionado = null;
-
-// Carregar jogos da API
-async function carregarJogosAPI() {
-    try {
-        const response = await fetch('/api/jogos');
-        const data = await response.json();
-        jogos = data.jogos;
-        jogosFiltrados = [...jogos];
-        renderizarJogos(jogosFiltrados);
-    } catch (error) {
-        console.error('Erro ao carregar jogos:', error);
-        mostrarNotificacao('Erro ao carregar jogos', 'Tente novamente mais tarde', false);
-    }
-}
-
-// Remover a declaração fixa de jogos e substituir pela chamada no final
-
-// Variáveis globais
-let jogosFiltrados = [...jogos];
 let jogoSelecionado = null;
 
 // Elementos DOM
@@ -52,13 +26,31 @@ const menuSuporte = document.getElementById("menuSuporte");
 
 // ==================== FUNÇÕES PRINCIPAIS ====================
 
+// Carregar jogos da API
+async function carregarJogosAPI() {
+    try {
+        console.log('Carregando jogos da API...');
+        const response = await fetch(`${API_URL}/api/jogos`);
+        const data = await response.json();
+        console.log('Dados recebidos:', data);
+        jogos = data.jogos;
+        jogosFiltrados = [...jogos];
+        renderizarJogos(jogosFiltrados);
+    } catch (error) {
+        console.error('Erro ao carregar jogos:', error);
+        if (container) {
+            container.innerHTML = '<div style="text-align: center; padding: 50px;"><h3>❌ Erro ao carregar jogos</h3><p>Verifique se o backend está funcionando</p></div>';
+        }
+    }
+}
+
 // Função para renderizar jogos no grid 2x2
 function renderizarJogos(jogosArray) {
     if (!container) return;
     
     container.innerHTML = "";
     
-    if (jogosArray.length === 0) {
+    if (!jogosArray || jogosArray.length === 0) {
         container.innerHTML = '<div style="text-align: center; grid-column: 1/-1; padding: 50px;"><h3>🔍 Nenhum jogo encontrado</h3><p>Tente outra busca</p></div>';
         return;
     }
@@ -93,14 +85,12 @@ function renderizarJogos(jogosArray) {
 // Função principal de download (com suporte a senha)
 function baixar(jogo) {
     if (jogo.pago) {
-        // Jogo pago: abre popup com preço
         jogoSelecionado = jogo;
         if (popup && priceText) {
             priceText.innerHTML = `${jogo.preco}<br><span style="font-size: 0.9rem; color: #888;">${jogo.nome}</span>`;
             popup.style.display = "flex";
         }
     } else {
-        // Jogo grátis: verifica se tem senha
         if (jogo.senha) {
             alert(`🔐 Jogo: ${jogo.nome}\n📌 Senha: ${jogo.senha}\n\nGuarde a senha para extrair o arquivo.`);
         }
@@ -113,7 +103,6 @@ function baixar(jogo) {
     }
 }
 
-// Função para baixar jogo premium após confirmação
 function baixarPremium() {
     if (jogoSelecionado && jogoSelecionado.download) {
         window.open(jogoSelecionado.download, "_blank");
@@ -123,7 +112,6 @@ function baixarPremium() {
     }
 }
 
-// Fechar popup
 function fecharPopup() {
     if (popup) {
         popup.style.display = "none";
@@ -131,7 +119,6 @@ function fecharPopup() {
     jogoSelecionado = null;
 }
 
-// Buscar jogos em tempo real
 function buscarJogos(termo) {
     if (!termo.trim()) {
         jogosFiltrados = [...jogos];
@@ -218,9 +205,6 @@ function toggleSearchBar() {
     searchBar.classList.toggle('active');
     if (searchBar.classList.contains('active')) {
         searchInput.focus();
-        if (searchInput.value === '') {
-            renderizarJogos(jogos);
-        }
     }
 }
 
@@ -228,11 +212,10 @@ function fecharBarraPesquisa() {
     searchBar.classList.remove('active');
     if (searchInput) {
         searchInput.value = '';
-        renderizarJogos(jogos);
     }
 }
 
-// ==================== URL PARAMETER (para links diretos) ====================
+// ==================== URL PARAMETER ====================
 function carregarJogoPorURL() {
     const urlParams = new URLSearchParams(window.location.search);
     const jogoSlug = urlParams.get('jogo');
