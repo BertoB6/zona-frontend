@@ -60,7 +60,7 @@ function renderizarJogos(jogosArray) {
         card.className = 'card';
         
         const plataformaIcon = jogo.plataforma === "APK Android" ? "📱" : "🎮";
-        const imagemPath = `imagens/${jogo.imagem}.jpg`;
+        const imagemPath = `${API_URL}/imagens/${jogo.imagem}.jpg`;
         
         card.innerHTML = `
             <img src="${imagemPath}" alt="${jogo.nome}" loading="lazy" onerror="this.src='https://via.placeholder.com/400x300?text=${encodeURIComponent(jogo.nome)}'">
