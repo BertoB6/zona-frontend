@@ -60,10 +60,17 @@ function renderizarJogos(jogosArray) {
         card.className = 'card';
         
         const plataformaIcon = jogo.plataforma === "APK Android" ? "📱" : "🎮";
-        const imagemPath = `${API_URL}/imagens/${jogo.imagem}.jpg`;
+        
+        // Primeiro tenta carregar do backend
+        const imagemBackend = `${API_URL}/imagens/${jogo.imagem}.jpg`;
+        // Fallback para o front-end (imagens antigas)
+        const imagemFrontend = `imagens/${jogo.imagem}.jpg`;
         
         card.innerHTML = `
-            <img src="${imagemPath}" alt="${jogo.nome}" loading="lazy" onerror="this.src='https://via.placeholder.com/400x300?text=${encodeURIComponent(jogo.nome)}'">
+            <img src="${imagemBackend}" 
+                 alt="${jogo.nome}" 
+                 loading="lazy" 
+                 onerror="this.src='${imagemFrontend}'; this.onerror=null;">
             <h3>${jogo.nome}</h3>
             <div>
                 <span class="categoria">${jogo.categoria}</span>
@@ -289,3 +296,4 @@ document.addEventListener('click', (e) => {
 
 // ==================== INICIALIZAÇÃO ====================
 carregarJogosAPI();
+carregarJogoPorURL();
