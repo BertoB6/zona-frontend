@@ -128,15 +128,8 @@ function baixar(jogo) {
             popup.style.display = "flex";
         }
     } else {
-        if (jogo.senha) {
-            alert(`🔐 Jogo: ${jogo.nome}\n📌 Senha: ${jogo.senha}\n\nGuarde a senha para extrair o arquivo.`);
-        }
-        if (jogo.download && jogo.download !== "#") {
-            window.open(jogo.download, "_blank");
-        } else {
-            alert(`Acesso a ${jogo.nome} requer partilha!\n\nVocê será redirecionado para a página de compartilhamento.`);
-            window.location.href = "compartilhar.html";
-        }
+        // Jogo grátis: redireciona para página de download
+        window.location.href = `download.html?jogo=${jogo.id}`;
     }
 }
 
