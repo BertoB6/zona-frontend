@@ -128,7 +128,7 @@ header {
     display: block;
 }
 
-/* BARRA DE PESQUISA - OCULTA POR PADRÃO */
+/* BARRA DE PESQUISA */
 .search-bar {
     position: fixed;
     top: 70px;
@@ -188,6 +188,32 @@ header {
     margin-right: auto;
 }
 
+/* SEÇÃO DE DESTAQUE */
+.destaque-section {
+    margin-top: 80px;
+    padding: 0 20px;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.destaque-title {
+    color: #ffaa00;
+    margin-bottom: 15px;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.destaque-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+/* CARD */
 .card {
     background: linear-gradient(135deg, #111, #1a1a1a);
     border-radius: 15px;
@@ -201,6 +227,11 @@ header {
     transform: translateY(-5px);
     border-color: #ff004f;
     box-shadow: 0 5px 20px rgba(255,0,79,0.3);
+}
+
+.card.destaque-card {
+    border-color: #ffaa00;
+    box-shadow: 0 0 15px rgba(255,170,0,0.3);
 }
 
 .card img {
@@ -233,6 +264,29 @@ header {
     margin-bottom: 12px;
     display: inline-block;
     margin-left: 8px;
+}
+
+.info-extra {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 8px 0;
+    font-size: 0.7rem;
+    color: #888;
+}
+
+.tamanho {
+    background: #1a1a1a;
+    padding: 3px 8px;
+    border-radius: 20px;
+}
+
+.destaque-badge {
+    background: #ffaa00;
+    color: #0a0a0a;
+    padding: 3px 8px;
+    border-radius: 20px;
+    font-weight: bold;
 }
 
 .btn {
@@ -371,7 +425,7 @@ footer a:hover {
 
 /* RESPONSIVIDADE */
 @media (max-width: 768px) {
-    .container {
+    .container, .destaque-section {
         gap: 15px;
         padding: 15px;
     }
@@ -390,7 +444,7 @@ footer a:hover {
 }
 
 @media (max-width: 600px) {
-    .container {
+    .container, .destaque-section {
         gap: 12px;
         padding: 12px;
     }
@@ -433,6 +487,13 @@ footer a:hover {
     <input type="text" id="searchInput" placeholder="🔍 Buscar jogos por nome ou categoria...">
 </div>
 
+<!-- SEÇÃO DE JOGOS EM DESTAQUE (máximo 3) -->
+<div id="destaqueSection" class="destaque-section" style="display: none;">
+    <div class="destaque-title">⭐ JOGOS EM DESTAQUE</div>
+    <div class="destaque-grid" id="destaqueGrid"></div>
+</div>
+
+<!-- GRID DE TODOS OS JOGOS -->
 <div class="container" id="games"></div>
 
 <!-- POPUP -->
@@ -448,20 +509,10 @@ footer a:hover {
 </div>
 
 <footer>
-    <p> <a href="https://whatsapp.com/channel/0029Vb7YAqi3bbV9tuuiyC1p" target="_blank">Entrar no nosso canal WhatsApp</a></p>
+    <p>📲 <a href="https://whatsapp.com/channel/0029Vb7YAqi3bbV9tuuiyC1p" target="_blank">Entrar no nosso canal WhatsApp</a></p>
     <p style="margin-top: 10px; font-size: 0.8rem;">© 2026 ZonaXP - Todos os direitos reservados</p>
 </footer>
 
 <script src="script.js"></script>
-<script src="https://t.contentsquare.net/uxa/f9b9a680731cb.js"></script>
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-N313LVJ1V5"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-N313LVJ1V5');
-</script>
-
 </body>
 </html>

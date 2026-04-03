@@ -8,6 +8,8 @@ let jogoSelecionado = null;
 
 // Elementos DOM
 const container = document.getElementById("games");
+const destaqueSection = document.getElementById("destaqueSection");
+const destaqueGrid = document.getElementById("destaqueGrid");
 const menuBtn = document.getElementById("menuBtn");
 const sideMenu = document.getElementById("sideMenu");
 const overlay = document.getElementById("overlay");
@@ -44,49 +46,77 @@ async function carregarJogosAPI() {
     }
 }
 
-// Função para renderizar jogos no grid 2x2
+// Função para renderizar jogos (com destaque separado)
 function renderizarJogos(jogosArray) {
     if (!container) return;
     
+    // Separar jogos em destaque (máximo 3)
+    const jogosDestaque = jogosArray.filter(jogo => jogo.destaque === true).slice(0, 3);
+    const jogosNormais = jogosArray.filter(jogo => jogo.destaque !== true);
+    
+    // Renderizar seção de destaque
+    if (jogosDestaque.length > 0 && destaqueSection && destaqueGrid) {
+        destaqueSection.style.display = 'block';
+        destaqueGrid.innerHTML = '';
+        
+        jogosDestaque.forEach(jogo => {
+            const card = criarCard(jogo, true);
+            destaqueGrid.appendChild(card);
+        });
+    } else if (destaqueSection) {
+        destaqueSection.style.display = 'none';
+    }
+    
+    // Renderizar jogos normais
     container.innerHTML = "";
     
-    if (!jogosArray || jogosArray.length === 0) {
+    if (jogosNormais.length === 0 && jogosDestaque.length === 0) {
         container.innerHTML = '<div style="text-align: center; grid-column: 1/-1; padding: 50px;"><h3>🔍 Nenhum jogo encontrado</h3><p>Tente outra busca</p></div>';
         return;
     }
     
-    jogosArray.forEach(jogo => {
-        const card = document.createElement('div');
-        card.className = 'card';
-        
-        const plataformaIcon = jogo.plataforma === "APK Android" ? "📱" : "🎮";
-        
-        // Primeiro tenta carregar do backend
-        const imagemBackend = `${API_URL}/imagens/${jogo.imagem}.jpg`;
-        // Fallback para o front-end (imagens antigas)
-        const imagemFrontend = `imagens/${jogo.imagem}.jpg`;
-        
-        card.innerHTML = `
-            <img src="${imagemBackend}" 
-                 alt="${jogo.nome}" 
-                 loading="lazy" 
-                 onerror="this.src='${imagemFrontend}'; this.onerror=null;">
-            <h3>${jogo.nome}</h3>
-            <div>
-                <span class="categoria">${jogo.categoria}</span>
-                <span class="plataforma">${plataformaIcon} ${jogo.plataforma}</span>
-            </div>
-            <button class="btn" data-id="${jogo.id}">Download</button>
-        `;
-        
-        const btn = card.querySelector('.btn');
-        btn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            baixar(jogo);
-        });
-        
+    jogosNormais.forEach(jogo => {
+        const card = criarCard(jogo, false);
         container.appendChild(card);
     });
+}
+
+// Função para criar um card de jogo
+function criarCard(jogo, isDestaque) {
+    const card = document.createElement('div');
+    card.className = 'card';
+    if (isDestaque) card.classList.add('destaque-card');
+    
+    const plataformaIcon = jogo.plataforma === "APK Android" ? "📱" : "🎮";
+    
+    // Primeiro tenta carregar do backend, depois do front-end
+    const imagemBackend = `${API_URL}/imagens/${jogo.imagem}.jpg`;
+    const imagemFrontend = `imagens/${jogo.imagem}.jpg`;
+    
+    card.innerHTML = `
+        <img src="${imagemBackend}" 
+             alt="${jogo.nome}" 
+             loading="lazy" 
+             onerror="this.src='${imagemFrontend}'; this.onerror=null;">
+        <h3>${jogo.nome}</h3>
+        <div>
+            <span class="categoria">${jogo.categoria}</span>
+            <span class="plataforma">${plataformaIcon} ${jogo.plataforma}</span>
+        </div>
+        <div class="info-extra">
+            <span class="tamanho">📦 ${jogo.tamanho || 'Tamanho não informado'}</span>
+            ${jogo.destaque ? '<span class="destaque-badge">⭐ Destaque</span>' : ''}
+        </div>
+        <button class="btn" data-id="${jogo.id}">Download</button>
+    `;
+    
+    const btn = card.querySelector('.btn');
+    btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        baixar(jogo);
+    });
+    
+    return card;
 }
 
 // Função principal de download (com suporte a senha)
@@ -184,7 +214,7 @@ function mostrarSuporte() {
                 <p style="margin-bottom: 20px;">Precisa de ajuda? Entre em contato conosco:</p>
                 <p style="margin-bottom: 15px;">📧 Email: suporte@zonaxp.com</p>
                 <p style="margin-bottom: 15px;">📱 WhatsApp: <a href="https://wa.me/258858112264" target="_blank" style="color: #00ff9c;">+258 85 811 2264</a></p>
-                <p style="margin-bottom: 15px;">📺 Canal no WhatsApp: <a href="https://wa.me/258858112264" target="_blank" style="color: #00ff9c;">Clique aqui</a></p>
+                <p style="margin-bottom: 15px;">📺 Canal no WhatsApp: <a href="https://whatsapp.com/channel/0029Vb7YAqi3bbV9tuuiyC1p" target="_blank" style="color: #00ff9c;">Clique aqui</a></p>
                 <hr style="margin: 20px 0; border-color: #333;">
                 <p style="color: #888;">💡 Dúvidas sobre downloads? Nos chame no WhatsApp!</p>
                 <p style="color: #888; margin-top: 10px;">🎮 Para jogos PSP: Use o emulador PPSSPP</p>
@@ -228,40 +258,48 @@ function carregarJogoPorURL() {
     const jogoSlug = urlParams.get('jogo');
     
     if (jogoSlug) {
-        const slugMap = {
-            'need-for-speed': 'Need for Speed',
-            'fc-mobile-24': 'FC Mobile 24',
-            'naruto-shippuden': 'Naruto Shippuden Ultimate Ninja',
-            'mortal-kombat-11': 'Mortal Kombat 11',
-            'ea-fc-26': 'EA FC 26',
-            'god-of-war': 'God of War - Ghost of Sparta',
-            'dream-league-mod': 'Dream League Soccer Mod',
-            'dls-real-madrid': 'Dream League Soccer Mod Real Madrid',
-            'fifa-21-mod': 'FIFA 21 Mod 14',
-            'efootball-26': 'eFootball 26 Mod Africa',
-            'dfl-26': 'DFL 26',
-            'james-bond': 'James Bond',
-            'dragon-ball-shin-budokai-8': 'Dragon Ball Shin Budokai 8'
-        };
-        
-        const nomeJogo = slugMap[jogoSlug];
-        if (nomeJogo) {
-            setTimeout(() => {
-                const cards = document.querySelectorAll('.card');
-                for (let card of cards) {
-                    if (card.querySelector('h3')?.innerText === nomeJogo) {
-                        card.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                        card.style.border = '2px solid #00ff9c';
-                        card.style.transform = 'scale(1.02)';
-                        setTimeout(() => {
-                            card.style.border = '';
-                            card.style.transform = '';
-                        }, 3000);
-                        break;
-                    }
+        const waitForJogos = setInterval(() => {
+            if (jogos.length > 0) {
+                clearInterval(waitForJogos);
+                
+                const slugMap = {
+                    'need-for-speed': 'Need for Speed',
+                    'fc-mobile-24': 'FC Mobile 24',
+                    'naruto-shippuden': 'Naruto Shippuden Ultimate Ninja',
+                    'mortal-kombat-11': 'Mortal Kombat 11',
+                    'ea-fc-26': 'EA FC 26',
+                    'god-of-war': 'God of War - Ghost of Sparta',
+                    'dream-league-mod': 'Dream League Soccer Mod',
+                    'dls-real-madrid': 'Dream League Soccer Mod Real Madrid',
+                    'fifa-21-mod': 'FIFA 21 Mod 14',
+                    'efootball-26': 'eFootball 26 Mod Africa',
+                    'dfl-26': 'DFL 26',
+                    'james-bond': 'James Bond',
+                    'dragon-ball-shin-budokai-8': 'Dragon Ball Shin Budokai 8',
+                    'spider-man-friend-or-foe': 'Spider Man Friend or Foe',
+                    'spider-man-3': 'Spider Man3'
+                };
+                
+                const nomeJogo = slugMap[jogoSlug];
+                if (nomeJogo) {
+                    setTimeout(() => {
+                        const cards = document.querySelectorAll('.card');
+                        for (let card of cards) {
+                            if (card.querySelector('h3')?.innerText === nomeJogo) {
+                                card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                                card.style.border = '2px solid #00ff9c';
+                                card.style.transform = 'scale(1.02)';
+                                setTimeout(() => {
+                                    card.style.border = '';
+                                    card.style.transform = '';
+                                }, 3000);
+                                break;
+                            }
+                        }
+                    }, 1000);
                 }
-            }, 500);
-        }
+            }
+        }, 100);
     }
 }
 
