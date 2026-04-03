@@ -592,17 +592,9 @@
 </div>
 
 <script>
-  
- // ==================== CONFIGURAÇÃO DO BACKEND ====================
-const API_URL = 'https://zona-backend-v3h1.onrender.com'; // ← ADICIONE ESTA LINHA
-
-// Depois, em todas as chamadas fetch, use ${API_URL}
-// Exemplo que já está no seu código:
-await fetch(`${API_URL}/api/jogos`);
-await fetch(`${API_URL}/api/upload`);
-
-    // ==================== CONFIGURAÇÕES ====================
-    const API_URL = '/api';
+    // ==================== CONFIGURAÇÃO DO BACKEND ====================
+    const API_URL = 'https://zona-backend-v3h1.onrender.com';
+    
     let jogosData = [];
     let ordemJogos = [];
     let jogoParaExcluir = null;
@@ -646,13 +638,16 @@ await fetch(`${API_URL}/api/upload`);
     // ==================== FUNÇÕES PRINCIPAIS ====================
     async function carregarJogos() {
         try {
-            const response = await fetch(`${API_URL}/jogos`);
+            console.log('Carregando jogos de:', `${API_URL}/api/jogos`);
+            const response = await fetch(`${API_URL}/api/jogos`);
             const data = await response.json();
             jogosData = data.jogos;
             ordemJogos = data.ordemJogos || jogosData.map(j => j.id);
             renderizarTabela();
+            mostrarToast('Jogos carregados com sucesso!', 'success');
         } catch (error) {
-            mostrarToast('Erro ao carregar jogos', 'error');
+            console.error('Erro:', error);
+            mostrarToast('Erro ao carregar jogos: ' + error.message, 'error');
         }
     }
 
@@ -689,7 +684,7 @@ await fetch(`${API_URL}/api/upload`);
             row.insertCell(1).innerHTML = jogo.id;
             
             const cellImagem = row.insertCell(2);
-            cellImagem.innerHTML = `<img src="/imagens/${jogo.imagem}.jpg" style="width: 40px; height: 40px; object-fit: cover; border-radius: 8px;" onerror="this.src='https://via.placeholder.com/40'">`;
+            cellImagem.innerHTML = `<img src="${API_URL}/imagens/${jogo.imagem}.jpg" style="width: 40px; height: 40px; object-fit: cover; border-radius: 8px;" onerror="this.src='https://via.placeholder.com/40'">`;
             
             row.insertCell(3).innerHTML = jogo.nome;
             row.insertCell(4).innerHTML = jogo.categoria;
@@ -734,7 +729,6 @@ await fetch(`${API_URL}/api/upload`);
         const file = e.target.files[0];
         if (!file) return;
         
-        // Preview
         const reader = new FileReader();
         reader.onload = (event) => {
             previewImg.src = event.target.result;
@@ -742,12 +736,11 @@ await fetch(`${API_URL}/api/upload`);
         };
         reader.readAsDataURL(file);
         
-        // Upload
         const formData = new FormData();
         formData.append('imagem', file);
         
         try {
-            const response = await fetch('/api/upload', {
+            const response = await fetch(`${API_URL}/api/upload`, {
                 method: 'POST',
                 body: formData
             });
@@ -767,7 +760,7 @@ await fetch(`${API_URL}/api/upload`);
     // ==================== AVALIAÇÃO ====================
     async function avaliarJogo(id, nota) {
         try {
-            await fetch(`${API_URL}/avaliacao/${id}`, {
+            await fetch(`${API_URL}/api/avaliacao/${id}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ avaliacao: nota })
@@ -784,7 +777,7 @@ await fetch(`${API_URL}/api/upload`);
         const jogo = jogosData.find(j => j.id === id);
         if (jogo) {
             try {
-                await fetch(`${API_URL}/jogos/${id}`, {
+                await fetch(`${API_URL}/api/jogos/${id}`, {
                     method: 'PUT',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ ...jogo, destaque: !jogo.destaque })
@@ -825,7 +818,7 @@ await fetch(`${API_URL}/api/upload`);
                     novaOrdem.splice(targetIndex, 0, movedItem);
                     
                     try {
-                        await fetch(`${API_URL}/ordem`, {
+                        await fetch(`${API_URL}/api/ordem`, {
                             method: 'PUT',
                             headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify({ ordemJogos: novaOrdem })
@@ -846,7 +839,6 @@ await fetch(`${API_URL}/api/upload`);
     function abrirFormulario(jogo = null) {
         document.getElementById('formulario').style.display = 'block';
         
-        // Reset upload
         fileInput.value = '';
         previewBox.style.display = 'none';
         imagemHidden.value = '';
@@ -866,7 +858,7 @@ await fetch(`${API_URL}/api/upload`);
             jogoEditandoId = jogo.id;
             
             if (jogo.imagem) {
-                previewImg.src = `/imagens/${jogo.imagem}.jpg`;
+                previewImg.src = `${API_URL}/imagens/${jogo.imagem}.jpg`;
                 previewBox.style.display = 'block';
                 previewNome.innerHTML = `📸 ${jogo.imagem}.jpg`;
             }
@@ -919,16 +911,15 @@ await fetch(`${API_URL}/api/upload`);
         }
         
         try {
-            let response;
             if (jogoEditandoId) {
-                response = await fetch(`${API_URL}/jogos/${jogoEditandoId}`, {
+                await fetch(`${API_URL}/api/jogos/${jogoEditandoId}`, {
                     method: 'PUT',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(jogo)
                 });
                 mostrarToast('Jogo atualizado com sucesso!', 'success');
             } else {
-                response = await fetch(`${API_URL}/jogos`, {
+                await fetch(`${API_URL}/api/jogos`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(jogo)
@@ -952,7 +943,7 @@ await fetch(`${API_URL}/api/upload`);
     async function confirmarExclusao() {
         if (jogoParaExcluir) {
             try {
-                await fetch(`${API_URL}/jogos/${jogoParaExcluir}`, { method: 'DELETE' });
+                await fetch(`${API_URL}/api/jogos/${jogoParaExcluir}`, { method: 'DELETE' });
                 mostrarToast('Jogo excluído com sucesso!', 'success');
                 carregarJogos();
             } catch (error) {
