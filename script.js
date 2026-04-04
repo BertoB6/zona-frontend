@@ -81,7 +81,7 @@ function renderizarJogos(jogosArray) {
     });
 }
 
-// Função para criar um card de jogo
+// Função para criar um card de jogo (CORRIGIDA para aceitar URL externa)
 function criarCard(jogo, isDestaque) {
     const card = document.createElement('div');
     card.className = 'card';
@@ -89,15 +89,32 @@ function criarCard(jogo, isDestaque) {
     
     const plataformaIcon = jogo.plataforma === "APK Android" ? "📱" : "🎮";
     
-    // Primeiro tenta carregar do backend, depois do front-end
-    const imagemBackend = `${API_URL}/imagens/${jogo.imagem}.jpg`;
-    const imagemFrontend = `imagens/${jogo.imagem}.jpg`;
+    // CORREÇÃO: Verificar se a imagem é URL externa ou nome de arquivo
+    let imagemPrincipal;
+    if (jogo.imagem && jogo.imagem.startsWith('http')) {
+        // É uma URL externa (Cloudinary, ImgBB, etc.)
+        imagemPrincipal = jogo.imagem;
+    } else {
+        // É nome de arquivo local
+        imagemPrincipal = `${API_URL}/imagens/${jogo.imagem}.jpg`;
+    }
+    
+    // Fallback para imagens antigas no front-end (apenas se for nome de arquivo)
+    const imagemFrontend = (jogo.imagem && !jogo.imagem.startsWith('http')) ? `imagens/${jogo.imagem}.jpg` : '';
+    
+    // Construir o onerror baseado no tipo de imagem
+    let onerrorHandler = '';
+    if (jogo.imagem && !jogo.imagem.startsWith('http')) {
+        onerrorHandler = `this.src='${imagemFrontend}'; this.onerror=null;`;
+    } else {
+        onerrorHandler = `this.src='https://via.placeholder.com/400x300?text=${encodeURIComponent(jogo.nome)}'; this.onerror=null;`;
+    }
     
     card.innerHTML = `
-        <img src="${imagemBackend}" 
+        <img src="${imagemPrincipal}" 
              alt="${jogo.nome}" 
              loading="lazy" 
-             onerror="this.src='${imagemFrontend}'; this.onerror=null;">
+             onerror="${onerrorHandler}">
         <h3>${jogo.nome}</h3>
         <div>
             <span class="categoria">${jogo.categoria}</span>
