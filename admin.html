@@ -23,7 +23,6 @@
             margin: 0 auto;
         }
 
-        /* HEADER */
         .header {
             background: linear-gradient(135deg, #111, #1a1a1a);
             border-radius: 15px;
@@ -67,7 +66,6 @@
             background: #cc0040;
         }
 
-        /* BARRA DE FERRAMENTAS */
         .toolbar {
             background: #111;
             border-radius: 12px;
@@ -126,7 +124,6 @@
             cursor: pointer;
         }
 
-        /* TABELA DE JOGOS */
         .jogos-table {
             background: #111;
             border-radius: 15px;
@@ -210,7 +207,6 @@
         .btn-excluir { color: #ff004f; }
         .btn-destaque { color: #ffaa00; }
 
-        /* FORMULÁRIO */
         .formulario {
             background: #111;
             border-radius: 15px;
@@ -267,7 +263,30 @@
             height: 20px;
         }
 
-        /* PREVIEW DA IMAGEM */
+        /* Estilos para as abas de imagem */
+        .image-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .tab-btn {
+            flex: 1;
+            background: #0a0a0a;
+            border: 1px solid #333;
+            padding: 8px;
+            border-radius: 8px;
+            color: #888;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .tab-btn.active {
+            background: #ff004f;
+            color: white;
+            border-color: #ff004f;
+        }
+
         .upload-area {
             border: 2px dashed #333;
             border-radius: 12px;
@@ -319,7 +338,6 @@
             cursor: pointer;
         }
 
-        /* MODAL */
         .modal {
             position: fixed;
             top: 0;
@@ -368,7 +386,6 @@
             color: white;
         }
 
-        /* LOGIN */
         .login-container {
             display: flex;
             justify-content: center;
@@ -509,21 +526,38 @@
             </table>
         </div>
 
-        <!-- FORMULÁRIO COM UPLOAD -->
+        <!-- FORMULÁRIO COM UPLOAD E LINK EXTERNO -->
         <div id="formulario" class="formulario">
             <h3 id="formTitle">Adicionar Novo Jogo</h3>
             <div class="form-grid">
                 <div class="form-group">
                     <label>🖼️ Imagem do Jogo</label>
-                    <div class="upload-area" id="uploadArea" onclick="document.getElementById('fileInput').click()">
-                        📸 Clique aqui para selecionar uma imagem
-                        <br><small style="color:#666;">JPG, PNG, WEBP (max 5MB)</small>
+                    <div class="image-tabs">
+                        <button type="button" class="tab-btn active" id="tabUpload">📤 Upload</button>
+                        <button type="button" class="tab-btn" id="tabLink">🔗 Link Externo</button>
                     </div>
-                    <input type="file" id="fileInput" accept="image/jpeg,image/jpg,image/png,image/webp" style="display: none;">
-                    <div class="preview-box" id="previewBox">
-                        <img id="previewImg" src="">
-                        <div id="previewNome" style="font-size: 0.75rem; color: #888; margin-top: 5px;"></div>
+                    
+                    <!-- Opção Upload -->
+                    <div id="uploadArea">
+                        <div class="upload-area" onclick="document.getElementById('fileInput').click()">
+                            📸 Clique aqui para selecionar uma imagem
+                            <br><small style="color:#666;">JPG, PNG, WEBP (max 5MB)</small>
+                        </div>
+                        <input type="file" id="fileInput" accept="image/jpeg,image/jpg,image/png,image/webp" style="display: none;">
+                        <div class="preview-box" id="previewBox">
+                            <img id="previewImg" src="">
+                            <div id="previewNome" style="font-size: 0.75rem; color: #888; margin-top: 5px;"></div>
+                        </div>
                     </div>
+                    
+                    <!-- Opção Link Externo -->
+                    <div id="linkArea" style="display: none;">
+                        <input type="text" id="linkInput" class="form-control" placeholder="https://res.cloudinary.com/.../imagem.jpg" style="width:100%; padding:10px; background:#0a0a0a; border:1px solid #333; border-radius:8px; color:white;">
+                        <div class="preview-box" id="linkPreviewBox" style="display: none; margin-top: 15px;">
+                            <img id="linkPreviewImg" src="" style="max-width: 120px; border-radius: 12px; border: 2px solid #ff004f;">
+                        </div>
+                    </div>
+                    
                     <input type="hidden" id="jogoImagem">
                 </div>
                 <div class="form-group">
@@ -606,7 +640,7 @@
     const ADMIN_USER = "admin";
     const ADMIN_PASS = "ZonaXP2025";
 
-    // ==================== LOGIN ====================
+  // ==================== LOGIN ====================
     function fazerLogin() {
         const user = document.getElementById('loginUser').value;
         const pass = document.getElementById('loginPass').value;
@@ -684,7 +718,8 @@
             row.insertCell(1).innerHTML = jogo.id;
             
             const cellImagem = row.insertCell(2);
-            cellImagem.innerHTML = `<img src="${API_URL}/imagens/${jogo.imagem}.jpg" style="width: 40px; height: 40px; object-fit: cover; border-radius: 8px;" onerror="this.src='https://via.placeholder.com/40'">`;
+            const imagemUrl = jogo.imagem && jogo.imagem.startsWith('http') ? jogo.imagem : `${API_URL}/imagens/${jogo.imagem}.jpg`;
+            cellImagem.innerHTML = `<img src="${imagemUrl}" style="width: 40px; height: 40px; object-fit: cover; border-radius: 8px;" onerror="this.src='https://via.placeholder.com/40'">`;
             
             row.insertCell(3).innerHTML = jogo.nome;
             row.insertCell(4).innerHTML = jogo.categoria;
@@ -718,17 +753,60 @@
         iniciarDragDrop();
     }
 
-    // ==================== UPLOAD DE IMAGEM ====================
+    // ==================== UPLOAD E LINK EXTERNO ====================
+    const tabUpload = document.getElementById('tabUpload');
+    const tabLink = document.getElementById('tabLink');
+    const uploadAreaDiv = document.getElementById('uploadArea');
+    const linkAreaDiv = document.getElementById('linkArea');
     const fileInput = document.getElementById('fileInput');
+    const linkInput = document.getElementById('linkInput');
     const previewBox = document.getElementById('previewBox');
     const previewImg = document.getElementById('previewImg');
     const previewNome = document.getElementById('previewNome');
+    const linkPreviewBox = document.getElementById('linkPreviewBox');
+    const linkPreviewImg = document.getElementById('linkPreviewImg');
     const imagemHidden = document.getElementById('jogoImagem');
 
+    // Alternar entre abas
+    tabUpload.onclick = () => {
+        tabUpload.classList.add('active');
+        tabLink.classList.remove('active');
+        uploadAreaDiv.style.display = 'block';
+        linkAreaDiv.style.display = 'none';
+        imagemHidden.value = '';
+        linkInput.value = '';
+        linkPreviewBox.style.display = 'none';
+    };
+
+    tabLink.onclick = () => {
+        tabLink.classList.add('active');
+        tabUpload.classList.remove('active');
+        uploadAreaDiv.style.display = 'none';
+        linkAreaDiv.style.display = 'block';
+        imagemHidden.value = '';
+        previewBox.style.display = 'none';
+        fileInput.value = '';
+    };
+
+    // Preview do link externo
+    linkInput.addEventListener('input', () => {
+        const url = linkInput.value.trim();
+        if (url && (url.startsWith('http://') || url.startsWith('https://'))) {
+            linkPreviewImg.src = url;
+            linkPreviewBox.style.display = 'block';
+            imagemHidden.value = url;
+        } else {
+            linkPreviewBox.style.display = 'none';
+            imagemHidden.value = '';
+        }
+    });
+
+    // Upload de arquivo
     fileInput.addEventListener('change', async (e) => {
         const file = e.target.files[0];
         if (!file) return;
         
+        // Preview local
         const reader = new FileReader();
         reader.onload = (event) => {
             previewImg.src = event.target.result;
@@ -736,6 +814,7 @@
         };
         reader.readAsDataURL(file);
         
+        // Upload para o backend
         const formData = new FormData();
         formData.append('imagem', file);
         
@@ -839,16 +918,21 @@
     function abrirFormulario(jogo = null) {
         document.getElementById('formulario').style.display = 'block';
         
+        // Reset
         fileInput.value = '';
+        linkInput.value = '';
         previewBox.style.display = 'none';
+        linkPreviewBox.style.display = 'none';
         imagemHidden.value = '';
+        
+        // Reset para aba Upload
+        tabUpload.click();
         
         if (jogo) {
             document.getElementById('formTitle').innerText = '✏️ Editar Jogo';
             document.getElementById('jogoNome').value = jogo.nome || '';
             document.getElementById('jogoCategoria').value = jogo.categoria || '';
             document.getElementById('jogoPlataforma').value = jogo.plataforma || 'PSP';
-            imagemHidden.value = jogo.imagem || '';
             document.getElementById('jogoDownload').value = jogo.download || '';
             document.getElementById('jogoPago').value = jogo.pago ? 'true' : 'false';
             document.getElementById('jogoPreco').value = jogo.preco || '';
@@ -857,10 +941,19 @@
             document.getElementById('jogoDestaque').checked = jogo.destaque || false;
             jogoEditandoId = jogo.id;
             
-            if (jogo.imagem) {
+            // Verificar se a imagem é URL externa ou nome de arquivo
+            if (jogo.imagem && jogo.imagem.startsWith('http')) {
+                tabLink.click();
+                linkInput.value = jogo.imagem;
+                linkPreviewImg.src = jogo.imagem;
+                linkPreviewBox.style.display = 'block';
+                imagemHidden.value = jogo.imagem;
+            } else if (jogo.imagem) {
+                tabUpload.click();
                 previewImg.src = `${API_URL}/imagens/${jogo.imagem}.jpg`;
                 previewBox.style.display = 'block';
                 previewNome.innerHTML = `📸 ${jogo.imagem}.jpg`;
+                imagemHidden.value = jogo.imagem;
             }
         } else {
             document.getElementById('formTitle').innerText = '➕ Adicionar Novo Jogo';
@@ -887,7 +980,7 @@
     async function salvarJogo() {
         const imagem = document.getElementById('jogoImagem').value;
         if (!imagem) {
-            mostrarToast('Por favor, faça upload da imagem do jogo!', 'error');
+            mostrarToast('Adicione uma imagem (upload ou link externo)!', 'error');
             return;
         }
         
