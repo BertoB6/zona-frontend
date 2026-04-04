@@ -193,6 +193,7 @@
         .plataforma-PS2 { background: #2196F3; }
         .plataforma-PC { background: #4CAF50; }
         .plataforma-APK { background: #ff9800; }
+        .plataforma-APK-Android { background: #ff9800; }
 
         .btn-acao {
             background: none;
@@ -263,7 +264,6 @@
             height: 20px;
         }
 
-        /* Estilos para as abas de imagem */
         .image-tabs {
             display: flex;
             gap: 10px;
@@ -447,6 +447,11 @@
             animation: fadeInOut 3s ease;
         }
 
+        .toast.error {
+            background: #ff004f;
+            color: white;
+        }
+
         @keyframes fadeInOut {
             0% { opacity: 0; transform: translateX(100px); }
             15% { opacity: 1; transform: translateX(0); }
@@ -482,7 +487,7 @@
         </div>
     </div>
 
-    <!-- PAINEL ADMIN (oculto até login) -->
+    <!-- PAINEL ADMIN -->
     <div id="adminPanel" class="hidden">
         <div class="header">
             <div class="logo">🎮 ZonaXP Admin</div>
@@ -526,18 +531,17 @@
             </table>
         </div>
 
-        <!-- FORMULÁRIO COM UPLOAD E LINK EXTERNO -->
+        <!-- FORMULÁRIO -->
         <div id="formulario" class="formulario">
             <h3 id="formTitle">Adicionar Novo Jogo</h3>
             <div class="form-grid">
                 <div class="form-group">
-                    <label>🖼️ Imagem do Jogo</label>
+                    <label>🖼️ Imagem do Jogo *</label>
                     <div class="image-tabs">
                         <button type="button" class="tab-btn active" id="tabUpload">📤 Upload</button>
                         <button type="button" class="tab-btn" id="tabLink">🔗 Link Externo</button>
                     </div>
                     
-                    <!-- Opção Upload -->
                     <div id="uploadArea">
                         <div class="upload-area" onclick="document.getElementById('fileInput').click()">
                             📸 Clique aqui para selecionar uma imagem
@@ -550,9 +554,8 @@
                         </div>
                     </div>
                     
-                    <!-- Opção Link Externo -->
                     <div id="linkArea" style="display: none;">
-                        <input type="text" id="linkInput" class="form-control" placeholder="https://res.cloudinary.com/.../imagem.jpg" style="width:100%; padding:10px; background:#0a0a0a; border:1px solid #333; border-radius:8px; color:white;">
+                        <input type="text" id="linkInput" placeholder="https://res.cloudinary.com/.../imagem.jpg" style="width:100%; padding:12px; background:#0a0a0a; border:1px solid #333; border-radius:8px; color:white;">
                         <div class="preview-box" id="linkPreviewBox" style="display: none; margin-top: 15px;">
                             <img id="linkPreviewImg" src="" style="max-width: 120px; border-radius: 12px; border: 2px solid #ff004f;">
                         </div>
@@ -613,7 +616,6 @@
     </div>
 </div>
 
-<!-- MODAL CONFIRMAÇÃO -->
 <div id="modal" class="modal">
     <div class="modal-content">
         <h3>⚠️ Confirmar</h3>
@@ -626,7 +628,7 @@
 </div>
 
 <script>
-    // ==================== CONFIGURAÇÃO DO BACKEND ====================
+    // ==================== CONFIGURAÇÃO ====================
     const API_URL = 'https://zona-backend-v3h1.onrender.com';
     
     let jogosData = [];
@@ -636,11 +638,10 @@
     let plataformaAtual = 'todos';
     let buscaAtual = '';
 
-    // Login
     const ADMIN_USER = "admin";
     const ADMIN_PASS = "ZonaXP2025";
 
-  // ==================== LOGIN ====================
+    // ==================== LOGIN ====================
     function fazerLogin() {
         const user = document.getElementById('loginUser').value;
         const pass = document.getElementById('loginPass').value;
@@ -662,26 +663,22 @@
         document.getElementById('adminPanel').classList.add('hidden');
     }
 
-    // Verificar login ao carregar
     if (localStorage.getItem('adminLogado') === 'true') {
         document.getElementById('loginContainer').style.display = 'none';
         document.getElementById('adminPanel').classList.remove('hidden');
         carregarJogos();
     }
 
-    // ==================== FUNÇÕES PRINCIPAIS ====================
+      // ==================== CRUD PRINCIPAL ====================
     async function carregarJogos() {
         try {
-            console.log('Carregando jogos de:', `${API_URL}/api/jogos`);
             const response = await fetch(`${API_URL}/api/jogos`);
             const data = await response.json();
             jogosData = data.jogos;
             ordemJogos = data.ordemJogos || jogosData.map(j => j.id);
             renderizarTabela();
-            mostrarToast('Jogos carregados com sucesso!', 'success');
         } catch (error) {
-            console.error('Erro:', error);
-            mostrarToast('Erro ao carregar jogos: ' + error.message, 'error');
+            mostrarToast('Erro ao carregar jogos', 'error');
         }
     }
 
@@ -711,21 +708,25 @@
         jogosFiltrados.forEach(jogo => {
             const row = tbody.insertRow();
             
-            const cellDrag = row.insertCell(0);
-            cellDrag.innerHTML = '<span class="drag-handle">☰</span>';
-            cellDrag.style.cursor = 'grab';
-            
+            row.insertCell(0).innerHTML = '<span class="drag-handle">☰</span>';
             row.insertCell(1).innerHTML = jogo.id;
             
             const cellImagem = row.insertCell(2);
-            const imagemUrl = jogo.imagem && jogo.imagem.startsWith('http') ? jogo.imagem : `${API_URL}/imagens/${jogo.imagem}.jpg`;
+            let imagemUrl = '';
+            if (jogo.imagem) {
+                if (jogo.imagem.startsWith('http')) {
+                    imagemUrl = jogo.imagem;
+                } else {
+                    imagemUrl = `${API_URL}/imagens/${jogo.imagem}.jpg`;
+                }
+            }
             cellImagem.innerHTML = `<img src="${imagemUrl}" style="width: 40px; height: 40px; object-fit: cover; border-radius: 8px;" onerror="this.src='https://via.placeholder.com/40'">`;
             
             row.insertCell(3).innerHTML = jogo.nome;
             row.insertCell(4).innerHTML = jogo.categoria;
             
             const cellPlataforma = row.insertCell(5);
-            cellPlataforma.innerHTML = `<span class="badge-plataforma plataforma-${jogo.plataforma.replace(' ', '-')}">${jogo.plataforma}</span>`;
+            cellPlataforma.innerHTML = `<span class="badge-plataforma plataforma-${jogo.plataforma.replace(/ /g, '-')}">${jogo.plataforma}</span>`;
             
             row.insertCell(6).innerHTML = jogo.tamanho || '—';
             
@@ -739,8 +740,7 @@
                 cellAvaliacao.appendChild(star);
             }
             
-            const cellDestaque = row.insertCell(8);
-            cellDestaque.innerHTML = jogo.destaque ? '⭐ Sim' : '○ Não';
+            row.insertCell(8).innerHTML = jogo.destaque ? '⭐ Sim' : '○ Não';
             
             const cellAcoes = row.insertCell(9);
             cellAcoes.innerHTML = `
@@ -753,7 +753,7 @@
         iniciarDragDrop();
     }
 
-    // ==================== UPLOAD E LINK EXTERNO ====================
+    // ==================== IMAGEM: UPLOAD E LINK ====================
     const tabUpload = document.getElementById('tabUpload');
     const tabLink = document.getElementById('tabLink');
     const uploadAreaDiv = document.getElementById('uploadArea');
@@ -767,7 +767,6 @@
     const linkPreviewImg = document.getElementById('linkPreviewImg');
     const imagemHidden = document.getElementById('jogoImagem');
 
-    // Alternar entre abas
     tabUpload.onclick = () => {
         tabUpload.classList.add('active');
         tabLink.classList.remove('active');
@@ -788,7 +787,6 @@
         fileInput.value = '';
     };
 
-    // Preview do link externo
     linkInput.addEventListener('input', () => {
         const url = linkInput.value.trim();
         if (url && (url.startsWith('http://') || url.startsWith('https://'))) {
@@ -801,12 +799,10 @@
         }
     });
 
-    // Upload de arquivo
     fileInput.addEventListener('change', async (e) => {
         const file = e.target.files[0];
         if (!file) return;
         
-        // Preview local
         const reader = new FileReader();
         reader.onload = (event) => {
             previewImg.src = event.target.result;
@@ -814,7 +810,6 @@
         };
         reader.readAsDataURL(file);
         
-        // Upload para o backend
         const formData = new FormData();
         formData.append('imagem', file);
         
@@ -836,7 +831,7 @@
         }
     });
 
-    // ==================== AVALIAÇÃO ====================
+    // ==================== AVALIAÇÃO E DESTAQUE ====================
     async function avaliarJogo(id, nota) {
         try {
             await fetch(`${API_URL}/api/avaliacao/${id}`, {
@@ -851,7 +846,6 @@
         }
     }
 
-    // ==================== DESTAQUE ====================
     async function toggleDestaque(id) {
         const jogo = jogosData.find(j => j.id === id);
         if (jogo) {
@@ -914,18 +908,16 @@
         });
     }
 
-    // ==================== CRUD ====================
+    // ==================== CRUD FORMULÁRIO ====================
     function abrirFormulario(jogo = null) {
         document.getElementById('formulario').style.display = 'block';
         
-        // Reset
         fileInput.value = '';
         linkInput.value = '';
         previewBox.style.display = 'none';
         linkPreviewBox.style.display = 'none';
         imagemHidden.value = '';
         
-        // Reset para aba Upload
         tabUpload.click();
         
         if (jogo) {
@@ -941,19 +933,20 @@
             document.getElementById('jogoDestaque').checked = jogo.destaque || false;
             jogoEditandoId = jogo.id;
             
-            // Verificar se a imagem é URL externa ou nome de arquivo
-            if (jogo.imagem && jogo.imagem.startsWith('http')) {
-                tabLink.click();
-                linkInput.value = jogo.imagem;
-                linkPreviewImg.src = jogo.imagem;
-                linkPreviewBox.style.display = 'block';
-                imagemHidden.value = jogo.imagem;
-            } else if (jogo.imagem) {
-                tabUpload.click();
-                previewImg.src = `${API_URL}/imagens/${jogo.imagem}.jpg`;
-                previewBox.style.display = 'block';
-                previewNome.innerHTML = `📸 ${jogo.imagem}.jpg`;
-                imagemHidden.value = jogo.imagem;
+            if (jogo.imagem) {
+                if (jogo.imagem.startsWith('http')) {
+                    tabLink.click();
+                    linkInput.value = jogo.imagem;
+                    linkPreviewImg.src = jogo.imagem;
+                    linkPreviewBox.style.display = 'block';
+                    imagemHidden.value = jogo.imagem;
+                } else {
+                    tabUpload.click();
+                    previewImg.src = `${API_URL}/imagens/${jogo.imagem}.jpg`;
+                    previewBox.style.display = 'block';
+                    previewNome.innerHTML = `📸 ${jogo.imagem}.jpg`;
+                    imagemHidden.value = jogo.imagem;
+                }
             }
         } else {
             document.getElementById('formTitle').innerText = '➕ Adicionar Novo Jogo';
@@ -979,6 +972,7 @@
 
     async function salvarJogo() {
         const imagem = document.getElementById('jogoImagem').value;
+        
         if (!imagem) {
             mostrarToast('Adicione uma imagem (upload ou link externo)!', 'error');
             return;
@@ -1058,12 +1052,11 @@
         }
     }
 
-    // ==================== FILTROS E BUSCA ====================
+    // ==================== FILTROS E TOAST ====================
     function mostrarToast(mensagem, tipo = 'success') {
         const toast = document.createElement('div');
         toast.className = 'toast';
-        toast.style.background = tipo === 'success' ? '#00ff9c' : '#ff004f';
-        toast.style.color = '#0a0a0a';
+        if (tipo === 'error') toast.classList.add('error');
         toast.innerHTML = mensagem;
         document.body.appendChild(toast);
         setTimeout(() => toast.remove(), 3000);
