@@ -653,352 +653,6 @@
         }
 
         // ==================== EVENTOS ====================
-        searchInp
-        .game-info {
-            padding: 12px;
-        }
-
-        .game-info h3 {
-            font-size: 0.9rem;
-            margin-bottom: 5px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .game-category {
-            font-size: 0.7rem;
-            color: #ff004f;
-            display: inline-block;
-            background: rgba(255, 0, 79, 0.1);
-            padding: 3px 10px;
-            border-radius: 20px;
-            margin-bottom: 8px;
-        }
-
-        .game-meta {
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.7rem;
-            color: #888;
-            margin: 8px 0;
-        }
-
-        .btn-download {
-            width: 100%;
-            padding: 8px;
-            background: linear-gradient(90deg, #ff004f, #8000ff);
-            border: none;
-            border-radius: 8px;
-            color: white;
-            font-weight: bold;
-            cursor: pointer;
-            transition: opacity 0.2s;
-        }
-
-        .btn-download:hover {
-            opacity: 0.9;
-        }
-
-        .destaque-section {
-            margin-bottom: 30px;
-        }
-
-        .destaque-section h2 {
-            font-size: 1.2rem;
-            margin-bottom: 15px;
-            color: #ffaa00;
-        }
-
-        .loading {
-            text-align: center;
-            padding: 40px;
-            color: #888;
-        }
-
-        footer {
-            margin-top: 30px;
-            text-align: center;
-            padding: 20px;
-            background: #111;
-            border-radius: 12px;
-            font-size: 0.7rem;
-            color: #666;
-        }
-
-        footer a {
-            color: #00ff9c;
-            text-decoration: none;
-        }
-
-        .popup {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.9);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-            display: none;
-        }
-
-        .popup-content {
-            background: #111;
-            padding: 25px;
-            border-radius: 16px;
-            text-align: center;
-            max-width: 280px;
-            width: 90%;
-            border: 1px solid #ff004f;
-        }
-
-        .popup-content h3 {
-            color: #ff004f;
-            margin-bottom: 15px;
-        }
-
-        .popup-content .price {
-            font-size: 1.2rem;
-            color: #00ff9c;
-            margin: 15px 0;
-        }
-
-        .popup-content button {
-            width: 100%;
-            padding: 10px;
-            margin-top: 10px;
-            border: none;
-            border-radius: 8px;
-            background: linear-gradient(90deg, #ff004f, #8000ff);
-            color: white;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        .popup-content .btn-fechar {
-            background: #333;
-        }
-
-        @media (min-width: 600px) {
-            .games-grid {
-                grid-template-columns: repeat(3, 1fr);
-                gap: 20px;
-            }
-            .game-card img {
-                height: 180px;
-            }
-        }
-
-        @media (min-width: 900px) {
-            .games-grid {
-                grid-template-columns: repeat(4, 1fr);
-            }
-        }
-
-        @media (max-width: 480px) {
-            body {
-                padding: 12px;
-            }
-            .game-info h3 {
-                font-size: 0.8rem;
-            }
-        }
-    </style>
-</head>
-<body>
-
-    <div class="header">
-        <div class="logo">ZonaXP</div>
-        <div class="menu-icon" id="menuBtn">☰</div>
-    </div>
-
-    <div class="search-bar">
-        <input type="text" id="searchInput" placeholder="Buscar jogo...">
-    </div>
-
-    <div class="filters" id="filters">
-        <button class="filter-btn active" data-plataforma="todos">Todos</button>
-        <button class="filter-btn" data-plataforma="PSP">PSP</button>
-        <button class="filter-btn" data-plataforma="PS2">PS2</button>
-        <button class="filter-btn" data-plataforma="PC">PC</button>
-        <button class="filter-btn" data-plataforma="APK Android">APK</button>
-    </div>
-
-    <div id="destaqueSection" style="display: none;">
-        <h2>⭐ Destaques</h2>
-        <div class="games-grid" id="destaqueGrid"></div>
-    </div>
-
-    <div id="gamesContainer">
-        <div class="loading" id="loading">Carregando jogos...</div>
-        <div class="games-grid" id="games"></div>
-    </div>
-
-    <footer>
-        <p><a href="compartilhar.html">🎁 Ganhar Jogos Grátis</a> | <a href="https://whatsapp.com/channel/0029Vb7YAqi3bbV9tuuiyC1p">📱 Canal WhatsApp</a></p>
-        <p>© 2026 ZonaXP</p>
-    </footer>
-
-    <div class="popup" id="popup">
-        <div class="popup-content">
-            <h3>💰 Jogo Premium</h3>
-            <div class="price" id="priceText"></div>
-            <button id="btnDownloadPremium">Baixar Agora</button>
-            <button class="btn-fechar" onclick="fecharPopup()">Fechar</button>
-        </div>
-    </div>
-
-    <script>
-        // ==================== CONFIGURAÇÃO ====================
-        const API_URL = 'https://zona-backend-v3h1.onrender.com';
-        
-        let jogos = [];
-        let jogosFiltrados = [];
-        let jogoSelecionado = null;
-        let plataformaAtual = 'todos';
-        let buscaAtual = '';
-
-        const container = document.getElementById('games');
-        const destaqueSection = document.getElementById('destaqueSection');
-        const destaqueGrid = document.getElementById('destaqueGrid');
-        const loading = document.getElementById('loading');
-        const searchInput = document.getElementById('searchInput');
-        const popup = document.getElementById('popup');
-        const priceText = document.getElementById('priceText');
-        const btnPremium = document.getElementById('btnDownloadPremium');
-
-        // Função para obter URL da imagem
-        // Ordem: 1. Link externo (Cloudinary) | 2. Front-end (imagens/) | 3. Backend | 4. Placeholder
-        function getImagemUrl(jogo) {
-            if (!jogo.imagem) {
-                return 'https://via.placeholder.com/300x160?text=ZonaXP';
-            }
-            
-            // 1. Se já for URL completa (Cloudinary, ImgBB, etc.)
-            if (jogo.imagem.startsWith('http')) {
-                return jogo.imagem;
-            }
-            
-            // 2. Tenta carregar do front-end (Vercel/GitHub Pages) - imagens antigas
-            //    Como o site está hospedado, as imagens estão na pasta imagens/
-            const frontendUrl = `imagens/${jogo.imagem}.jpg`;
-            
-            // 3. Fallback para backend (Render)
-            const backendUrl = `${API_URL}/imagens/${jogo.imagem}.jpg`;
-            
-            // Retorna frontend, o onerror cuida do fallback
-            return frontendUrl;
-        }
-
-        async function carregarJogos() {
-            try {
-                const response = await fetch(`${API_URL}/api/jogos`);
-                const data = await response.json();
-                jogos = data.jogos;
-                jogosFiltrados = [...jogos];
-                renderizarTudo();
-                loading.style.display = 'none';
-            } catch (error) {
-                console.error('Erro:', error);
-                loading.innerHTML = '❌ Erro ao carregar jogos. Tente novamente.';
-            }
-        }
-
-        function renderizarTudo() {
-            let filtrados = [...jogos];
-            
-            if (plataformaAtual !== 'todos') {
-                filtrados = filtrados.filter(j => j.plataforma === plataformaAtual);
-            }
-            
-            if (buscaAtual) {
-                filtrados = filtrados.filter(j => 
-                    j.nome.toLowerCase().includes(buscaAtual.toLowerCase()) ||
-                    j.categoria.toLowerCase().includes(buscaAtual.toLowerCase())
-                );
-            }
-            
-            const destaques = filtrados.filter(j => j.destaque === true).slice(0, 3);
-            const normais = filtrados.filter(j => j.destaque !== true);
-            
-            if (destaques.length > 0) {
-                destaqueSection.style.display = 'block';
-                destaqueGrid.innerHTML = '';
-                destaques.forEach(jogo => {
-                    destaqueGrid.appendChild(criarCard(jogo));
-                });
-            } else {
-                destaqueSection.style.display = 'none';
-            }
-            
-            container.innerHTML = '';
-            if (normais.length === 0 && destaques.length === 0) {
-                container.innerHTML = '<div style="grid-column:1/-1; text-align:center; padding:40px;">Nenhum jogo encontrado</div>';
-                return;
-            }
-            
-            normais.forEach(jogo => {
-                container.appendChild(criarCard(jogo));
-            });
-        }
-
-        function criarCard(jogo) {
-            const card = document.createElement('div');
-            card.className = 'game-card';
-            
-            const imagemUrl = getImagemUrl(jogo);
-            const fallbackBackend = `${API_URL}/imagens/${jogo.imagem}.jpg`;
-            const fallbackPlaceholder = 'https://via.placeholder.com/300x160?text=' + encodeURIComponent(jogo.nome);
-            
-            card.innerHTML = `
-                <img src="${imagemUrl}" 
-                     onerror="this.src='${fallbackBackend}'; this.onerror='this.src=${fallbackPlaceholder}';">
-                <div class="game-info">
-                    <h3>${jogo.nome}</h3>
-                    <div class="game-category">${jogo.categoria}</div>
-                    <div class="game-meta">
-                        <span>${jogo.plataforma}</span>
-                        <span>📦 ${jogo.tamanho || '—'}</span>
-                    </div>
-                    <button class="btn-download" data-id="${jogo.id}">Download</button>
-                </div>
-            `;
-            
-            const btn = card.querySelector('.btn-download');
-            btn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                baixar(jogo);
-            });
-            
-            return card;
-        }
-
-        function baixar(jogo) {
-            if (jogo.pago) {
-                jogoSelecionado = jogo;
-                priceText.innerHTML = `${jogo.preco}<br><span style="font-size:0.8rem;">${jogo.nome}</span>`;
-                popup.style.display = 'flex';
-            } else {
-                window.location.href = `download.html?jogo=${jogo.id}`;
-            }
-        }
-
-        function baixarPremium() {
-            if (jogoSelecionado) {
-                window.open(jogoSelecionado.download, '_blank');
-                fecharPopup();
-            }
-        }
-
-        function fecharPopup() {
-            popup.style.display = 'none';
-            jogoSelecionado = null;
-        }
-
-        // Eventos
         searchInput.addEventListener('input', (e) => {
             buscaAtual = e.target.value;
             renderizarTudo();
@@ -1013,16 +667,38 @@
             });
         });
 
-        btnPremium.addEventListener('click', baixarPremium);
+        // Menu
+        menuBtn.addEventListener('click', abrirMenu);
+        closeMenu.addEventListener('click', fecharMenu);
+        overlay.addEventListener('click', fecharMenu);
+        
+        document.getElementById('menuHome').addEventListener('click', mostrarHome);
+        document.getElementById('menuApresentacao').addEventListener('click', mostrarApresentacao);
+        document.getElementById('menuSuporte').addEventListener('click', mostrarSuporte);
 
-        // Menu mobile simples
-        const menuBtn = document.getElementById('menuBtn');
-        if (menuBtn) {
-            menuBtn.addEventListener('click', () => {
-                alert('📱 Use os filtros e busca para encontrar seus jogos!');
-            });
-        }
+        // Popups - Comunidade
+        document.getElementById('footerComunidade').addEventListener('click', (e) => {
+            e.preventDefault();
+            mostrarPopup('popupComunidade');
+        });
+        
+        document.getElementById('btnEntrarComunidade').addEventListener('click', () => {
+            window.open(GRUPO_URL, '_blank');
+            fecharPopup('popupComunidade');
+        });
 
+        // Popups - Canal
+        document.getElementById('footerCanal').addEventListener('click', (e) => {
+            e.preventDefault();
+            mostrarPopup('popupCanal');
+        });
+        
+        document.getElementById('btnSeguirCanal').addEventListener('click', () => {
+            window.open(CANAL_URL, '_blank');
+            fecharPopup('popupCanal');
+        });
+
+        // Inicializar
         carregarJogos();
     </script>
 </body>
