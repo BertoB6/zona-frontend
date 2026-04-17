@@ -320,25 +320,27 @@
         const priceText = document.getElementById('priceText');
         const btnPremium = document.getElementById('btnDownloadPremium');
 
-        // Função para obter URL da imagem (tenta GitHub, depois backend, depois placeholder)
+        // Função para obter URL da imagem
+        // Ordem: 1. Link externo (Cloudinary) | 2. Front-end (imagens/) | 3. Backend | 4. Placeholder
         function getImagemUrl(jogo) {
             if (!jogo.imagem) {
                 return 'https://via.placeholder.com/300x160?text=ZonaXP';
             }
             
-            // Se já for URL completa (Cloudinary, ImgBB, etc.)
+            // 1. Se já for URL completa (Cloudinary, ImgBB, etc.)
             if (jogo.imagem.startsWith('http')) {
                 return jogo.imagem;
             }
             
-            // Tenta GitHub primeiro (imagens antigas)
-            const githubUrl = `${GITHUB_IMAGES_URL}${jogo.imagem}.jpg`;
+            // 2. Tenta carregar do front-end (Vercel/GitHub Pages) - imagens antigas
+            //    Como o site está hospedado, as imagens estão na pasta imagens/
+            const frontendUrl = `imagens/${jogo.imagem}.jpg`;
             
-            // Fallback para backend
+            // 3. Fallback para backend (Render)
             const backendUrl = `${API_URL}/imagens/${jogo.imagem}.jpg`;
             
-            // Retorna GitHub, mas com fallback no onerror da imagem
-            return githubUrl;
+            // Retorna frontend, o onerror cuida do fallback
+            return frontendUrl;
         }
 
         async function carregarJogos() {
@@ -398,11 +400,12 @@
             card.className = 'game-card';
             
             const imagemUrl = getImagemUrl(jogo);
-            const fallbackUrl = 'https://via.placeholder.com/300x160?text=' + encodeURIComponent(jogo.nome);
+            const fallbackBackend = `${API_URL}/imagens/${jogo.imagem}.jpg`;
+            const fallbackPlaceholder = 'https://via.placeholder.com/300x160?text=' + encodeURIComponent(jogo.nome);
             
             card.innerHTML = `
                 <img src="${imagemUrl}" 
-                     onerror="this.src='${fallbackUrl}'; this.onerror=null;">
+                     onerror="this.src='${fallbackBackend}'; this.onerror='this.src=${fallbackPlaceholder}';">
                 <div class="game-info">
                     <h3>${jogo.nome}</h3>
                     <div class="game-category">${jogo.categoria}</div>
@@ -462,11 +465,11 @@
 
         btnPremium.addEventListener('click', baixarPremium);
 
-        // Menu mobile simples (opcional)
+        // Menu mobile simples
         const menuBtn = document.getElementById('menuBtn');
         if (menuBtn) {
             menuBtn.addEventListener('click', () => {
-                alert('Menu em desenvolvimento. Use os filtros e busca!');
+                alert('📱 Use os filtros e busca para encontrar seus jogos!');
             });
         }
 
