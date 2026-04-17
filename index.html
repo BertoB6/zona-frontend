@@ -18,6 +18,7 @@
             padding: 20px;
         }
 
+        /* Header */
         .header {
             display: flex;
             justify-content: space-between;
@@ -39,8 +40,76 @@
         .menu-icon {
             font-size: 1.5rem;
             cursor: pointer;
+            background: none;
+            border: none;
+            color: white;
         }
 
+        /* Sidebar / Menu lateral */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: -280px;
+            width: 260px;
+            height: 100%;
+            background: #111;
+            z-index: 1000;
+            transition: 0.3s;
+            padding: 60px 20px 20px;
+            border-right: 1px solid #ff004f;
+        }
+
+        .sidebar.active {
+            left: 0;
+        }
+
+        .sidebar .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #ff004f;
+        }
+
+        .sidebar ul {
+            list-style: none;
+        }
+
+        .sidebar li {
+            padding: 15px 0;
+            border-bottom: 1px solid #222;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .sidebar li:hover {
+            color: #ff004f;
+            padding-left: 10px;
+        }
+
+        .sidebar a {
+            color: white;
+            text-decoration: none;
+            display: block;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            z-index: 999;
+            display: none;
+        }
+
+        .overlay.active {
+            display: block;
+        }
+
+        /* Search */
         .search-bar {
             margin-bottom: 20px;
         }
@@ -55,6 +124,7 @@
             font-size: 1rem;
         }
 
+        /* Filtros */
         .filters {
             display: flex;
             flex-wrap: wrap;
@@ -77,12 +147,14 @@
             color: white;
         }
 
+        /* Grids */
         .games-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 15px;
         }
 
+        /* Card padrão */
         .game-card {
             background: #111;
             border-radius: 12px;
@@ -104,6 +176,484 @@
             background: #1a1a1a;
         }
 
+        .game-info {
+            padding: 12px;
+        }
+
+        .game-info h3 {
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .game-category {
+            font-size: 0.7rem;
+            color: #ff004f;
+            display: inline-block;
+            background: rgba(255, 0, 79, 0.1);
+            padding: 3px 10px;
+            border-radius: 20px;
+            margin-bottom: 8px;
+        }
+
+        .game-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.7rem;
+            color: #888;
+            margin: 8px 0;
+        }
+
+        .btn-download {
+            width: 100%;
+            padding: 8px;
+            background: linear-gradient(90deg, #ff004f, #8000ff);
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        /* Card de destaque (diferente) */
+        .destaque-card {
+            border: 1px solid #ffaa00;
+            box-shadow: 0 0 10px rgba(255, 170, 0, 0.2);
+        }
+
+        .destaque-card .game-info h3 {
+            color: #ffaa00;
+        }
+
+        .destaque-badge {
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            background: #ffaa00;
+            color: #0a0a0a;
+            padding: 2px 8px;
+            border-radius: 20px;
+            font-size: 0.65rem;
+            font-weight: bold;
+        }
+
+        .game-card {
+            position: relative;
+        }
+
+        .destaque-section {
+            margin-bottom: 30px;
+        }
+
+        .destaque-section h2 {
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            color: #ffaa00;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #888;
+        }
+
+        /* Popups */
+        .popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.95);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            display: none;
+        }
+
+        .popup-container {
+            background: linear-gradient(135deg, #111, #1a1a1a);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            max-width: 320px;
+            width: 90%;
+            border: 1px solid #ff004f;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .popup-container h3 {
+            color: #ff004f;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        .popup-container p {
+            color: #ccc;
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+        }
+
+        .popup-container .btn-whatsapp {
+            background: #25D366;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 50px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            margin-bottom: 10px;
+            font-size: 1rem;
+        }
+
+        .popup-container .btn-canal {
+            background: linear-gradient(90deg, #ff004f, #8000ff);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 50px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            margin-bottom: 10px;
+            font-size: 1rem;
+        }
+
+        .popup-container .btn-fechar {
+            background: #333;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 5px;
+        }
+
+        .popup-container .btn-fechar:hover {
+            background: #444;
+        }
+
+        footer {
+            margin-top: 30px;
+            text-align: center;
+            padding: 20px;
+            background: #111;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            color: #666;
+        }
+
+        footer a {
+            color: #00ff9c;
+            text-decoration: none;
+        }
+
+        /* Responsividade */
+        @media (min-width: 600px) {
+            .games-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 20px;
+            }
+            .game-card img {
+                height: 180px;
+            }
+        }
+
+        @media (min-width: 900px) {
+            .games-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 12px;
+            }
+            .game-info h3 {
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <div class="header">
+        <div class="logo">ZonaXP</div>
+        <button class="menu-icon" id="menuBtn">☰</button>
+    </div>
+
+    <!-- Sidebar / Menu lateral -->
+    <div class="sidebar" id="sidebar">
+        <div class="close-btn" id="closeMenu">✕</div>
+        <ul>
+            <li id="menuHome">🏠 Home</li>
+            <li id="menuApresentacao">📖 Apresentação</li>
+            <li id="menuSuporte">🛡️ Suporte</li>
+            <li><a href="compartilhar.html">🎁 Ganhar Jogos</a></li>
+        </ul>
+    </div>
+    <div class="overlay" id="overlay"></div>
+
+    <!-- Search -->
+    <div class="search-bar">
+        <input type="text" id="searchInput" placeholder="Buscar jogo...">
+    </div>
+
+    <!-- Filtros -->
+    <div class="filters" id="filters">
+        <button class="filter-btn active" data-plataforma="todos">Todos</button>
+        <button class="filter-btn" data-plataforma="PSP">PSP</button>
+        <button class="filter-btn" data-plataforma="PS2">PS2</button>
+        <button class="filter-btn" data-plataforma="PC">PC</button>
+        <button class="filter-btn" data-plataforma="APK Android">APK</button>
+    </div>
+
+    <!-- Destaques -->
+    <div id="destaqueSection" style="display: none;">
+        <h2>⭐ Jogos em Destaque</h2>
+        <div class="games-grid" id="destaqueGrid"></div>
+    </div>
+
+    <!-- Grid principal -->
+    <div id="gamesContainer">
+        <div class="loading" id="loading">Carregando jogos...</div>
+        <div class="games-grid" id="games"></div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>
+            <a href="#" id="footerComunidade">💬 Comunidade WhatsApp</a> | 
+            <a href="#" id="footerCanal">📱 Canal WhatsApp</a> | 
+            <a href="compartilhar.html">🎁 Ganhar Jogos</a>
+        </p>
+        <p>© 2026 ZonaXP</p>
+    </footer>
+
+    <!-- POPUP 1: COMUNIDADE WHATSAPP -->
+    <div id="popupComunidade" class="popup-overlay">
+        <div class="popup-container">
+            <h3>💬 Entre na Comunidade!</h3>
+            <p>Participe do nosso grupo no WhatsApp e fique por dentro de novos jogos, promoções e novidades!</p>
+            <button class="btn-whatsapp" id="btnEntrarComunidade">📱 Entrar no Grupo</button>
+            <button class="btn-fechar" onclick="fecharPopup('popupComunidade')">Fechar</button>
+        </div>
+    </div>
+
+    <!-- POPUP 2: CANAL WHATSAPP -->
+    <div id="popupCanal" class="popup-overlay">
+        <div class="popup-container">
+            <h3>📢 Siga nosso Canal!</h3>
+            <p>Receba atualizações diárias, links diretos e jogos exclusivos no nosso canal do WhatsApp!</p>
+            <button class="btn-canal" id="btnSeguirCanal">🔔 Seguir Canal</button>
+            <button class="btn-fechar" onclick="fecharPopup('popupCanal')">Fechar</button>
+        </div>
+    </div>
+
+    <script>
+        // ==================== CONFIGURAÇÃO ====================
+        const API_URL = 'https://zona-backend-v3h1.onrender.com';
+        const GRUPO_URL = 'https://chat.whatsapp.com/JSy6GUWD9S22qhhOVpOoHW';
+        const CANAL_URL = 'https://whatsapp.com/channel/0029Vb7YAqi3bbV9tuuiyC1p';
+        
+        let jogos = [];
+        let jogosFiltrados = [];
+        let jogoSelecionado = null;
+        let plataformaAtual = 'todos';
+        let buscaAtual = '';
+
+        // Elementos DOM
+        const container = document.getElementById('games');
+        const destaqueSection = document.getElementById('destaqueSection');
+        const destaqueGrid = document.getElementById('destaqueGrid');
+        const loading = document.getElementById('loading');
+        const searchInput = document.getElementById('searchInput');
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('overlay');
+        const menuBtn = document.getElementById('menuBtn');
+        const closeMenu = document.getElementById('closeMenu');
+
+        // Função para obter URL da imagem
+        function getImagemUrl(jogo) {
+            if (!jogo.imagem) {
+                return 'https://via.placeholder.com/300x160?text=ZonaXP';
+            }
+            if (jogo.imagem.startsWith('http')) {
+                return jogo.imagem;
+            }
+            return `imagens/${jogo.imagem}.jpg`;
+        }
+
+        // Carregar jogos
+        async function carregarJogos() {
+            try {
+                const response = await fetch(`${API_URL}/api/jogos`);
+                const data = await response.json();
+                jogos = data.jogos;
+                jogosFiltrados = [...jogos];
+                renderizarTudo();
+                loading.style.display = 'none';
+            } catch (error) {
+                console.error('Erro:', error);
+                loading.innerHTML = '❌ Erro ao carregar jogos. Tente novamente.';
+            }
+        }
+
+        function renderizarTudo() {
+            let filtrados = [...jogos];
+            
+            if (plataformaAtual !== 'todos') {
+                filtrados = filtrados.filter(j => j.plataforma === plataformaAtual);
+            }
+            if (buscaAtual) {
+                filtrados = filtrados.filter(j => 
+                    j.nome.toLowerCase().includes(buscaAtual.toLowerCase()) ||
+                    j.categoria.toLowerCase().includes(buscaAtual.toLowerCase())
+                );
+            }
+            
+            // Destaques (máx 4) - com estilo diferente
+            const destaques = filtrados.filter(j => j.destaque === true).slice(0, 4);
+            const normais = filtrados.filter(j => j.destaque !== true);
+            
+            // Renderizar seção de destaques
+            if (destaques.length > 0) {
+                destaqueSection.style.display = 'block';
+                destaqueGrid.innerHTML = '';
+                destaques.forEach(jogo => {
+                    destaqueGrid.appendChild(criarCard(jogo, true));
+                });
+            } else {
+                destaqueSection.style.display = 'none';
+            }
+            
+            // Renderizar jogos normais
+            container.innerHTML = '';
+            if (normais.length === 0 && destaques.length === 0) {
+                container.innerHTML = '<div style="grid-column:1/-1; text-align:center; padding:40px;">Nenhum jogo encontrado</div>';
+                return;
+            }
+            normais.forEach(jogo => {
+                container.appendChild(criarCard(jogo, false));
+            });
+        }
+
+        function criarCard(jogo, isDestaque = false) {
+            const card = document.createElement('div');
+            card.className = 'game-card';
+            if (isDestaque) card.classList.add('destaque-card');
+            
+            const imagemUrl = getImagemUrl(jogo);
+            const fallbackUrl = 'https://via.placeholder.com/300x160?text=' + encodeURIComponent(jogo.nome);
+            
+            card.innerHTML = `
+                ${isDestaque ? '<div class="destaque-badge">⭐ Destaque</div>' : ''}
+                <img src="${imagemUrl}" onerror="this.src='${fallbackUrl}'; this.onerror=null;">
+                <div class="game-info">
+                    <h3>${jogo.nome}</h3>
+                    <div class="game-category">${jogo.categoria}</div>
+                    <div class="game-meta">
+                        <span>${jogo.plataforma}</span>
+                        <span>📦 ${jogo.tamanho || '—'}</span>
+                    </div>
+                    <button class="btn-download" data-id="${jogo.id}">Download</button>
+                </div>
+            `;
+            
+            const btn = card.querySelector('.btn-download');
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                baixar(jogo);
+            });
+            
+            return card;
+        }
+
+        function baixar(jogo) {
+            if (jogo.pago) {
+                jogoSelecionado = jogo;
+                alert(`💰 Jogo Premium: ${jogo.nome}\nPreço: ${jogo.preco}\n\nVocê será redirecionado para o pagamento.`);
+                window.location.href = `checkout.html?jogo=${jogo.id}`;
+            } else {
+                window.location.href = `download.html?jogo=${jogo.id}`;
+            }
+        }
+
+        // ==================== POPUPS ====================
+        function mostrarPopup(popupId) {
+            document.getElementById(popupId).style.display = 'flex';
+        }
+
+        function fecharPopup(popupId) {
+            document.getElementById(popupId).style.display = 'none';
+        }
+
+        // ==================== MENU ====================
+        function abrirMenu() {
+            sidebar.classList.add('active');
+            overlay.classList.add('active');
+        }
+
+        function fecharMenu() {
+            sidebar.classList.remove('active');
+            overlay.classList.remove('active');
+        }
+
+        // ==================== FUNÇÕES DO MENU ====================
+        function mostrarHome() {
+            renderizarTudo();
+            fecharMenu();
+        }
+
+        function mostrarApresentacao() {
+            const totalPSP = jogos.filter(j => j.plataforma === "PSP").length;
+            const totalAPK = jogos.filter(j => j.plataforma === "APK Android").length;
+            
+            container.innerHTML = `
+                <div style="grid-column:1/-1; text-align:center; padding:40px 20px;">
+                    <h2 style="color:#ff004f;">📖 Sobre a ZonaXP</h2>
+                    <div style="background:#111; padding:20px; border-radius:15px; margin-top:15px;">
+                        <p>Plataforma de distribuição de jogos para PSP, PS2, PC e APK Android.</p>
+                        <p>🎮 ${totalPSP} jogos PSP | 📱 ${totalAPK} jogos APK</p>
+                        <p>Total: ${jogos.length} jogos disponíveis!</p>
+                    </div>
+                </div>
+            `;
+            destaqueSection.style.display = 'none';
+            fecharMenu();
+        }
+
+        function mostrarSuporte() {
+            container.innerHTML = `
+                <div style="grid-column:1/-1; text-align:center; padding:40px 20px;">
+                    <h2 style="color:#ff004f;">🛡️ Suporte</h2>
+                    <div style="background:#111; padding:20px; border-radius:15px; margin-top:15px;">
+                        <p>📧 Email: suporte@zonaxp.com</p>
+                        <p>📱 WhatsApp: +258 85 811 2264</p>
+                        <p>📢 Canal: <a href="${CANAL_URL}" target="_blank" style="color:#00ff9c;">Clique aqui</a></p>
+                    </div>
+                </div>
+            `;
+            destaqueSection.style.display = 'none';
+            fecharMenu();
+        }
+
+        // ==================== EVENTOS ====================
+        searchInp
         .game-info {
             padding: 12px;
         }
