@@ -23,49 +23,135 @@
             margin: 0 auto;
         }
 
+        /* HEADER MODERNO */
         .header {
-            background: linear-gradient(135deg, #111, #1a1a1a);
-            border-radius: 15px;
+            background: linear-gradient(135deg, #0f0f0f, #1a1a1a);
+            border-radius: 20px;
             padding: 20px 25px;
             margin-bottom: 25px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border: 1px solid rgba(255,0,79,0.3);
+            border: 1px solid rgba(255,0,79,0.2);
+            backdrop-filter: blur(10px);
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-icon {
+            font-size: 2rem;
         }
 
         .logo {
-            font-size: 1.8rem;
+            font-size: 1.6rem;
             font-weight: bold;
             background: linear-gradient(135deg, #ff004f, #8000ff, #00ff9c);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
-        .user-info {
+        .welcome {
             display: flex;
             align-items: center;
             gap: 15px;
+            background: rgba(255,255,255,0.05);
+            padding: 8px 18px;
+            border-radius: 50px;
         }
 
-        .user-name {
+        .welcome span {
             color: #00ff9c;
+            font-weight: bold;
         }
 
         .btn-sair {
-            background: #ff004f;
-            border: none;
+            background: rgba(255,0,79,0.2);
+            border: 1px solid #ff004f;
             padding: 8px 20px;
             border-radius: 8px;
             color: white;
             cursor: pointer;
             font-weight: bold;
+            transition: 0.3s;
         }
 
         .btn-sair:hover {
-            background: #cc0040;
+            background: #ff004f;
         }
 
+        /* DASHBOARD CARDS */
+        .dashboard-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #111, #1a1a1a);
+            border-radius: 20px;
+            padding: 20px;
+            text-align: center;
+            border: 1px solid rgba(255,0,79,0.2);
+            transition: 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-3px);
+            border-color: #ff004f;
+        }
+
+        .stat-icon {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #00ff9c;
+        }
+
+        .stat-label {
+            color: #888;
+            font-size: 0.8rem;
+        }
+
+        /* MENU DE NAVEGAÇÃO SECUNDÁRIO */
+        .nav-menu {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .nav-item {
+            background: #111;
+            border: 1px solid #333;
+            padding: 10px 20px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-item.active {
+            background: linear-gradient(135deg, #ff004f, #8000ff);
+            border-color: transparent;
+        }
+
+        .nav-item:hover:not(.active) {
+            border-color: #ff004f;
+            background: rgba(255,0,79,0.1);
+        }
+
+        /* TOOLBAR */
         .toolbar {
             background: #111;
             border-radius: 12px;
@@ -124,6 +210,7 @@
             cursor: pointer;
         }
 
+        /* TABELA */
         .jogos-table {
             background: #111;
             border-radius: 15px;
@@ -157,30 +244,6 @@
             color: #888;
         }
 
-        .drag-handle:active {
-            cursor: grabbing;
-        }
-
-        .avaliacao-stars {
-            display: flex;
-            gap: 5px;
-        }
-
-        .star {
-            font-size: 1.2rem;
-            cursor: pointer;
-            color: #555;
-            transition: 0.2s;
-        }
-
-        .star.active {
-            color: #ffaa00;
-        }
-
-        .star:hover {
-            color: #ffaa00;
-        }
-
         .badge-plataforma {
             display: inline-block;
             padding: 4px 10px;
@@ -193,7 +256,6 @@
         .plataforma-PS2 { background: #2196F3; }
         .plataforma-PC { background: #4CAF50; }
         .plataforma-APK { background: #ff9800; }
-        .plataforma-APK-Android { background: #ff9800; }
 
         .btn-acao {
             background: none;
@@ -208,6 +270,7 @@
         .btn-excluir { color: #ff004f; }
         .btn-destaque { color: #ffaa00; }
 
+        /* FORMULÁRIO */
         .formulario {
             background: #111;
             border-radius: 15px;
@@ -248,20 +311,10 @@
             font-family: inherit;
         }
 
-        .form-group input:focus, .form-group select:focus {
-            outline: none;
-            border-color: #ff004f;
-        }
-
         .checkbox-group {
             flex-direction: row;
             align-items: center;
             gap: 10px;
-        }
-
-        .checkbox-group input {
-            width: 20px;
-            height: 20px;
         }
 
         .image-tabs {
@@ -278,13 +331,11 @@
             border-radius: 8px;
             color: #888;
             cursor: pointer;
-            transition: 0.3s;
         }
 
         .tab-btn.active {
             background: #ff004f;
             color: white;
-            border-color: #ff004f;
         }
 
         .upload-area {
@@ -293,11 +344,6 @@
             padding: 20px;
             text-align: center;
             cursor: pointer;
-            transition: 0.3s;
-        }
-
-        .upload-area:hover {
-            border-color: #ff004f;
         }
 
         .preview-box {
@@ -309,7 +355,6 @@
         .preview-box img {
             max-width: 120px;
             border-radius: 12px;
-            border: 2px solid #ff004f;
         }
 
         .form-buttons {
@@ -338,6 +383,49 @@
             cursor: pointer;
         }
 
+        /* ESTATÍSTICAS DE LINKS */
+        .stats-panel {
+            background: #111;
+            border-radius: 15px;
+            padding: 25px;
+            display: none;
+        }
+
+        .stats-panel h3 {
+            color: #ff004f;
+            margin-bottom: 20px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+
+        .stats-jogo {
+            background: #0a0a0a;
+            border-radius: 12px;
+            padding: 15px;
+            border: 1px solid #333;
+        }
+
+        .stats-jogo h4 {
+            margin-bottom: 10px;
+        }
+
+        .stats-links {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            font-size: 0.75rem;
+        }
+
+        .stats-links span {
+            background: #1a1a1a;
+            padding: 4px 8px;
+            border-radius: 8px;
+        }
+
         .modal {
             position: fixed;
             top: 0;
@@ -358,7 +446,6 @@
             border-radius: 15px;
             text-align: center;
             max-width: 400px;
-            border: 1px solid #ff004f;
         }
 
         .modal-buttons {
@@ -366,24 +453,6 @@
             gap: 15px;
             margin-top: 20px;
             justify-content: center;
-        }
-
-        .modal-buttons button {
-            padding: 10px 20px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: bold;
-        }
-
-        .btn-confirmar {
-            background: #ff004f;
-            color: white;
-        }
-
-        .btn-cancelar-modal {
-            background: #333;
-            color: white;
         }
 
         .login-container {
@@ -399,35 +468,6 @@
             border-radius: 20px;
             text-align: center;
             border: 1px solid #ff004f;
-            max-width: 400px;
-            width: 100%;
-        }
-
-        .login-box h2 {
-            color: #ff004f;
-            margin-bottom: 20px;
-        }
-
-        .login-box input {
-            width: 100%;
-            padding: 12px;
-            margin: 10px 0;
-            background: #0a0a0a;
-            border: 1px solid #333;
-            border-radius: 8px;
-            color: white;
-        }
-
-        .login-box button {
-            width: 100%;
-            padding: 12px;
-            background: linear-gradient(90deg, #ff004f, #8000ff);
-            border: none;
-            border-radius: 8px;
-            color: white;
-            font-weight: bold;
-            cursor: pointer;
-            margin-top: 15px;
         }
 
         .hidden {
@@ -464,12 +504,8 @@
                 flex-direction: column;
                 align-items: stretch;
             }
-            .search-box input {
-                width: 100%;
-            }
-            th, td {
-                padding: 10px 8px;
-                font-size: 0.8rem;
+            .nav-menu {
+                justify-content: center;
             }
         }
     </style>
@@ -490,45 +526,91 @@
     <!-- PAINEL ADMIN -->
     <div id="adminPanel" class="hidden">
         <div class="header">
-            <div class="logo">🎮 ZonaXP Admin</div>
-            <div class="user-info">
-                <span class="user-name" id="userName">Admin</span>
+            <div class="logo-area">
+                <div class="logo-icon">🎮</div>
+                <div class="logo">ZonaXP Admin</div>
+            </div>
+            <div class="welcome">
+                <span>👋 Olá, Admin!</span>
                 <button class="btn-sair" onclick="logout()">Sair</button>
             </div>
         </div>
 
-        <div class="toolbar">
-            <div class="search-box">
-                <input type="text" id="searchInput" placeholder="🔍 Buscar por nome ou categoria...">
+        <!-- DASHBOARD CARDS -->
+        <div class="dashboard-cards" id="dashboardCards">
+            <div class="stat-card">
+                <div class="stat-icon">🎮</div>
+                <div class="stat-value" id="totalJogos">0</div>
+                <div class="stat-label">Total de Jogos</div>
             </div>
-            <div class="filtros">
-                <button class="filtro-btn active" data-plataforma="todos">Todos</button>
-                <button class="filtro-btn" data-plataforma="PSP">🎮 PSP</button>
-                <button class="filtro-btn" data-plataforma="PS2">🎮 PS2</button>
-                <button class="filtro-btn" data-plataforma="PC">💻 PC</button>
-                <button class="filtro-btn" data-plataforma="APK Android">📱 APK</button>
+            <div class="stat-card">
+                <div class="stat-icon">⭐</div>
+                <div class="stat-value" id="totalDestaques">0</div>
+                <div class="stat-label">Jogos em Destaque</div>
             </div>
-            <button class="btn-add" onclick="abrirFormulario()">+ Adicionar Jogo</button>
+            <div class="stat-card">
+                <div class="stat-icon">📱</div>
+                <div class="stat-value" id="totalAPK">0</div>
+                <div class="stat-label">Jogos APK</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">🎮</div>
+                <div class="stat-value" id="totalPSP">0</div>
+                <div class="stat-label">Jogos PSP</div>
+            </div>
         </div>
 
-        <div class="jogos-table">
-            <table id="jogosTable">
-                <thead>
-                    <tr>
-                        <th style="width: 30px"></th>
-                        <th>ID</th>
-                        <th>Imagem</th>
-                        <th>Nome</th>
-                        <th>Categoria</th>
-                        <th>Plataforma</th>
-                        <th>Tamanho</th>
-                        <th>Avaliação</th>
-                        <th>Destaque</th>
-                        <th>Ações</th>
-                    </tr>
-                </thead>
-                <tbody id="jogosTbody"></tbody>
-            </table>
+        <!-- MENU DE NAVEGAÇÃO -->
+        <div class="nav-menu">
+            <div class="nav-item active" data-page="jogos">
+                <span>📋</span> Gestão de Jogos
+            </div>
+            <div class="nav-item" data-page="stats">
+                <span>📊</span> Estatísticas de Links
+            </div>
+        </div>
+
+        <!-- PÁGINA GESTÃO DE JOGOS -->
+        <div id="pageJogos">
+            <div class="toolbar">
+                <div class="search-box">
+                    <input type="text" id="searchInput" placeholder="🔍 Buscar por nome ou categoria...">
+                </div>
+                <div class="filtros">
+                    <button class="filtro-btn active" data-plataforma="todos">Todos</button>
+                    <button class="filtro-btn" data-plataforma="PSP">🎮 PSP</button>
+                    <button class="filtro-btn" data-plataforma="PS2">🎮 PS2</button>
+                    <button class="filtro-btn" data-plataforma="PC">💻 PC</button>
+                    <button class="filtro-btn" data-plataforma="APK Android">📱 APK</button>
+                </div>
+                <button class="btn-add" onclick="abrirFormulario()">+ Adicionar Jogo</button>
+            </div>
+
+            <div class="jogos-table">
+                <table id="jogosTable">
+                    <thead>
+                        <tr>
+                            <th style="width: 30px"></th>
+                            <th>ID</th>
+                            <th>Imagem</th>
+                            <th>Nome</th>
+                            <th>Categoria</th>
+                            <th>Plataforma</th>
+                            <th>Tamanho</th>
+                            <th>👍</th>
+                            <th>Destaque</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="jogosTbody"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- PÁGINA ESTATÍSTICAS DE LINKS -->
+        <div id="pageStats" class="stats-panel">
+            <h3>📊 Estatísticas de Links por Jogo</h3>
+            <div class="stats-grid" id="statsGrid"></div>
         </div>
 
         <!-- FORMULÁRIO -->
@@ -545,7 +627,7 @@
                     <div id="uploadArea">
                         <div class="upload-area" onclick="document.getElementById('fileInput').click()">
                             📸 Clique aqui para selecionar uma imagem
-                            <br><small style="color:#666;">JPG, PNG, WEBP (max 5MB)</small>
+                            <br><small>JPG, PNG, WEBP (max 5MB)</small>
                         </div>
                         <input type="file" id="fileInput" accept="image/jpeg,image/jpg,image/png,image/webp" style="display: none;">
                         <div class="preview-box" id="previewBox">
@@ -581,8 +663,32 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label>Link de Download *</label>
-                    <input type="text" id="jogoDownload" placeholder="https://www.mediafire.com/... ou compartilhar.html">
+                    <label>Link de Download Principal</label>
+                    <input type="text" id="jogoDownload" placeholder="https://...">
+                </div>
+                <div class="form-group">
+                    <label>📱 Link APK (Android)</label>
+                    <input type="text" id="apkLink" placeholder="https://...">
+                </div>
+                <div class="form-group">
+                    <label>💾 Link OBB (Android)</label>
+                    <input type="text" id="obbLink" placeholder="https://...">
+                </div>
+                <div class="form-group">
+                    <label>📁 Link DATA (Android)</label>
+                    <input type="text" id="dataLink" placeholder="https://...">
+                </div>
+                <div class="form-group">
+                    <label>🎨 Link Texturas</label>
+                    <input type="text" id="textureLink" placeholder="https://...">
+                </div>
+                <div class="form-group">
+                    <label>💾 Link Savedata</label>
+                    <input type="text" id="saveLink" placeholder="https://...">
+                </div>
+                <div class="form-group">
+                    <label>🎮 Link ISO/ROM (PSP/PS2)</label>
+                    <input type="text" id="isoLink" placeholder="https://...">
                 </div>
                 <div class="form-group">
                     <label>Tipo</label>
@@ -596,16 +702,20 @@
                     <input type="text" id="jogoPreco" placeholder="25 MT">
                 </div>
                 <div class="form-group">
-                    <label>Senha (se tiver)</label>
+                    <label>Senha</label>
                     <input type="text" id="jogoSenha" placeholder="Ex: DBZSB8TV">
                 </div>
                 <div class="form-group">
-                    <label>Tamanho do Arquivo</label>
+                    <label>Tamanho</label>
                     <input type="text" id="jogoTamanho" placeholder="Ex: 1.4 GB">
                 </div>
                 <div class="form-group checkbox-group">
                     <input type="checkbox" id="jogoDestaque">
                     <label>⭐ Fixar no topo (destaque)</label>
+                </div>
+                <div class="form-group checkbox-group">
+                    <input type="checkbox" id="jogoBanner">
+                    <label>🎪 Mostrar no Banner (carrossel)</label>
                 </div>
             </div>
             <div class="form-buttons">
@@ -637,9 +747,15 @@
     let jogoEditandoId = null;
     let plataformaAtual = 'todos';
     let buscaAtual = '';
+    let paginaAtual = 'jogos';
 
     const ADMIN_USER = "admin";
     const ADMIN_PASS = "ZonaXP2025";
+
+    // Elementos
+    const searchInput = document.getElementById('searchInput');
+    const jogosTbody = document.getElementById('jogosTbody');
+    const statsGrid = document.getElementById('statsGrid');
 
     // ==================== LOGIN ====================
     function fazerLogin() {
@@ -669,7 +785,64 @@
         carregarJogos();
     }
 
-      // ==================== CRUD PRINCIPAL ====================
+    // ==================== NAVEGAÇÃO ====================
+    document.querySelectorAll('.nav-item').forEach(item => {
+        item.addEventListener('click', () => {
+            document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+            item.classList.add('active');
+            paginaAtual = item.getAttribute('data-page');
+            
+            if (paginaAtual === 'jogos') {
+                document.getElementById('pageJogos').style.display = 'block';
+                document.getElementById('pageStats').style.display = 'none';
+            } else {
+                document.getElementById('pageJogos').style.display = 'none';
+                document.getElementById('pageStats').style.display = 'block';
+                renderizarStats();
+            }
+        });
+    });
+
+    // ==================== DASHBOARD ====================
+    function atualizarDashboard() {
+        document.getElementById('totalJogos').innerText = jogosData.length;
+        document.getElementById('totalDestaques').innerText = jogosData.filter(j => j.destaque).length;
+        document.getElementById('totalAPK').innerText = jogosData.filter(j => j.plataforma === 'APK Android').length;
+        document.getElementById('totalPSP').innerText = jogosData.filter(j => j.plataforma === 'PSP').length;
+    }
+
+    // ==================== ESTATÍSTICAS ====================
+    function renderizarStats() {
+        if (!statsGrid) return;
+        
+        statsGrid.innerHTML = '';
+        jogosData.forEach(jogo => {
+            const links = [];
+            if (jogo.download) links.push({ nome: 'Download', valor: jogo.download });
+            if (jogo.apk_link) links.push({ nome: 'APK', valor: jogo.apk_link });
+            if (jogo.obb_link) links.push({ nome: 'OBB', valor: jogo.obb_link });
+            if (jogo.data_link) links.push({ nome: 'DATA', valor: jogo.data_link });
+            if (jogo.texture_link) links.push({ nome: 'Texturas', valor: jogo.texture_link });
+            if (jogo.save_link) links.push({ nome: 'Savedata', valor: jogo.save_link });
+            if (jogo.iso_link) links.push({ nome: 'ISO/ROM', valor: jogo.iso_link });
+            
+            const card = document.createElement('div');
+            card.className = 'stats-jogo';
+            card.innerHTML = `
+                <h4>${jogo.nome}</h4>
+                <div class="stats-links">
+                    ${links.map(link => `<span>📎 ${link.nome}</span>`).join('')}
+                    ${links.length === 0 ? '<span>❌ Nenhum link cadastrado</span>' : ''}
+                </div>
+                <div style="margin-top: 10px; font-size: 0.7rem; color: #888;">
+                    Total: ${links.length} link(s)
+                </div>
+            `;
+            statsGrid.appendChild(card);
+        });
+    }
+
+    // ==================== CRUD ====================
     async function carregarJogos() {
         try {
             const response = await fetch(`${API_URL}/api/jogos`);
@@ -677,73 +850,46 @@
             jogosData = data.jogos;
             ordemJogos = data.ordemJogos || jogosData.map(j => j.id);
             renderizarTabela();
+            atualizarDashboard();
+            if (paginaAtual === 'stats') renderizarStats();
+            mostrarToast('Jogos carregados!', 'success');
         } catch (error) {
             mostrarToast('Erro ao carregar jogos', 'error');
         }
     }
 
     function renderizarTabela() {
-        const tbody = document.getElementById('jogosTbody');
-        tbody.innerHTML = '';
-        
-        let jogosFiltrados = [...jogosData];
+        let filtrados = [...jogosData];
         
         if (plataformaAtual !== 'todos') {
-            jogosFiltrados = jogosFiltrados.filter(j => j.plataforma === plataformaAtual);
+            filtrados = filtrados.filter(j => j.plataforma === plataformaAtual);
         }
-        
         if (buscaAtual) {
-            jogosFiltrados = jogosFiltrados.filter(j => 
+            filtrados = filtrados.filter(j => 
                 j.nome.toLowerCase().includes(buscaAtual.toLowerCase()) ||
                 j.categoria.toLowerCase().includes(buscaAtual.toLowerCase())
             );
         }
         
-        jogosFiltrados.sort((a, b) => {
-            if (a.destaque && !b.destaque) return -1;
-            if (!a.destaque && b.destaque) return 1;
-            return ordemJogos.indexOf(a.id) - ordemJogos.indexOf(b.id);
-        });
+        filtrados.sort((a, b) => ordemJogos.indexOf(a.id) - ordemJogos.indexOf(b.id));
         
-        jogosFiltrados.forEach(jogo => {
-            const row = tbody.insertRow();
-            
+        jogosTbody.innerHTML = '';
+        filtrados.forEach(jogo => {
+            const row = jogosTbody.insertRow();
             row.insertCell(0).innerHTML = '<span class="drag-handle">☰</span>';
             row.insertCell(1).innerHTML = jogo.id;
             
-            const cellImagem = row.insertCell(2);
-            let imagemUrl = '';
-            if (jogo.imagem) {
-                if (jogo.imagem.startsWith('http')) {
-                    imagemUrl = jogo.imagem;
-                } else {
-                    imagemUrl = `${API_URL}/imagens/${jogo.imagem}.jpg`;
-                }
-            }
-            cellImagem.innerHTML = `<img src="${imagemUrl}" style="width: 40px; height: 40px; object-fit: cover; border-radius: 8px;" onerror="this.src='https://via.placeholder.com/40'">`;
-            
+            const imagemUrl = jogo.imagem?.startsWith('http') ? jogo.imagem : `${API_URL}/imagens/${jogo.imagem}.jpg`;
+            row.insertCell(2).innerHTML = `<img src="${imagemUrl}" style="width: 40px; height: 40px; object-fit: cover; border-radius: 8px;" onerror="this.src='https://via.placeholder.com/40'">`;
             row.insertCell(3).innerHTML = jogo.nome;
             row.insertCell(4).innerHTML = jogo.categoria;
-            
-            const cellPlataforma = row.insertCell(5);
-            cellPlataforma.innerHTML = `<span class="badge-plataforma plataforma-${jogo.plataforma.replace(/ /g, '-')}">${jogo.plataforma}</span>`;
-            
+            row.insertCell(5).innerHTML = `<span class="badge-plataforma plataforma-${jogo.plataforma.replace(/\s/g, '')}">${jogo.plataforma}</span>`;
             row.insertCell(6).innerHTML = jogo.tamanho || '—';
-            
-            const cellAvaliacao = row.insertCell(7);
-            cellAvaliacao.className = 'avaliacao-stars';
-            for (let i = 1; i <= 5; i++) {
-                const star = document.createElement('span');
-                star.className = 'star' + (i <= (jogo.avaliacao || 0) ? ' active' : '');
-                star.innerHTML = '★';
-                star.onclick = () => avaliarJogo(jogo.id, i);
-                cellAvaliacao.appendChild(star);
-            }
-            
+            row.insertCell(7).innerHTML = `👍 ${jogo.likes || 0}`;
             row.insertCell(8).innerHTML = jogo.destaque ? '⭐ Sim' : '○ Não';
             
-            const cellAcoes = row.insertCell(9);
-            cellAcoes.innerHTML = `
+            const acoes = row.insertCell(9);
+            acoes.innerHTML = `
                 <button class="btn-acao btn-destaque" onclick="toggleDestaque(${jogo.id})" title="Fixar no topo">📌</button>
                 <button class="btn-acao btn-editar" onclick="editarJogo(${jogo.id})" title="Editar">✏️</button>
                 <button class="btn-acao btn-excluir" onclick="excluirJogo(${jogo.id})" title="Excluir">🗑️</button>
@@ -753,11 +899,249 @@
         iniciarDragDrop();
     }
 
-    // ==================== IMAGEM: UPLOAD E LINK ====================
+    async function toggleDestaque(id) {
+        const jogo = jogosData.find(j => j.id === id);
+        if (jogo) {
+            try {
+                await fetch(`${API_URL}/api/jogos/${id}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ ...jogo, destaque: !jogo.destaque })
+                });
+                carregarJogos();
+                mostrarToast(jogo.destaque ? 'Jogo removido do destaque' : 'Jogo fixado no topo!', 'success');
+            } catch (error) {
+                mostrarToast('Erro ao atualizar destaque', 'error');
+            }
+        }
+    }
+
+    // Drag and Drop
+    let dragSrcIndex = null;
+    function iniciarDragDrop() {
+        const rows = document.querySelectorAll('#jogosTbody tr');
+        rows.forEach((row, index) => {
+            row.setAttribute('data-index', index);
+            row.setAttribute('draggable', 'true');
+            
+            row.addEventListener('dragstart', (e) => { dragSrcIndex = index; });
+            row.addEventListener('dragover', (e) => { e.preventDefault(); });
+            row.addEventListener('drop', async (e) => {
+                e.preventDefault();
+                const targetIndex = parseInt(row.getAttribute('data-index'));
+                if (dragSrcIndex !== null && dragSrcIndex !== targetIndex) {
+                    const novaOrdem = [...ordemJogos];
+                    const [movedItem] = novaOrdem.splice(dragSrcIndex, 1);
+                    novaOrdem.splice(targetIndex, 0, movedItem);
+                    try {
+                        await fetch(`${API_URL}/api/ordem`, {
+                            method: 'PUT',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ ordemJogos: novaOrdem })
+                        });
+                        ordemJogos = novaOrdem;
+                        renderizarTabela();
+                        mostrarToast('Ordem atualizada!', 'success');
+                    } catch (error) {
+                        mostrarToast('Erro ao salvar ordem', 'error');
+                    }
+                }
+                dragSrcIndex = null;
+            });
+        });
+    }
+
+    // Formulário
+    function abrirFormulario(jogo = null) {
+        document.getElementById('formulario').style.display = 'block';
+        
+        // Reset
+        document.getElementById('fileInput').value = '';
+        document.getElementById('linkInput').value = '';
+        document.getElementById('previewBox').style.display = 'none';
+        document.getElementById('linkPreviewBox').style.display = 'none';
+        document.getElementById('jogoImagem').value = '';
+        
+        if (jogo) {
+            document.getElementById('formTitle').innerText = '✏️ Editar Jogo';
+            document.getElementById('jogoNome').value = jogo.nome || '';
+            document.getElementById('jogoCategoria').value = jogo.categoria || '';
+            document.getElementById('jogoPlataforma').value = jogo.plataforma || 'PSP';
+            document.getElementById('jogoDownload').value = jogo.download || '';
+            document.getElementById('apkLink').value = jogo.apk_link || '';
+            document.getElementById('obbLink').value = jogo.obb_link || '';
+            document.getElementById('dataLink').value = jogo.data_link || '';
+            document.getElementById('textureLink').value = jogo.texture_link || '';
+            document.getElementById('saveLink').value = jogo.save_link || '';
+            document.getElementById('isoLink').value = jogo.iso_link || '';
+            document.getElementById('jogoPago').value = jogo.pago ? 'true' : 'false';
+            document.getElementById('jogoPreco').value = jogo.preco || '';
+            document.getElementById('jogoSenha').value = jogo.senha || '';
+            document.getElementById('jogoTamanho').value = jogo.tamanho || '';
+            document.getElementById('jogoDestaque').checked = jogo.destaque || false;
+            document.getElementById('jogoBanner').checked = jogo.banner || false;
+            jogoEditandoId = jogo.id;
+            
+            if (jogo.imagem) {
+                if (jogo.imagem.startsWith('http')) {
+                    document.getElementById('tabLink').click();
+                    document.getElementById('linkInput').value = jogo.imagem;
+                    document.getElementById('linkPreviewImg').src = jogo.imagem;
+                    document.getElementById('linkPreviewBox').style.display = 'block';
+                } else {
+                    document.getElementById('tabUpload').click();
+                    document.getElementById('previewImg').src = `${API_URL}/imagens/${jogo.imagem}.jpg`;
+                    document.getElementById('previewBox').style.display = 'block';
+                    document.getElementById('previewNome').innerHTML = `📸 ${jogo.imagem}.jpg`;
+                }
+                document.getElementById('jogoImagem').value = jogo.imagem;
+            }
+        } else {
+            document.getElementById('formTitle').innerText = '➕ Adicionar Novo Jogo';
+            document.getElementById('jogoNome').value = '';
+            document.getElementById('jogoCategoria').value = '';
+            document.getElementById('jogoPlataforma').value = 'PSP';
+            document.getElementById('jogoDownload').value = '';
+            document.getElementById('apkLink').value = '';
+            document.getElementById('obbLink').value = '';
+            document.getElementById('dataLink').value = '';
+            document.getElementById('textureLink').value = '';
+            document.getElementById('saveLink').value = '';
+            document.getElementById('isoLink').value = '';
+            document.getElementById('jogoPago').value = 'false';
+            document.getElementById('jogoPreco').value = '';
+            document.getElementById('jogoSenha').value = '';
+            document.getElementById('jogoTamanho').value = '';
+            document.getElementById('jogoDestaque').checked = false;
+            document.getElementById('jogoBanner').checked = false;
+            jogoEditandoId = null;
+        }
+        
+        document.getElementById('formulario').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function fecharFormulario() {
+        document.getElementById('formulario').style.display = 'none';
+        jogoEditandoId = null;
+    }
+
+    async function salvarJogo() {
+        const imagem = document.getElementById('jogoImagem').value;
+        if (!imagem) {
+            mostrarToast('Adicione uma imagem!', 'error');
+            return;
+        }
+        
+        const jogo = {
+            nome: document.getElementById('jogoNome').value,
+            categoria: document.getElementById('jogoCategoria').value,
+            plataforma: document.getElementById('jogoPlataforma').value,
+            imagem: imagem,
+            download: document.getElementById('jogoDownload').value,
+            apk_link: document.getElementById('apkLink').value,
+            obb_link: document.getElementById('obbLink').value,
+            data_link: document.getElementById('dataLink').value,
+            texture_link: document.getElementById('textureLink').value,
+            save_link: document.getElementById('saveLink').value,
+            iso_link: document.getElementById('isoLink').value,
+            pago: document.getElementById('jogoPago').value === 'true',
+            preco: document.getElementById('jogoPreco').value,
+            senha: document.getElementById('jogoSenha').value,
+            tamanho: document.getElementById('jogoTamanho').value,
+            destaque: document.getElementById('jogoDestaque').checked,
+            banner: document.getElementById('jogoBanner').checked,
+            likes: 0,
+            dislikes: 0
+        };
+        
+        if (!jogo.nome || !jogo.categoria || !jogo.plataforma) {
+            mostrarToast('Preencha os campos obrigatórios!', 'error');
+            return;
+        }
+        
+        try {
+            if (jogoEditandoId) {
+                await fetch(`${API_URL}/api/jogos/${jogoEditandoId}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(jogo)
+                });
+                mostrarToast('Jogo atualizado!', 'success');
+            } else {
+                await fetch(`${API_URL}/api/jogos`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(jogo)
+                });
+                mostrarToast('Jogo adicionado!', 'success');
+            }
+            fecharFormulario();
+            carregarJogos();
+        } catch (error) {
+            mostrarToast('Erro ao salvar', 'error');
+        }
+    }
+
+    function excluirJogo(id) {
+        jogoParaExcluir = id;
+        document.getElementById('modalMessage').innerHTML = 'Tem certeza que deseja excluir este jogo?<br><strong>Esta ação não pode ser desfeita!</strong>';
+        document.getElementById('modal').style.display = 'flex';
+    }
+
+    async function confirmarExclusao() {
+        if (jogoParaExcluir) {
+            try {
+                await fetch(`${API_URL}/api/jogos/${jogoParaExcluir}`, { method: 'DELETE' });
+                mostrarToast('Jogo excluído!', 'success');
+                carregarJogos();
+            } catch (error) {
+                mostrarToast('Erro ao excluir', 'error');
+            }
+            fecharModal();
+        }
+    }
+
+    function fecharModal() {
+        document.getElementById('modal').style.display = 'none';
+        jogoParaExcluir = null;
+    }
+
+    async function editarJogo(id) {
+        const jogo = jogosData.find(j => j.id === id);
+        if (jogo) abrirFormulario(jogo);
+    }
+
+    function mostrarToast(mensagem, tipo = 'success') {
+        const toast = document.createElement('div');
+        toast.className = 'toast';
+        if (tipo === 'error') toast.classList.add('error');
+        toast.innerHTML = mensagem;
+        document.body.appendChild(toast);
+        setTimeout(() => toast.remove(), 3000);
+    }
+
+    // Filtros
+    document.querySelectorAll('.filtro-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('.filtro-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            plataformaAtual = btn.getAttribute('data-plataforma');
+            renderizarTabela();
+        });
+    });
+
+    if (searchInput) {
+        searchInput.addEventListener('input', (e) => {
+            buscaAtual = e.target.value;
+            renderizarTabela();
+        });
+    }
+
+    // Tabs de imagem
     const tabUpload = document.getElementById('tabUpload');
     const tabLink = document.getElementById('tabLink');
-    const uploadAreaDiv = document.getElementById('uploadArea');
-    const linkAreaDiv = document.getElementById('linkArea');
+    const uploadArea = document.getElementById('uploadArea');
+    const linkArea = document.getElementById('linkArea');
     const fileInput = document.getElementById('fileInput');
     const linkInput = document.getElementById('linkInput');
     const previewBox = document.getElementById('previewBox');
@@ -770,21 +1154,17 @@
     tabUpload.onclick = () => {
         tabUpload.classList.add('active');
         tabLink.classList.remove('active');
-        uploadAreaDiv.style.display = 'block';
-        linkAreaDiv.style.display = 'none';
+        uploadArea.style.display = 'block';
+        linkArea.style.display = 'none';
         imagemHidden.value = '';
-        linkInput.value = '';
-        linkPreviewBox.style.display = 'none';
     };
 
     tabLink.onclick = () => {
         tabLink.classList.add('active');
         tabUpload.classList.remove('active');
-        uploadAreaDiv.style.display = 'none';
-        linkAreaDiv.style.display = 'block';
+        uploadArea.style.display = 'none';
+        linkArea.style.display = 'block';
         imagemHidden.value = '';
-        previewBox.style.display = 'none';
-        fileInput.value = '';
     };
 
     linkInput.addEventListener('input', () => {
@@ -822,260 +1202,12 @@
             if (result.sucesso) {
                 imagemHidden.value = result.nomeImagem;
                 previewNome.innerHTML = `📸 ${result.nomeImagem}.jpg`;
-                mostrarToast('Imagem enviada com sucesso!', 'success');
-            } else {
-                mostrarToast('Erro ao enviar imagem', 'error');
+                mostrarToast('Imagem enviada!', 'success');
             }
         } catch (error) {
             mostrarToast('Erro no upload', 'error');
         }
     });
-
-    // ==================== AVALIAÇÃO E DESTAQUE ====================
-    async function avaliarJogo(id, nota) {
-        try {
-            await fetch(`${API_URL}/api/avaliacao/${id}`, {
-                method: 'PUT',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ avaliacao: nota })
-            });
-            carregarJogos();
-            mostrarToast('Avaliação atualizada!', 'success');
-        } catch (error) {
-            mostrarToast('Erro ao atualizar avaliação', 'error');
-        }
-    }
-
-    async function toggleDestaque(id) {
-        const jogo = jogosData.find(j => j.id === id);
-        if (jogo) {
-            try {
-                await fetch(`${API_URL}/api/jogos/${id}`, {
-                    method: 'PUT',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ ...jogo, destaque: !jogo.destaque })
-                });
-                carregarJogos();
-                mostrarToast(jogo.destaque ? 'Jogo removido do destaque' : 'Jogo fixado no topo!', 'success');
-            } catch (error) {
-                mostrarToast('Erro ao atualizar destaque', 'error');
-            }
-        }
-    }
-
-    // ==================== DRAG AND DROP ====================
-    let dragSrcIndex = null;
-    
-    function iniciarDragDrop() {
-        const rows = document.querySelectorAll('#jogosTbody tr');
-        rows.forEach((row, index) => {
-            row.setAttribute('data-index', index);
-            row.setAttribute('draggable', 'true');
-            
-            row.addEventListener('dragstart', (e) => {
-                dragSrcIndex = index;
-                e.dataTransfer.effectAllowed = 'move';
-            });
-            
-            row.addEventListener('dragover', (e) => {
-                e.preventDefault();
-                e.dataTransfer.dropEffect = 'move';
-            });
-            
-            row.addEventListener('drop', async (e) => {
-                e.preventDefault();
-                const targetIndex = parseInt(row.getAttribute('data-index'));
-                if (dragSrcIndex !== null && dragSrcIndex !== targetIndex) {
-                    const novaOrdem = [...ordemJogos];
-                    const [movedItem] = novaOrdem.splice(dragSrcIndex, 1);
-                    novaOrdem.splice(targetIndex, 0, movedItem);
-                    
-                    try {
-                        await fetch(`${API_URL}/api/ordem`, {
-                            method: 'PUT',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({ ordemJogos: novaOrdem })
-                        });
-                        ordemJogos = novaOrdem;
-                        renderizarTabela();
-                        mostrarToast('Ordem atualizada!', 'success');
-                    } catch (error) {
-                        mostrarToast('Erro ao salvar ordem', 'error');
-                    }
-                }
-                dragSrcIndex = null;
-            });
-        });
-    }
-
-    // ==================== CRUD FORMULÁRIO ====================
-    function abrirFormulario(jogo = null) {
-        document.getElementById('formulario').style.display = 'block';
-        
-        fileInput.value = '';
-        linkInput.value = '';
-        previewBox.style.display = 'none';
-        linkPreviewBox.style.display = 'none';
-        imagemHidden.value = '';
-        
-        tabUpload.click();
-        
-        if (jogo) {
-            document.getElementById('formTitle').innerText = '✏️ Editar Jogo';
-            document.getElementById('jogoNome').value = jogo.nome || '';
-            document.getElementById('jogoCategoria').value = jogo.categoria || '';
-            document.getElementById('jogoPlataforma').value = jogo.plataforma || 'PSP';
-            document.getElementById('jogoDownload').value = jogo.download || '';
-            document.getElementById('jogoPago').value = jogo.pago ? 'true' : 'false';
-            document.getElementById('jogoPreco').value = jogo.preco || '';
-            document.getElementById('jogoSenha').value = jogo.senha || '';
-            document.getElementById('jogoTamanho').value = jogo.tamanho || '';
-            document.getElementById('jogoDestaque').checked = jogo.destaque || false;
-            jogoEditandoId = jogo.id;
-            
-            if (jogo.imagem) {
-                if (jogo.imagem.startsWith('http')) {
-                    tabLink.click();
-                    linkInput.value = jogo.imagem;
-                    linkPreviewImg.src = jogo.imagem;
-                    linkPreviewBox.style.display = 'block';
-                    imagemHidden.value = jogo.imagem;
-                } else {
-                    tabUpload.click();
-                    previewImg.src = `${API_URL}/imagens/${jogo.imagem}.jpg`;
-                    previewBox.style.display = 'block';
-                    previewNome.innerHTML = `📸 ${jogo.imagem}.jpg`;
-                    imagemHidden.value = jogo.imagem;
-                }
-            }
-        } else {
-            document.getElementById('formTitle').innerText = '➕ Adicionar Novo Jogo';
-            document.getElementById('jogoNome').value = '';
-            document.getElementById('jogoCategoria').value = '';
-            document.getElementById('jogoPlataforma').value = 'PSP';
-            document.getElementById('jogoDownload').value = '';
-            document.getElementById('jogoPago').value = 'false';
-            document.getElementById('jogoPreco').value = '';
-            document.getElementById('jogoSenha').value = '';
-            document.getElementById('jogoTamanho').value = '';
-            document.getElementById('jogoDestaque').checked = false;
-            jogoEditandoId = null;
-        }
-        
-        document.getElementById('formulario').scrollIntoView({ behavior: 'smooth' });
-    }
-
-    function fecharFormulario() {
-        document.getElementById('formulario').style.display = 'none';
-        jogoEditandoId = null;
-    }
-
-    async function salvarJogo() {
-        const imagem = document.getElementById('jogoImagem').value;
-        
-        if (!imagem) {
-            mostrarToast('Adicione uma imagem (upload ou link externo)!', 'error');
-            return;
-        }
-        
-        const jogo = {
-            nome: document.getElementById('jogoNome').value,
-            categoria: document.getElementById('jogoCategoria').value,
-            plataforma: document.getElementById('jogoPlataforma').value,
-            imagem: imagem,
-            download: document.getElementById('jogoDownload').value,
-            pago: document.getElementById('jogoPago').value === 'true',
-            preco: document.getElementById('jogoPreco').value,
-            senha: document.getElementById('jogoSenha').value,
-            tamanho: document.getElementById('jogoTamanho').value,
-            destaque: document.getElementById('jogoDestaque').checked,
-            avaliacao: 0
-        };
-        
-        if (!jogo.nome || !jogo.categoria || !jogo.download) {
-            mostrarToast('Preencha os campos obrigatórios!', 'error');
-            return;
-        }
-        
-        try {
-            if (jogoEditandoId) {
-                await fetch(`${API_URL}/api/jogos/${jogoEditandoId}`, {
-                    method: 'PUT',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(jogo)
-                });
-                mostrarToast('Jogo atualizado com sucesso!', 'success');
-            } else {
-                await fetch(`${API_URL}/api/jogos`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(jogo)
-                });
-                mostrarToast('Jogo adicionado com sucesso!', 'success');
-            }
-            
-            fecharFormulario();
-            carregarJogos();
-        } catch (error) {
-            mostrarToast('Erro ao salvar jogo', 'error');
-        }
-    }
-
-    function excluirJogo(id) {
-        jogoParaExcluir = id;
-        document.getElementById('modalMessage').innerHTML = 'Tem certeza que deseja excluir este jogo?<br><strong>Esta ação não pode ser desfeita!</strong>';
-        document.getElementById('modal').style.display = 'flex';
-    }
-
-    async function confirmarExclusao() {
-        if (jogoParaExcluir) {
-            try {
-                await fetch(`${API_URL}/api/jogos/${jogoParaExcluir}`, { method: 'DELETE' });
-                mostrarToast('Jogo excluído com sucesso!', 'success');
-                carregarJogos();
-            } catch (error) {
-                mostrarToast('Erro ao excluir jogo', 'error');
-            }
-            fecharModal();
-        }
-    }
-
-    function fecharModal() {
-        document.getElementById('modal').style.display = 'none';
-        jogoParaExcluir = null;
-    }
-
-    async function editarJogo(id) {
-        const jogo = jogosData.find(j => j.id === id);
-        if (jogo) {
-            abrirFormulario(jogo);
-        }
-    }
-
-    // ==================== FILTROS E TOAST ====================
-    function mostrarToast(mensagem, tipo = 'success') {
-        const toast = document.createElement('div');
-        toast.className = 'toast';
-        if (tipo === 'error') toast.classList.add('error');
-        toast.innerHTML = mensagem;
-        document.body.appendChild(toast);
-        setTimeout(() => toast.remove(), 3000);
-    }
-
-    document.querySelectorAll('.filtro-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-            document.querySelectorAll('.filtro-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            plataformaAtual = btn.getAttribute('data-plataforma');
-            renderizarTabela();
-        });
-    });
-
-    document.getElementById('searchInput').addEventListener('input', (e) => {
-        buscaAtual = e.target.value;
-        renderizarTabela();
-    });
-
 </script>
 </body>
 </html>
