@@ -659,41 +659,80 @@
         }
 
         // ==================== LIKES/DISLIKES ====================
-        async function votar(jogoId, tipo, event) {
-            if (event) event.stopPropagation();
-            
-            const jogo = jogos.find(j => j.id === jogoId);
-            if (!jogo) return;
+async function votar(jogoId, tipo, event) {
+    if (event) event.stopPropagation();
+    
+    const jogo = jogos.find(j => j.id === jogoId);
+    if (!jogo) return;
 
-            const votoAtual = votosUsuario[jogoId];
+    // Encontrar os botões no DOM
+    const card = event?.target?.closest('.game-card');
+    const likeBtn = card?.querySelector('.like-btn');
+    const dislikeBtn = card?.querySelector('.dislike-btn');
+    const likeSpan = likeBtn?.querySelector('span');
+    const dislikeSpan = dislikeBtn?.querySelector('span');
+
+    const votoAtual = votosUsuario[jogoId];
+    
+    // ========== FEEDBACK VISUAL IMEDIATO ==========
+    if (tipo === 'like') {
+        if (votoAtual === 'like') {
+            // Clicou no like que já estava ativo → REMOVER VOTO
+            if (likeBtn) likeBtn.classList.remove('active');
+            if (likeSpan) likeSpan.textContent = parseInt(likeSpan.textContent) - 1;
+            delete votosUsuario[jogoId];
+            jogo.likes--;
+        } else {
+            // Adicionar like ou mudar de dislike para like
+            if (likeBtn) likeBtn.classList.add('active');
+            if (likeSpan) likeSpan.textContent = parseInt(likeSpan.textContent) + 1;
             
-            if (votoAtual === tipo) {
-                delete votosUsuario[jogoId];
-                if (tipo === 'like') jogo.likes--;
-                else jogo.dislikes--;
-            } else {
-                if (votoAtual === 'like') jogo.likes--;
-                if (votoAtual === 'dislike') jogo.dislikes--;
-                
-                votosUsuario[jogoId] = tipo;
-                if (tipo === 'like') jogo.likes++;
-                else jogo.dislikes++;
+            // Se tinha dislike, remover o destaque do dislike
+            if (votoAtual === 'dislike') {
+                if (dislikeBtn) dislikeBtn.classList.remove('active');
+                if (dislikeSpan) dislikeSpan.textContent = parseInt(dislikeSpan.textContent) - 1;
+                jogo.dislikes--;
             }
-            
-            localStorage.setItem('votos', JSON.stringify(votosUsuario));
-            
-            try {
-                await fetch(`${API_URL}/api/avaliacao/${jogoId}`, {
-                    method: 'PUT',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ likes: jogo.likes, dislikes: jogo.dislikes })
-                });
-            } catch (error) {
-                console.error('Erro ao salvar voto:', error);
-            }
-            
-            renderizarJogos();
+            votosUsuario[jogoId] = 'like';
+            jogo.likes++;
         }
+    } else if (tipo === 'dislike') {
+        if (votoAtual === 'dislike') {
+            // Clicou no dislike que já estava ativo → REMOVER VOTO
+            if (dislikeBtn) dislikeBtn.classList.remove('active');
+            if (dislikeSpan) dislikeSpan.textContent = parseInt(dislikeSpan.textContent) - 1;
+            delete votosUsuario[jogoId];
+            jogo.dislikes--;
+        } else {
+            // Adicionar dislike ou mudar de like para dislike
+            if (dislikeBtn) dislikeBtn.classList.add('active');
+            if (dislikeSpan) dislikeSpan.textContent = parseInt(dislikeSpan.textContent) + 1;
+            
+            // Se tinha like, remover o destaque do like
+            if (votoAtual === 'like') {
+                if (likeBtn) likeBtn.classList.remove('active');
+                if (likeSpan) likeSpan.textContent = parseInt(likeSpan.textContent) - 1;
+                jogo.likes--;
+            }
+            votosUsuario[jogoId] = 'dislike';
+            jogo.dislikes++;
+        }
+    }
+    
+    // Salvar localmente
+    localStorage.setItem('votos', JSON.stringify(votosUsuario));
+    
+    // Enviar para o backend (em segundo plano)
+    try {
+        await fetch(`${API_URL}/api/avaliacao/${jogoId}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ likes: jogo.likes, dislikes: jogo.dislikes })
+        });
+    } catch (error) {
+        console.error('Erro ao salvar voto:', error);
+    }
+}
  //Funcao renderizarBanners
 function renderizarBanners() {
     const banners = jogos.filter(j => j.banner === true).slice(0, 5);

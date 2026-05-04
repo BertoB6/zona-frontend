@@ -587,13 +587,16 @@ async function votar(tipo, event) {
 
 function atualizarRating() {
     const ratingDiv = document.querySelector('.rating-section');
-    if (ratingDiv) {
+    if (ratingDiv && jogoAtual) {
+        const isLiked = votosUsuario[jogoAtual.id] === 'like';
+        const isDisliked = votosUsuario[jogoAtual.id] === 'dislike';
+        
         ratingDiv.innerHTML = `
-            <button class="like-btn ${votosUsuario[jogoAtual?.id] === 'like' ? 'active' : ''}" onclick="votar('like', event)">
-                👍 <span>${jogoAtual?.likes || 0}</span>
+            <button class="like-btn ${isLiked ? 'active' : ''}" onclick="votar('like', event)">
+                👍 <span>${jogoAtual.likes || 0}</span>
             </button>
-            <button class="dislike-btn ${votosUsuario[jogoAtual?.id] === 'dislike' ? 'active' : ''}" onclick="votar('dislike', event)">
-                👎 <span>${jogoAtual?.dislikes || 0}</span>
+            <button class="dislike-btn ${isDisliked ? 'active' : ''}" onclick="votar('dislike', event)">
+                👎 <span>${jogoAtual.dislikes || 0}</span>
             </button>
         `;
     }
