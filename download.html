@@ -22,6 +22,7 @@
             --accent: #ff004f;
             --like-color: #0f9d58;
             --dislike-color: #ff4444;
+            --share-color: #25D366;
         }
 
         [data-theme="light"] {
@@ -93,7 +94,7 @@
             font-size: 0.9rem;
         }
 
-        .theme-toggle {
+        .theme-toggle, .menu-icon {
             background: none;
             border: none;
             font-size: 1.3rem;
@@ -101,18 +102,6 @@
             padding: 8px;
             border-radius: 50%;
             color: var(--text-primary);
-            display: flex;
-            align-items: center;
-            flex-shrink: 0;
-        }
-
-        .menu-icon {
-            font-size: 1.5rem;
-            cursor: pointer;
-            background: none;
-            border: none;
-            color: var(--text-primary);
-            padding: 8px;
             display: flex;
             align-items: center;
             flex-shrink: 0;
@@ -156,15 +145,8 @@
             z-index: 2;
         }
 
-        .badge-free {
-            background: var(--button-free);
-            color: white;
-        }
-
-        .badge-paid {
-            background: var(--button-paid);
-            color: white;
-        }
+        .badge-free { background: var(--button-free); color: white; }
+        .badge-paid { background: var(--button-paid); color: white; }
 
         /* Info */
         .info {
@@ -226,13 +208,35 @@
             transition: 0.2s;
         }
 
-        .like-btn.active { 
-            color: var(--like-color);
-            background: rgba(15,157,88,0.1);
+        .like-btn.active { color: var(--like-color); background: rgba(15,157,88,0.1); }
+        .dislike-btn.active { color: var(--dislike-color); background: rgba(255,68,68,0.1); }
+
+        /* Botão Partilhar */
+        .share-section {
+            padding: 0 20px 20px 20px;
+            border-bottom: 1px solid var(--border-color);
         }
-        .dislike-btn.active { 
-            color: var(--dislike-color);
-            background: rgba(255,68,68,0.1);
+
+        .btn-share {
+            width: 100%;
+            padding: 14px;
+            background: var(--share-color);
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-weight: bold;
+            font-size: 1rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: all 0.2s;
+        }
+
+        .btn-share:hover {
+            transform: translateY(-2px);
+            opacity: 0.9;
         }
 
         /* Botões de Download */
@@ -269,25 +273,9 @@
             gap: 10px;
         }
 
-        .btn-download:hover {
-            transform: translateY(-2px);
-        }
-
-        .btn-free {
-            background: var(--button-free);
-            color: white;
-        }
-
-        .btn-paid {
-            background: var(--button-paid);
-            color: white;
-        }
-
-        .btn-secondary {
-            background: var(--bg-primary);
-            border: 1px solid var(--border-color);
-            color: var(--text-primary);
-        }
+        .btn-download:hover { transform: translateY(-2px); }
+        .btn-free { background: var(--button-free); color: white; }
+        .btn-paid { background: var(--button-paid); color: white; }
 
         /* Senha */
         .senha-area {
@@ -317,16 +305,8 @@
             border-bottom: 1px solid var(--border-color);
         }
 
-        .descricao-area h4 {
-            color: var(--accent);
-            margin-bottom: 10px;
-        }
-
-        .descricao-longa {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-            line-height: 1.6;
-        }
+        .descricao-area h4 { color: var(--accent); margin-bottom: 10px; }
+        .descricao-longa { color: var(--text-secondary); font-size: 0.9rem; line-height: 1.6; }
 
         /* Instruções */
         .instrucoes {
@@ -334,35 +314,13 @@
             border-bottom: 1px solid var(--border-color);
         }
 
-        .instrucoes h4 {
-            color: #00ff9c;
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .instrucoes ul {
-            margin-left: 20px;
-            color: var(--text-secondary);
-            font-size: 0.85rem;
-        }
-
-        .instrucoes li {
-            margin: 5px 0;
-        }
+        .instrucoes h4 { color: #00ff9c; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+        .instrucoes ul { margin-left: 20px; color: var(--text-secondary); font-size: 0.85rem; }
+        .instrucoes li { margin: 5px 0; }
 
         /* Jogos Relacionados */
-        .relacionados {
-            padding: 20px;
-        }
-
-        .relacionados h4 {
-            color: var(--accent);
-            margin-bottom: 15px;
-            text-align: center;
-        }
-
+        .relacionados { padding: 20px; }
+        .relacionados h4 { color: var(--accent); margin-bottom: 15px; text-align: center; }
         .relacionados-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
@@ -381,66 +339,22 @@
             border: 1px solid var(--border-color);
         }
 
-        .relacionado-card:hover {
-            border-color: var(--accent);
-            transform: translateX(3px);
-        }
+        .relacionado-card:hover { border-color: var(--accent); transform: translateX(3px); }
+        .relacionado-card img { width: 45px; height: 45px; border-radius: 8px; object-fit: cover; }
+        .relacionado-info { flex: 1; }
+        .relacionado-info h5 { font-size: 0.75rem; margin-bottom: 3px; }
+        .relacionado-info p { font-size: 0.65rem; color: var(--text-secondary); }
 
-        .relacionado-card img {
-            width: 45px;
-            height: 45px;
-            border-radius: 8px;
-            object-fit: cover;
-        }
-
-        .relacionado-info {
-            flex: 1;
-        }
-
-        .relacionado-info h5 {
-            font-size: 0.75rem;
-            margin-bottom: 3px;
-        }
-
-        .relacionado-info p {
-            font-size: 0.65rem;
-            color: var(--text-secondary);
-        }
-
-        /* Loading e Erro */
-        .loading, .error {
-            text-align: center;
-            padding: 50px;
-            color: var(--text-secondary);
-        }
-
-        footer {
-            margin-top: 20px;
-            text-align: center;
-            font-size: 0.7rem;
-            color: var(--text-secondary);
-        }
+        .loading, .error { text-align: center; padding: 50px; color: var(--text-secondary); }
+        footer { margin-top: 20px; text-align: center; font-size: 0.7rem; color: var(--text-secondary); }
 
         @media (max-width: 600px) {
-            body {
-                padding: 12px;
-            }
-            .header {
-                margin: -12px -12px 20px -12px;
-            }
-            .logo {
-                font-size: 1.1rem;
-            }
-            .search-bar {
-                max-width: 160px;
-            }
-            .search-bar input {
-                padding: 7px 12px;
-                font-size: 0.8rem;
-            }
-            .info h1 {
-                font-size: 1.2rem;
-            }
+            body { padding: 12px; }
+            .header { margin: -12px -12px 20px -12px; }
+            .logo { font-size: 1.1rem; }
+            .search-bar { max-width: 160px; }
+            .search-bar input { padding: 7px 12px; font-size: 0.8rem; }
+            .info h1 { font-size: 1.2rem; }
         }
     </style>
 </head>
@@ -478,7 +392,6 @@ let jogoAtual = null;
 let todosJogos = [];
 let votosUsuario = JSON.parse(localStorage.getItem('votos') || '{}');
 
-// Elementos DOM
 const content = document.getElementById('content');
 const searchInput = document.getElementById('searchInput');
 const themeToggle = document.getElementById('themeToggle');
@@ -602,6 +515,36 @@ function atualizarRating() {
     }
 }
 
+// ==================== FUNÇÃO DE PARTILHA ====================
+async function partilharJogo() {
+    if (!jogoAtual) return;
+    
+    const shareUrl = `${window.location.origin}/download.html?jogo=${jogoAtual.id}`;
+    const shareTitle = `🎮 ${jogoAtual.nome} - ZonaXP`;
+    const shareText = `${jogoAtual.nome}\n📂 Categoria: ${jogoAtual.categoria}\n🎯 Plataforma: ${jogoAtual.plataforma}\n📦 Tamanho: ${jogoAtual.tamanho || 'Não informado'}\n\n✅ Grátis para download!\n\n👇 Clique no link abaixo:`;
+    
+    // Verificar se o navegador suporta Web Share API
+    if (navigator.share) {
+        try {
+            await navigator.share({
+                title: shareTitle,
+                text: shareText,
+                url: shareUrl
+            });
+        } catch (err) {
+            console.log('Partilha cancelada:', err);
+        }
+    } else {
+        // Fallback: copiar link para clipboard
+        try {
+            await navigator.clipboard.writeText(`${shareText}\n${shareUrl}`);
+            alert('📋 Link copiado! Agora pode colar onde quiser (WhatsApp, Facebook, etc.)');
+        } catch (err) {
+            prompt('Copie o link manualmente:', shareUrl);
+        }
+    }
+}
+
 // ==================== CARREGAR JOGO ====================
 async function carregarJogo() {
     const urlParams = new URLSearchParams(window.location.search);
@@ -642,7 +585,6 @@ function renderizarBotaoDownload() {
         </button>`;
     }
     
-    // Verificar quantos links existem
     const temApk = jogoAtual.apk_link;
     const temObb = jogoAtual.obb_link;
     const temData = jogoAtual.data_link;
@@ -658,7 +600,6 @@ function renderizarBotaoDownload() {
     if (temSave) links.push({ nome: '💾 Savedata', link: jogoAtual.save_link });
     if (temIso) links.push({ nome: '🎮 ISO/ROM', link: jogoAtual.iso_link });
     
-    // Se tem link único download
     if (links.length === 0 && jogoAtual.download) {
         links.push({ nome: '⬇️ Download', link: jogoAtual.download });
     }
@@ -667,7 +608,6 @@ function renderizarBotaoDownload() {
         return '<p style="text-align:center;color:red;">Nenhum link de download disponível</p>';
     }
     
-    // Se for pago, já tratamos acima
     return `
         <div class="download-buttons">
             ${links.map(link => `
@@ -683,50 +623,19 @@ function renderizarPagina() {
     const badgeClass = jogoAtual.pago ? 'badge-paid' : 'badge-free';
     const badgeText = jogoAtual.pago ? `💰 ${jogoAtual.preco}` : '🎁 Grátis';
     const imagemUrl = getImagemUrl(jogoAtual);
+    const isLiked = votosUsuario[jogoAtual.id] === 'like';
+    const isDisliked = votosUsuario[jogoAtual.id] === 'dislike';
     
     // Instruções por plataforma
     let instrucoes = '';
     if (jogoAtual.plataforma === 'PSP') {
-        instrucoes = `
-            <h4>🎮 Como instalar no PSP:</h4>
-            <ul>
-                <li>Baixe o arquivo .ISO ou .CSO</li>
-                <li>Copie para a pasta ISO/ROM do seu PSP ou emulador</li>
-                <li>Abra o emulador PPSSPP e selecione o jogo</li>
-                <li>Divirta-se! 🎉</li>
-            </ul>
-        `;
+        instrucoes = `<h4>🎮 Como instalar no PSP:</h4><ul><li>Baixe o arquivo .ISO ou .CSO</li><li>Copie para a pasta ISO/ROM do seu PSP ou emulador</li><li>Abra o emulador PPSSPP e selecione o jogo</li></ul>`;
     } else if (jogoAtual.plataforma === 'PS2') {
-        instrucoes = `
-            <h4>🎮 Como instalar no PS2:</h4>
-            <ul>
-                <li>Baixe o arquivo .ISO</li>
-                <li>Use o emulador PCSX2</li>
-                <li>Carregue a ISO no emulador</li>
-                <li>Divirta-se! 🎉</li>
-            </ul>
-        `;
+        instrucoes = `<h4>🎮 Como instalar no PS2:</h4><ul><li>Baixe o arquivo .ISO</li><li>Use o emulador PCSX2</li><li>Carregue a ISO no emulador</li></ul>`;
     } else if (jogoAtual.plataforma === 'PC') {
-        instrucoes = `
-            <h4>💻 Como instalar no PC:</h4>
-            <ul>
-                <li>Baixe o arquivo do jogo</li>
-                <li>Extraia se necessário (use WinRAR ou 7-Zip)</li>
-                <li>Execute o arquivo de instalação</li>
-                <li>Siga as instruções do instalador</li>
-            </ul>
-        `;
+        instrucoes = `<h4>💻 Como instalar no PC:</h4><ul><li>Baixe o arquivo do jogo</li><li>Extraia se necessário (use WinRAR ou 7-Zip)</li><li>Execute o arquivo de instalação</li></ul>`;
     } else if (jogoAtual.plataforma === 'APK Android') {
-        instrucoes = `
-            <h4>📱 Como instalar no Android:</h4>
-            <ul>
-                <li>Baixe o arquivo .APK</li>
-                <li>Ative "Fontes desconhecidas" nas configurações</li>
-                <li>Instale o APK</li>
-                <li>Se tiver OBB/DATA, extraia para Android/obb ou Android/data</li>
-                <li>Divirta-se! 🎉</li>
-            </ul>
-        `;
+        instrucoes = `<h4>📱 Como instalar no Android:</h4><ul><li>Baixe o arquivo .APK</li><li>Ative "Fontes desconhecidas" nas configurações</li><li>Instale o APK</li><li>Se tiver OBB/DATA, extraia para Android/obb ou Android/data</li></ul>`;
     }
     
     // Jogos relacionados
@@ -748,11 +657,17 @@ function renderizarPagina() {
         </div>
         
         <div class="rating-section">
-            <button class="like-btn ${votosUsuario[jogoAtual.id] === 'like' ? 'active' : ''}" onclick="votar('like', event)">
+            <button class="like-btn ${isLiked ? 'active' : ''}" onclick="votar('like', event)">
                 👍 <span>${jogoAtual.likes || 0}</span>
             </button>
-            <button class="dislike-btn ${votosUsuario[jogoAtual.id] === 'dislike' ? 'active' : ''}" onclick="votar('dislike', event)">
+            <button class="dislike-btn ${isDisliked ? 'active' : ''}" onclick="votar('dislike', event)">
                 👎 <span>${jogoAtual.dislikes || 0}</span>
+            </button>
+        </div>
+        
+        <div class="share-section">
+            <button class="btn-share" onclick="partilharJogo()">
+                📤 Partilhar Jogo
             </button>
         </div>
         
@@ -765,7 +680,7 @@ function renderizarPagina() {
         <div class="senha-area">
             <h4>🔐 Senha para extrair o arquivo</h4>
             <div class="senha">${jogoAtual.senha}</div>
-            <p style="font-size:0.7rem; margin-top:8px;">Use esta senha ao extrair o arquivo com WinRAR ou 7-Zip</p>
+            <p style="font-size:0.7rem; margin-top:8px;">Use esta senha ao extrair o arquivo</p>
         </div>
         ` : ''}
         
@@ -788,7 +703,6 @@ function renderizarPagina() {
         ` : ''}
     `;
     
-    // Adicionar jogos relacionados
     if (relacionados.length) {
         const grid = document.getElementById('relacionadosGrid');
         relacionados.forEach(jogo => {
@@ -830,6 +744,7 @@ initTheme();
 carregarJogo();
 window.votar = votar;
 window.registrarDownload = registrarDownload;
+window.partilharJogo = partilharJogo;
 </script>
 </body>
 </html>
