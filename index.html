@@ -694,43 +694,43 @@
             
             renderizarJogos();
         }
-
-        // ==================== BANNERS ====================
-        function renderizarBanners() {
-            const banners = jogos.filter(j => j.banner === true).slice(0, 5);
-            if (banners.length === 0) {
-                bannerSection.style.display = 'none';
-                return;
-            }
-            
-            bannerSection.style.display = 'block';
-            carouselTrack.innerHTML = '';
-            carouselDots.innerHTML = '';
-            
-            banners.forEach((jogo, index) => {
-                const imagemUrl = jogo.imagem?.startsWith('http') ? jogo.imagem : `imagens/${jogo.imagem}.jpg`;
-                const slide = document.createElement('div');
-                slide.className = 'carousel-slide';
-                slide.innerHTML = `
-                    <img src="${imagemUrl}" onerror="this.src='https://via.placeholder.com/1200x200?text=${jogo.nome}'">
-                    <div class="carousel-caption">
-                        <h3>${jogo.nome}</h3>
-                        <button class="btn-download ${jogo.pago ? 'btn-paid' : 'btn-free'}" onclick="verJogo(${jogo.id})">
-                            ${jogo.pago ? '💰 Ver Jogo' : '🎮 Ver Jogo'}
-                        </button>
-                    </div>
-                `;
-                carouselTrack.appendChild(slide);
-                
-                const dot = document.createElement('div');
-                dot.className = 'dot';
-                dot.onclick = () => irParaSlide(index);
-                carouselDots.appendChild(dot);
-            });
-            
-            atualizarDots();
-            startCarousel();
-        }
+ //Funcao renderizarBanners
+function renderizarBanners() {
+    const banners = jogos.filter(j => j.banner === true).slice(0, 5);
+    if (banners.length === 0) {
+        bannerSection.style.display = 'none';
+        return;
+    }
+    
+    bannerSection.style.display = 'block';
+    carouselTrack.innerHTML = '';
+    carouselDots.innerHTML = '';
+    
+    banners.forEach((jogo, index) => {
+        const imagemUrl = jogo.imagem?.startsWith('http') ? jogo.imagem : `imagens/${jogo.imagem}.jpg`;
+        const slide = document.createElement('div');
+        slide.className = 'carousel-slide';
+        slide.innerHTML = `
+            <img src="${imagemUrl}" onerror="this.src='https://via.placeholder.com/1200x200?text=${jogo.nome}'">
+            <div class="carousel-caption">
+                <h3>${jogo.nome}</h3>
+                <button class="btn-download ${jogo.pago ? 'btn-paid' : 'btn-free'}" 
+                        onclick="window.location.href='${jogo.pago ? 'checkout.html?jogo=' + jogo.id : 'download.html?jogo=' + jogo.id}'">
+                    ${jogo.pago ? '💰 Comprar' : '⬇️ Download'}
+                </button>
+            </div>
+        `;
+        carouselTrack.appendChild(slide);
+        
+        const dot = document.createElement('div');
+        dot.className = 'dot';
+        dot.onclick = () => irParaSlide(index);
+        carouselDots.appendChild(dot);
+    });
+    
+    atualizarDots();
+    startCarousel();
+}
 
         function irParaSlide(index) {
             const slides = document.querySelectorAll('.carousel-slide');
