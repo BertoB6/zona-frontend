@@ -24,7 +24,6 @@
             margin: 0 auto;
         }
 
-        /* Cards de navegação */
         .nav-card {
             background: linear-gradient(135deg, #111, #1a1a1a);
             border-radius: 20px;
@@ -41,24 +40,12 @@
         .nav-card:hover {
             transform: translateX(5px);
             border-color: #ff004f;
-            background: #1a1a1a;
         }
 
-        .nav-icon {
-            font-size: 2rem;
-        }
+        .nav-icon { font-size: 2rem; }
+        .nav-info h3 { font-size: 1.1rem; margin-bottom: 4px; }
+        .nav-info p { font-size: 0.7rem; color: #888; }
 
-        .nav-info h3 {
-            font-size: 1.1rem;
-            margin-bottom: 4px;
-        }
-
-        .nav-info p {
-            font-size: 0.7rem;
-            color: #888;
-        }
-
-        /* Header */
         .header {
             background: linear-gradient(135deg, #111, #1a1a1a);
             border-radius: 20px;
@@ -76,7 +63,6 @@
             -webkit-text-fill-color: transparent;
         }
 
-        /* Verificação */
         .verify-box {
             background: #111;
             border-radius: 20px;
@@ -85,11 +71,7 @@
             border: 1px solid #ff004f;
         }
 
-        .verify-box h2 {
-            color: #ff004f;
-            margin-bottom: 10px;
-        }
-
+        .verify-box h2 { color: #ff004f; margin-bottom: 10px; }
         .verify-box input {
             width: 100%;
             padding: 15px;
@@ -101,7 +83,6 @@
             text-align: center;
             margin: 15px 0;
         }
-
         .verify-box button {
             background: linear-gradient(90deg, #ff004f, #8000ff);
             border: none;
@@ -113,7 +94,6 @@
             width: 100%;
         }
 
-        /* Abas do formulário */
         .tabs {
             display: flex;
             gap: 5px;
@@ -122,7 +102,6 @@
             border-radius: 12px;
             padding: 5px;
         }
-
         .tab {
             flex: 1;
             text-align: center;
@@ -134,32 +113,20 @@
             cursor: pointer;
             font-size: 0.8rem;
         }
-
         .tab.active {
             background: linear-gradient(90deg, #ff004f, #8000ff);
             color: white;
         }
+        .tab-pane { display: none; }
+        .tab-pane.active { display: block; }
 
-        .tab-pane {
-            display: none;
-        }
-
-        .tab-pane.active {
-            display: block;
-        }
-
-        /* Formulário */
-        .form-group {
-            margin-bottom: 15px;
-        }
-
+        .form-group { margin-bottom: 15px; }
         .form-group label {
             display: block;
             color: #888;
             font-size: 0.8rem;
             margin-bottom: 5px;
         }
-
         .form-group input, .form-group select, .form-group textarea {
             width: 100%;
             padding: 12px;
@@ -169,23 +136,19 @@
             color: white;
             font-size: 0.9rem;
         }
-
         .checkbox-group {
+            display: flex;
             flex-direction: row;
             align-items: center;
             gap: 10px;
         }
-
-        .checkbox-group label {
-            display: inline;
-        }
+        .checkbox-group label { display: inline; }
 
         .form-buttons {
             display: flex;
             gap: 10px;
             margin-top: 20px;
         }
-
         .btn-salvar, .btn-cancelar {
             flex: 1;
             padding: 12px;
@@ -194,18 +157,12 @@
             font-weight: bold;
             cursor: pointer;
         }
-
         .btn-salvar {
             background: linear-gradient(90deg, #00ff9c, #00cc7a);
             color: #0a0a0a;
         }
+        .btn-cancelar { background: #333; color: white; }
 
-        .btn-cancelar {
-            background: #333;
-            color: white;
-        }
-
-        /* Imagem upload */
         .upload-area {
             border: 2px dashed #333;
             border-radius: 12px;
@@ -215,17 +172,12 @@
             transition: 0.3s;
             margin-bottom: 10px;
         }
-
-        .upload-area:hover {
-            border-color: #ff004f;
-        }
-
+        .upload-area:hover { border-color: #ff004f; }
         .preview-box {
             margin-top: 15px;
             text-align: center;
             display: none;
         }
-
         .preview-box img {
             max-width: 120px;
             border-radius: 12px;
@@ -237,7 +189,6 @@
             gap: 10px;
             margin-bottom: 15px;
         }
-
         .image-tab {
             flex: 1;
             background: #0a0a0a;
@@ -248,20 +199,17 @@
             cursor: pointer;
             text-align: center;
         }
-
         .image-tab.active {
             background: #ff004f;
             color: white;
             border-color: #ff004f;
         }
 
-        /* Tabela */
         .jogos-list {
             display: flex;
             flex-direction: column;
             gap: 10px;
         }
-
         .jogo-item {
             background: #111;
             border-radius: 12px;
@@ -271,43 +219,25 @@
             align-items: center;
             border: 1px solid #222;
         }
-
-        .jogo-item.destaque {
-            border-color: #ffaa00;
-        }
-
-        .jogo-info h4 {
-            font-size: 0.9rem;
-        }
-
-        .jogo-info p {
-            font-size: 0.7rem;
-            color: #888;
-        }
-
-        .jogo-actions {
-            display: flex;
-            gap: 10px;
-        }
-
+        .jogo-item.destaque { border-color: #ffaa00; }
+        .jogo-info h4 { font-size: 0.9rem; }
+        .jogo-info p { font-size: 0.7rem; color: #888; }
+        .jogo-actions { display: flex; gap: 10px; }
         .jogo-actions button {
             background: none;
             border: none;
             font-size: 1.2rem;
             cursor: pointer;
         }
-
         .btn-editar { color: #00ff9c; }
         .btn-excluir { color: #ff004f; }
 
-        /* Estatísticas */
         .stat-card {
             background: #111;
             border-radius: 12px;
             padding: 15px;
             margin-bottom: 10px;
         }
-
         .stat-row {
             display: flex;
             justify-content: space-between;
@@ -315,7 +245,6 @@
             padding: 10px 0;
             border-bottom: 1px solid #222;
         }
-
         .back-btn {
             background: #333;
             border: none;
@@ -326,10 +255,7 @@
             cursor: pointer;
             width: 100%;
         }
-
-        .hidden {
-            display: none;
-        }
+        .hidden { display: none; }
 
         .toast {
             position: fixed;
@@ -344,12 +270,7 @@
             z-index: 1000;
             animation: fadeOut 3s forwards;
         }
-
-        .toast.error {
-            background: #ff004f;
-            color: white;
-        }
-
+        .toast.error { background: #ff004f; color: white; }
         @keyframes fadeOut {
             0% { opacity: 1; }
             70% { opacity: 1; }
@@ -380,15 +301,13 @@
             <div class="logo">🎮 ZonaXP Admin</div>
             <p style="font-size: 0.7rem; color: #888; margin-top: 5px;">👤 Bertoldo</p>
         </div>
-
-        <div class="nav-card" onclick="abrirPublicar()">
+        <div class="nav-card" onclick="abrirPublicar(null)">
             <div class="nav-icon">📝</div>
             <div class="nav-info">
                 <h3>Publicar Jogo</h3>
                 <p>Adicionar novo jogo ao catálogo</p>
             </div>
         </div>
-
         <div class="nav-card" onclick="abrirGestao()">
             <div class="nav-icon">📋</div>
             <div class="nav-info">
@@ -396,7 +315,6 @@
                 <p>Editar, excluir e organizar jogos</p>
             </div>
         </div>
-
         <div class="nav-card" onclick="abrirEstatisticas()">
             <div class="nav-icon">📊</div>
             <div class="nav-info">
@@ -404,7 +322,6 @@
                 <p>Likes, destaques e rankings</p>
             </div>
         </div>
-
         <div class="nav-card" onclick="abrirBanners()">
             <div class="nav-icon">🎪</div>
             <div class="nav-info">
@@ -414,7 +331,7 @@
         </div>
     </div>
 
-    <!-- Publicar Jogo (Formulário em 3 abas) -->
+    <!-- Publicar Jogo -->
     <div id="publicarScreen" class="hidden">
         <button class="back-btn" onclick="voltarMenu()">← Voltar ao Menu</button>
         
@@ -424,7 +341,7 @@
             <button class="tab" data-tab="midia">🎬 Mídia</button>
         </div>
 
-        <!-- Aba 1 - Informações Básicas -->
+        <!-- Aba 1 -->
         <div id="tabInfo" class="tab-pane active">
             <div class="form-group">
                 <label>🖼️ Imagem do Jogo *</label>
@@ -432,11 +349,9 @@
                     <div class="image-tab active" data-imgtab="upload">📤 Upload</div>
                     <div class="image-tab" data-imgtab="link">🔗 Link Externo</div>
                 </div>
-                
                 <div id="uploadArea">
                     <div class="upload-area" onclick="document.getElementById('fileInput').click()">
-                        📸 Clique aqui para selecionar uma imagem
-                        <br><small>JPG, PNG, WEBP (max 5MB)</small>
+                        📸 Clique para selecionar uma imagem<br><small>JPG, PNG, WEBP (max 5MB)</small>
                     </div>
                     <input type="file" id="fileInput" accept="image/jpeg,image/jpg,image/png,image/webp" style="display: none;">
                     <div class="preview-box" id="previewBox">
@@ -444,14 +359,12 @@
                         <div id="previewNome" style="font-size: 0.75rem; color: #888; margin-top: 5px;"></div>
                     </div>
                 </div>
-                
                 <div id="linkArea" style="display: none;">
-                    <input type="text" id="linkInput" placeholder="https://res.cloudinary.com/.../imagem.jpg" style="width:100%; padding:12px; background:#0a0a0a; border:1px solid #333; border-radius:8px; color:white;">
+                    <input type="text" id="linkInput" placeholder="https://..." style="width:100%; padding:12px; background:#0a0a0a; border:1px solid #333; border-radius:8px;">
                     <div class="preview-box" id="linkPreviewBox" style="display: none; margin-top: 15px;">
                         <img id="linkPreviewImg" src="" style="max-width: 120px; border-radius: 12px; border: 2px solid #ff004f;">
                     </div>
                 </div>
-                
                 <input type="hidden" id="jogoImagem">
             </div>
             <div class="form-group">
@@ -504,7 +417,7 @@
             </div>
         </div>
 
-        <!-- Aba 2 - Links de Download -->
+        <!-- Aba 2 -->
         <div id="tabLinks" class="tab-pane">
             <div class="form-group">
                 <label>📎 Link Principal</label>
@@ -546,15 +459,15 @@
             </div>
         </div>
 
-        <!-- Aba 3 - Mídia -->
+        <!-- Aba 3 -->
         <div id="tabMidia" class="tab-pane">
             <div class="form-group">
-                <label>📝 Descrição Curta (até 200 caracteres)</label>
-                <textarea id="descricaoCurta" rows="3" placeholder="Descrição resumida do jogo..."></textarea>
+                <label>📝 Descrição Curta</label>
+                <textarea id="descricaoCurta" rows="3" placeholder="Descrição resumida..."></textarea>
             </div>
             <div class="form-group">
                 <label>📄 Descrição Longa</label>
-                <textarea id="descricaoLonga" rows="5" placeholder="Descrição detalhada do jogo..."></textarea>
+                <textarea id="descricaoLonga" rows="5" placeholder="Descrição detalhada..."></textarea>
             </div>
             <div class="form-group">
                 <label>🎥 Vídeo (YouTube URL)</label>
@@ -571,7 +484,7 @@
     <div id="gestaoScreen" class="hidden">
         <button class="back-btn" onclick="voltarMenu()">← Voltar ao Menu</button>
         <div style="margin-bottom: 15px;">
-            <input type="text" id="buscaJogos" placeholder="🔍 Buscar jogos..." style="width:100%; padding:12px; background:#0a0a0a; border:1px solid #333; border-radius:10px; color:white;">
+            <input type="text" id="buscaJogos" placeholder="🔍 Buscar jogos..." style="width:100%; padding:12px; background:#0a0a0a; border:1px solid #333; border-radius:10px;">
         </div>
         <div id="listaJogos" class="jogos-list"></div>
     </div>
@@ -579,18 +492,9 @@
     <!-- Estatísticas -->
     <div id="estatisticasScreen" class="hidden">
         <button class="back-btn" onclick="voltarMenu()">← Voltar ao Menu</button>
-        <div class="stat-card">
-            <h3>🏆 Top 5 Mais Likes</h3>
-            <div id="topLikes"></div>
-        </div>
-        <div class="stat-card">
-            <h3>⚠️ Jogos Sem Likes</h3>
-            <div id="semLikes"></div>
-        </div>
-        <div class="stat-card">
-            <h3>⭐ Jogos em Destaque</h3>
-            <div id="listaDestaques"></div>
-        </div>
+        <div class="stat-card"><h3>🏆 Top 5 Mais Likes</h3><div id="topLikes"></div></div>
+        <div class="stat-card"><h3>⚠️ Jogos Sem Likes</h3><div id="semLikes"></div></div>
+        <div class="stat-card"><h3>⭐ Jogos em Destaque</h3><div id="listaDestaques"></div></div>
     </div>
 
     <!-- Banners -->
@@ -605,7 +509,7 @@
     let jogosData = [];
     let modoEdicaoId = null;
 
-    // ==================== VERIFICAÇÃO ====================
+    // Verificação
     function verificarAcesso() {
         const codigo = document.getElementById('codigoSeguranca').value;
         if (codigo === 'ZonaXP') {
@@ -618,7 +522,7 @@
         }
     }
 
-    // ==================== NAVEGAÇÃO ====================
+    // Navegação
     function voltarMenu() {
         document.getElementById('publicarScreen').classList.add('hidden');
         document.getElementById('gestaoScreen').classList.add('hidden');
@@ -629,11 +533,53 @@
         limparFormulario();
     }
 
-    function abrirPublicar() {
+    function abrirPublicar(jogoParaEditar) {
         document.getElementById('mainMenu').classList.add('hidden');
         document.getElementById('publicarScreen').classList.remove('hidden');
-        modoEdicaoId = null;
-        limparFormulario();
+        
+        if (jogoParaEditar) {
+            // Modo edição - preencher formulário
+            modoEdicaoId = jogoParaEditar.id;
+            document.getElementById('jogoNome').value = jogoParaEditar.nome || '';
+            document.getElementById('jogoCategoria').value = jogoParaEditar.categoria || '';
+            document.getElementById('jogoPlataforma').value = jogoParaEditar.plataforma || 'PSP';
+            document.getElementById('jogoTamanho').value = jogoParaEditar.tamanho || '';
+            document.getElementById('jogoPago').value = jogoParaEditar.pago ? 'true' : 'false';
+            document.getElementById('jogoPreco').value = jogoParaEditar.preco || '';
+            document.getElementById('jogoSenha').value = jogoParaEditar.senha || '';
+            document.getElementById('jogoDestaque').checked = jogoParaEditar.destaque || false;
+            document.getElementById('jogoBanner').checked = jogoParaEditar.banner || false;
+            document.getElementById('jogoDownload').value = jogoParaEditar.download || '';
+            document.getElementById('apkLink').value = jogoParaEditar.apk_link || '';
+            document.getElementById('obbLink').value = jogoParaEditar.obb_link || '';
+            document.getElementById('dataLink').value = jogoParaEditar.data_link || '';
+            document.getElementById('textureLink').value = jogoParaEditar.texture_link || '';
+            document.getElementById('saveLink').value = jogoParaEditar.save_link || '';
+            document.getElementById('isoLink').value = jogoParaEditar.iso_link || '';
+            document.getElementById('descricaoCurta').value = jogoParaEditar.descricao_curta || '';
+            document.getElementById('descricaoLonga').value = jogoParaEditar.descricao_longa || '';
+            document.getElementById('videoUrl').value = jogoParaEditar.video_url || '';
+            
+            // Imagem
+            if (jogoParaEditar.imagem) {
+                if (jogoParaEditar.imagem.startsWith('http')) {
+                    document.querySelector('.image-tab[data-imgtab="link"]').click();
+                    document.getElementById('linkInput').value = jogoParaEditar.imagem;
+                    document.getElementById('linkPreviewImg').src = jogoParaEditar.imagem;
+                    document.getElementById('linkPreviewBox').style.display = 'block';
+                } else {
+                    document.querySelector('.image-tab[data-imgtab="upload"]').click();
+                    document.getElementById('previewImg').src = `${API_URL}/imagens/${jogoParaEditar.imagem}.jpg`;
+                    document.getElementById('previewBox').style.display = 'block';
+                    document.getElementById('previewNome').innerHTML = `📸 ${jogoParaEditar.imagem}.jpg`;
+                }
+                document.getElementById('jogoImagem').value = jogoParaEditar.imagem;
+            }
+        } else {
+            // Novo jogo
+            modoEdicaoId = null;
+            limparFormulario();
+        }
     }
 
     function abrirGestao() {
@@ -654,27 +600,19 @@
         renderizarBanners();
     }
 
-    // ==================== ABAS DO FORMULÁRIO ====================
+    // Abas do formulário
     function proximoAba(aba) {
         document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
         document.getElementById(`tab${aba.charAt(0).toUpperCase() + aba.slice(1)}`).classList.add('active');
         document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
         document.querySelector(`[data-tab="${aba}"]`).classList.add('active');
     }
-
-    function abaAnterior(aba) {
-        proximoAba(aba);
-    }
-
+    function abaAnterior(aba) { proximoAba(aba); }
     document.querySelectorAll('.tab').forEach(tab => {
-        tab.addEventListener('click', () => {
-            const aba = tab.getAttribute('data-tab');
-            proximoAba(aba);
-        });
+        tab.addEventListener('click', () => proximoAba(tab.getAttribute('data-tab')));
     });
 
-    // ==================== IMAGEM: UPLOAD E LINK ====================
-    // Tabs de imagem
+    // Imagem: Upload e Link
     const imgTabs = document.querySelectorAll('.image-tab');
     const uploadAreaDiv = document.getElementById('uploadArea');
     const linkAreaDiv = document.getElementById('linkArea');
@@ -691,8 +629,7 @@
         tab.addEventListener('click', () => {
             imgTabs.forEach(t => t.classList.remove('active'));
             tab.classList.add('active');
-            const tipo = tab.getAttribute('data-imgtab');
-            if (tipo === 'upload') {
+            if (tab.getAttribute('data-imgtab') === 'upload') {
                 uploadAreaDiv.style.display = 'block';
                 linkAreaDiv.style.display = 'none';
                 imagemHidden.value = '';
@@ -704,7 +641,6 @@
         });
     });
 
-    // Link externo
     linkInput.addEventListener('input', () => {
         const url = linkInput.value.trim();
         if (url && (url.startsWith('http://') || url.startsWith('https://'))) {
@@ -717,26 +653,19 @@
         }
     });
 
-    // Upload de arquivo
     fileInput.addEventListener('change', async (e) => {
         const file = e.target.files[0];
         if (!file) return;
-        
         const reader = new FileReader();
         reader.onload = (event) => {
             previewImg.src = event.target.result;
             previewBox.style.display = 'block';
         };
         reader.readAsDataURL(file);
-        
         const formData = new FormData();
         formData.append('imagem', file);
-        
         try {
-            const response = await fetch(`${API_URL}/api/upload`, {
-                method: 'POST',
-                body: formData
-            });
+            const response = await fetch(`${API_URL}/api/upload`, { method: 'POST', body: formData });
             const result = await response.json();
             if (result.sucesso) {
                 imagemHidden.value = result.nomeImagem;
@@ -750,7 +679,6 @@
         }
     });
 
-    // ==================== FORMULÁRIO ====================
     function limparFormulario() {
         document.getElementById('jogoNome').value = '';
         document.getElementById('jogoCategoria').value = '';
@@ -771,15 +699,11 @@
         document.getElementById('descricaoCurta').value = '';
         document.getElementById('descricaoLonga').value = '';
         document.getElementById('videoUrl').value = '';
-        
-        // Reset imagem
         fileInput.value = '';
         linkInput.value = '';
         previewBox.style.display = 'none';
         linkPreviewBox.style.display = 'none';
         imagemHidden.value = '';
-        
-        // Reset para aba Upload
         document.querySelector('.image-tab[data-imgtab="upload"]').click();
     }
 
@@ -789,7 +713,6 @@
             mostrarToast('Adicione uma imagem (upload ou link externo)!', 'error');
             return;
         }
-
         const jogo = {
             nome: document.getElementById('jogoNome').value,
             categoria: document.getElementById('jogoCategoria').value,
@@ -814,12 +737,10 @@
             likes: 0,
             dislikes: 0
         };
-
         if (!jogo.nome || !jogo.categoria) {
             mostrarToast('Preencha nome e categoria!', 'error');
             return;
         }
-
         try {
             if (modoEdicaoId) {
                 await fetch(`${API_URL}/api/jogos/${modoEdicaoId}`, {
@@ -845,34 +766,25 @@
         }
     }
 
-    // ==================== CARREGAR DADOS ====================
     async function carregarJogos() {
         try {
             const response = await fetch(`${API_URL}/api/jogos`);
             const data = await response.json();
             jogosData = data.jogos;
-        } catch (error) {
-            console.error('Erro ao carregar jogos:', error);
-        }
+        } catch (error) { console.error(error); }
     }
 
     function renderizarListaJogos() {
         const busca = document.getElementById('buscaJogos')?.value.toLowerCase() || '';
         let filtrados = [...jogosData];
-        
-        if (busca) {
-            filtrados = filtrados.filter(j => j.nome.toLowerCase().includes(busca));
-        }
-        
+        if (busca) filtrados = filtrados.filter(j => j.nome.toLowerCase().includes(busca));
         filtrados.sort((a, b) => {
             if (a.destaque && !b.destaque) return -1;
             if (!a.destaque && b.destaque) return 1;
             return (b.likes || 0) - (a.likes || 0);
         });
-        
         const container = document.getElementById('listaJogos');
         container.innerHTML = '';
-        
         filtrados.forEach(jogo => {
             const div = document.createElement('div');
             div.className = 'jogo-item';
@@ -894,46 +806,7 @@
     function editarJogo(id) {
         const jogo = jogosData.find(j => j.id === id);
         if (jogo) {
-            modoEdicaoId = id;
-            
-            // Preencher formulário
-            document.getElementById('jogoNome').value = jogo.nome || '';
-            document.getElementById('jogoCategoria').value = jogo.categoria || '';
-            document.getElementById('jogoPlataforma').value = jogo.plataforma || 'PSP';
-            document.getElementById('jogoTamanho').value = jogo.tamanho || '';
-            document.getElementById('jogoPago').value = jogo.pago ? 'true' : 'false';
-            document.getElementById('jogoPreco').value = jogo.preco || '';
-            document.getElementById('jogoSenha').value = jogo.senha || '';
-            document.getElementById('jogoDestaque').checked = jogo.destaque || false;
-            document.getElementById('jogoBanner').checked = jogo.banner || false;
-            document.getElementById('jogoDownload').value = jogo.download || '';
-            document.getElementById('apkLink').value = jogo.apk_link || '';
-            document.getElementById('obbLink').value = jogo.obb_link || '';
-            document.getElementById('dataLink').value = jogo.data_link || '';
-            document.getElementById('textureLink').value = jogo.texture_link || '';
-            document.getElementById('saveLink').value = jogo.save_link || '';
-            document.getElementById('isoLink').value = jogo.iso_link || '';
-            document.getElementById('descricaoCurta').value = jogo.descricao_curta || '';
-            document.getElementById('descricaoLonga').value = jogo.descricao_longa || '';
-            document.getElementById('videoUrl').value = jogo.video_url || '';
-            
-            // Preencher imagem
-            if (jogo.imagem) {
-                if (jogo.imagem.startsWith('http')) {
-                    document.querySelector('.image-tab[data-imgtab="link"]').click();
-                    document.getElementById('linkInput').value = jogo.imagem;
-                    document.getElementById('linkPreviewImg').src = jogo.imagem;
-                    document.getElementById('linkPreviewBox').style.display = 'block';
-                } else {
-                    document.querySelector('.image-tab[data-imgtab="upload"]').click();
-                    document.getElementById('previewImg').src = `${API_URL}/imagens/${jogo.imagem}.jpg`;
-                    document.getElementById('previewBox').style.display = 'block';
-                    document.getElementById('previewNome').innerHTML = `📸 ${jogo.imagem}.jpg`;
-                }
-                document.getElementById('jogoImagem').value = jogo.imagem;
-            }
-            
-            abrirPublicar();
+            abrirPublicar(jogo);
         } else {
             mostrarToast('Jogo não encontrado!', 'error');
         }
@@ -952,52 +825,23 @@
         }
     }
 
-    // ==================== ESTATÍSTICAS ====================
     function renderizarEstatisticas() {
         const ordenados = [...jogosData].sort((a, b) => (b.likes || 0) - (a.likes || 0));
         const top5 = ordenados.slice(0, 5);
         const semLikes = ordenados.filter(j => (j.likes || 0) === 0);
         const destaques = jogosData.filter(j => j.destaque);
-        
-        const topContainer = document.getElementById('topLikes');
-        topContainer.innerHTML = top5.map((j, i) => `
-            <div class="stat-row">
-                <span class="stat-rank">${i+1}º</span>
-                <span>${j.nome}</span>
-                <span class="stat-likes">👍 ${j.likes || 0}</span>
-            </div>
-        `).join('');
-        
-        const semContainer = document.getElementById('semLikes');
-        semContainer.innerHTML = semLikes.length ? semLikes.map(j => `
-            <div class="stat-row">
-                <span>${j.nome}</span>
-                <span class="stat-likes">👍 0</span>
-            </div>
-        `).join('') : '<p style="color:#00ff9c;">🎉 Todos os jogos têm likes!</p>';
-        
-        const destContainer = document.getElementById('listaDestaques');
-        destContainer.innerHTML = destaques.length ? destaques.map(j => `
-            <div class="stat-row">
-                <span>⭐ ${j.nome}</span>
-                <span class="stat-likes">👍 ${j.likes || 0}</span>
-            </div>
-        `).join('') : '<p>Nenhum jogo em destaque</p>';
+        document.getElementById('topLikes').innerHTML = top5.map((j, i) => `<div class="stat-row"><span>${i+1}º</span><span>${j.nome}</span><span>👍 ${j.likes || 0}</span></div>`).join('');
+        document.getElementById('semLikes').innerHTML = semLikes.length ? semLikes.map(j => `<div class="stat-row"><span>${j.nome}</span><span>👍 0</span></div>`).join('') : '<p>🎉 Todos os jogos têm likes!</p>';
+        document.getElementById('listaDestaques').innerHTML = destaques.length ? destaques.map(j => `<div class="stat-row"><span>⭐ ${j.nome}</span><span>👍 ${j.likes || 0}</span></div>`).join('') : '<p>Nenhum jogo em destaque</p>';
     }
 
-    // ==================== BANNERS ====================
     function renderizarBanners() {
         const banners = jogosData.filter(j => j.banner === true);
         const container = document.getElementById('listaBanners');
         container.innerHTML = banners.length ? banners.map(j => `
             <div class="jogo-item">
-                <div class="jogo-info">
-                    <h4>${j.nome}</h4>
-                    <p>${j.categoria} • 👍 ${j.likes || 0}</p>
-                </div>
-                <div class="jogo-actions">
-                    <button class="btn-editar" onclick="removerBanner(${j.id})">⭐ Remover Banner</button>
-                </div>
+                <div class="jogo-info"><h4>${j.nome}</h4><p>${j.categoria} • 👍 ${j.likes || 0}</p></div>
+                <div class="jogo-actions"><button class="btn-editar" onclick="removerBanner(${j.id})">⭐ Remover Banner</button></div>
             </div>
         `).join('') : '<p>Nenhum jogo selecionado para banner</p>';
     }
@@ -1005,22 +849,17 @@
     async function removerBanner(id) {
         const jogo = jogosData.find(j => j.id === id);
         if (jogo) {
-            try {
-                await fetch(`${API_URL}/api/jogos/${id}`, {
-                    method: 'PUT',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ ...jogo, banner: false })
-                });
-                mostrarToast('Banner removido!', 'success');
-                await carregarJogos();
-                renderizarBanners();
-            } catch (error) {
-                mostrarToast('Erro ao remover banner', 'error');
-            }
+            await fetch(`${API_URL}/api/jogos/${id}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ ...jogo, banner: false })
+            });
+            mostrarToast('Banner removido!', 'success');
+            await carregarJogos();
+            renderizarBanners();
         }
     }
 
-    // ==================== TOAST ====================
     function mostrarToast(mensagem, tipo = 'success') {
         const toast = document.createElement('div');
         toast.className = 'toast';
@@ -1030,8 +869,8 @@
         setTimeout(() => toast.remove(), 3000);
     }
 
-    // Busca em tempo real
     document.getElementById('buscaJogos')?.addEventListener('input', renderizarListaJogos);
+    carregarJogos();
 </script>
 </body>
 </html>
