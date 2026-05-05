@@ -205,6 +205,56 @@
             color: white;
         }
 
+        /* Imagem upload */
+        .upload-area {
+            border: 2px dashed #333;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-bottom: 10px;
+        }
+
+        .upload-area:hover {
+            border-color: #ff004f;
+        }
+
+        .preview-box {
+            margin-top: 15px;
+            text-align: center;
+            display: none;
+        }
+
+        .preview-box img {
+            max-width: 120px;
+            border-radius: 12px;
+            border: 2px solid #ff004f;
+        }
+
+        .image-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .image-tab {
+            flex: 1;
+            background: #0a0a0a;
+            border: 1px solid #333;
+            padding: 8px;
+            border-radius: 8px;
+            color: #888;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .image-tab.active {
+            background: #ff004f;
+            color: white;
+            border-color: #ff004f;
+        }
+
         /* Tabela */
         .jogos-list {
             display: flex;
@@ -266,15 +316,6 @@
             border-bottom: 1px solid #222;
         }
 
-        .stat-rank {
-            font-weight: bold;
-            color: #ffaa00;
-        }
-
-        .stat-likes {
-            color: #00ff9c;
-        }
-
         .back-btn {
             background: #333;
             border: none;
@@ -319,7 +360,7 @@
 <body>
 
 <div class="container" id="app">
-    <!-- Tela de Login/Verificação -->
+    <!-- Tela de Verificação -->
     <div id="loginScreen">
         <div class="header">
             <div class="logo">🎮 ZonaXP Admin</div>
@@ -387,14 +428,31 @@
         <div id="tabInfo" class="tab-pane active">
             <div class="form-group">
                 <label>🖼️ Imagem do Jogo *</label>
-                <div style="display: flex; gap: 10px; margin-bottom: 10px;">
-                    <button type="button" style="flex:1; background:#ff004f; border:none; padding:8px; border-radius:8px; color:white;" onclick="simularUpload()">📤 Upload</button>
-                    <button type="button" style="flex:1; background:#8000ff; border:none; padding:8px; border-radius:8px; color:white;" onclick="usarLinkExterno()">🔗 Link Externo</button>
+                <div class="image-tabs">
+                    <div class="image-tab active" data-imgtab="upload">📤 Upload</div>
+                    <div class="image-tab" data-imgtab="link">🔗 Link Externo</div>
                 </div>
-                <input type="text" id="imagemUrl" placeholder="URL da imagem (Cloudinary, etc.)">
-                <div id="previewImagem" style="margin-top: 10px; display: none;">
-                    <img id="previewImg" style="max-width: 100px; border-radius: 8px;">
+                
+                <div id="uploadArea">
+                    <div class="upload-area" onclick="document.getElementById('fileInput').click()">
+                        📸 Clique aqui para selecionar uma imagem
+                        <br><small>JPG, PNG, WEBP (max 5MB)</small>
+                    </div>
+                    <input type="file" id="fileInput" accept="image/jpeg,image/jpg,image/png,image/webp" style="display: none;">
+                    <div class="preview-box" id="previewBox">
+                        <img id="previewImg" src="">
+                        <div id="previewNome" style="font-size: 0.75rem; color: #888; margin-top: 5px;"></div>
+                    </div>
                 </div>
+                
+                <div id="linkArea" style="display: none;">
+                    <input type="text" id="linkInput" placeholder="https://res.cloudinary.com/.../imagem.jpg" style="width:100%; padding:12px; background:#0a0a0a; border:1px solid #333; border-radius:8px; color:white;">
+                    <div class="preview-box" id="linkPreviewBox" style="display: none; margin-top: 15px;">
+                        <img id="linkPreviewImg" src="" style="max-width: 120px; border-radius: 12px; border: 2px solid #ff004f;">
+                    </div>
+                </div>
+                
+                <input type="hidden" id="jogoImagem">
             </div>
             <div class="form-group">
                 <label>🎮 Nome do Jogo *</label>
@@ -568,6 +626,7 @@
         document.getElementById('bannersScreen').classList.add('hidden');
         document.getElementById('mainMenu').classList.remove('hidden');
         modoEdicaoId = null;
+        limparFormulario();
     }
 
     function abrirPublicar() {
@@ -595,7 +654,7 @@
         renderizarBanners();
     }
 
-    // ==================== ABAS ====================
+    // ==================== ABAS DO FORMULÁRIO ====================
     function proximoAba(aba) {
         document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
         document.getElementById(`tab${aba.charAt(0).toUpperCase() + aba.slice(1)}`).classList.add('active');
@@ -607,7 +666,6 @@
         proximoAba(aba);
     }
 
-    // Inicializar abas
     document.querySelectorAll('.tab').forEach(tab => {
         tab.addEventListener('click', () => {
             const aba = tab.getAttribute('data-tab');
@@ -615,9 +673,85 @@
         });
     });
 
+    // ==================== IMAGEM: UPLOAD E LINK ====================
+    // Tabs de imagem
+    const imgTabs = document.querySelectorAll('.image-tab');
+    const uploadAreaDiv = document.getElementById('uploadArea');
+    const linkAreaDiv = document.getElementById('linkArea');
+    const fileInput = document.getElementById('fileInput');
+    const linkInput = document.getElementById('linkInput');
+    const previewBox = document.getElementById('previewBox');
+    const previewImg = document.getElementById('previewImg');
+    const previewNome = document.getElementById('previewNome');
+    const linkPreviewBox = document.getElementById('linkPreviewBox');
+    const linkPreviewImg = document.getElementById('linkPreviewImg');
+    const imagemHidden = document.getElementById('jogoImagem');
+
+    imgTabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            imgTabs.forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+            const tipo = tab.getAttribute('data-imgtab');
+            if (tipo === 'upload') {
+                uploadAreaDiv.style.display = 'block';
+                linkAreaDiv.style.display = 'none';
+                imagemHidden.value = '';
+            } else {
+                uploadAreaDiv.style.display = 'none';
+                linkAreaDiv.style.display = 'block';
+                imagemHidden.value = '';
+            }
+        });
+    });
+
+    // Link externo
+    linkInput.addEventListener('input', () => {
+        const url = linkInput.value.trim();
+        if (url && (url.startsWith('http://') || url.startsWith('https://'))) {
+            linkPreviewImg.src = url;
+            linkPreviewBox.style.display = 'block';
+            imagemHidden.value = url;
+        } else {
+            linkPreviewBox.style.display = 'none';
+            imagemHidden.value = '';
+        }
+    });
+
+    // Upload de arquivo
+    fileInput.addEventListener('change', async (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+        
+        const reader = new FileReader();
+        reader.onload = (event) => {
+            previewImg.src = event.target.result;
+            previewBox.style.display = 'block';
+        };
+        reader.readAsDataURL(file);
+        
+        const formData = new FormData();
+        formData.append('imagem', file);
+        
+        try {
+            const response = await fetch(`${API_URL}/api/upload`, {
+                method: 'POST',
+                body: formData
+            });
+            const result = await response.json();
+            if (result.sucesso) {
+                imagemHidden.value = result.nomeImagem;
+                previewNome.innerHTML = `📸 ${result.nomeImagem}.jpg`;
+                mostrarToast('Imagem enviada!', 'success');
+            } else {
+                mostrarToast('Erro ao enviar imagem', 'error');
+            }
+        } catch (error) {
+            mostrarToast('Erro no upload', 'error');
+        }
+    });
+
     // ==================== FORMULÁRIO ====================
     function limparFormulario() {
-        document.getElementById('imagemUrl').value = '';
         document.getElementById('jogoNome').value = '';
         document.getElementById('jogoCategoria').value = '';
         document.getElementById('jogoPlataforma').value = 'PSP';
@@ -637,26 +771,22 @@
         document.getElementById('descricaoCurta').value = '';
         document.getElementById('descricaoLonga').value = '';
         document.getElementById('videoUrl').value = '';
-        document.getElementById('previewImagem').style.display = 'none';
-    }
-
-    function simularUpload() {
-        alert('📸 Upload de imagem: Use Cloudinary ou link externo.');
-    }
-
-    function usarLinkExterno() {
-        const url = prompt('Cole o link da imagem (Cloudinary, ImgBB, etc.):');
-        if (url) {
-            document.getElementById('imagemUrl').value = url;
-            document.getElementById('previewImg').src = url;
-            document.getElementById('previewImagem').style.display = 'block';
-        }
+        
+        // Reset imagem
+        fileInput.value = '';
+        linkInput.value = '';
+        previewBox.style.display = 'none';
+        linkPreviewBox.style.display = 'none';
+        imagemHidden.value = '';
+        
+        // Reset para aba Upload
+        document.querySelector('.image-tab[data-imgtab="upload"]').click();
     }
 
     async function salvarJogo() {
-        const imagem = document.getElementById('imagemUrl').value;
+        const imagem = document.getElementById('jogoImagem').value;
         if (!imagem) {
-            alert('❌ Adicione uma imagem!');
+            mostrarToast('Adicione uma imagem (upload ou link externo)!', 'error');
             return;
         }
 
@@ -686,33 +816,32 @@
         };
 
         if (!jogo.nome || !jogo.categoria) {
-            alert('Preencha nome e categoria!');
+            mostrarToast('Preencha nome e categoria!', 'error');
             return;
         }
 
         try {
-            let response;
             if (modoEdicaoId) {
-                response = await fetch(`${API_URL}/api/jogos/${modoEdicaoId}`, {
+                await fetch(`${API_URL}/api/jogos/${modoEdicaoId}`, {
                     method: 'PUT',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ ...jogo, id: modoEdicaoId })
                 });
-                alert('✅ Jogo atualizado com sucesso!');
+                mostrarToast('✅ Jogo atualizado com sucesso!', 'success');
             } else {
-                response = await fetch(`${API_URL}/api/jogos`, {
+                await fetch(`${API_URL}/api/jogos`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(jogo)
                 });
-                alert('✅ Jogo publicado com sucesso!');
+                mostrarToast('✅ Jogo publicado com sucesso!', 'success');
             }
             modoEdicaoId = null;
             limparFormulario();
-            carregarJogos();
+            await carregarJogos();
             voltarMenu();
         } catch (error) {
-            alert('Erro ao salvar jogo');
+            mostrarToast('Erro ao salvar jogo', 'error');
         }
     }
 
@@ -735,7 +864,6 @@
             filtrados = filtrados.filter(j => j.nome.toLowerCase().includes(busca));
         }
         
-        // Ordenar: destaques primeiro, depois por likes
         filtrados.sort((a, b) => {
             if (a.destaque && !b.destaque) return -1;
             if (!a.destaque && b.destaque) return 1;
@@ -767,7 +895,8 @@
         const jogo = jogosData.find(j => j.id === id);
         if (jogo) {
             modoEdicaoId = id;
-            document.getElementById('imagemUrl').value = jogo.imagem || '';
+            
+            // Preencher formulário
             document.getElementById('jogoNome').value = jogo.nome || '';
             document.getElementById('jogoCategoria').value = jogo.categoria || '';
             document.getElementById('jogoPlataforma').value = jogo.plataforma || 'PSP';
@@ -788,12 +917,25 @@
             document.getElementById('descricaoLonga').value = jogo.descricao_longa || '';
             document.getElementById('videoUrl').value = jogo.video_url || '';
             
-            if (jogo.imagem && jogo.imagem.startsWith('http')) {
-                document.getElementById('previewImg').src = jogo.imagem;
-                document.getElementById('previewImagem').style.display = 'block';
+            // Preencher imagem
+            if (jogo.imagem) {
+                if (jogo.imagem.startsWith('http')) {
+                    document.querySelector('.image-tab[data-imgtab="link"]').click();
+                    document.getElementById('linkInput').value = jogo.imagem;
+                    document.getElementById('linkPreviewImg').src = jogo.imagem;
+                    document.getElementById('linkPreviewBox').style.display = 'block';
+                } else {
+                    document.querySelector('.image-tab[data-imgtab="upload"]').click();
+                    document.getElementById('previewImg').src = `${API_URL}/imagens/${jogo.imagem}.jpg`;
+                    document.getElementById('previewBox').style.display = 'block';
+                    document.getElementById('previewNome').innerHTML = `📸 ${jogo.imagem}.jpg`;
+                }
+                document.getElementById('jogoImagem').value = jogo.imagem;
             }
             
             abrirPublicar();
+        } else {
+            mostrarToast('Jogo não encontrado!', 'error');
         }
     }
 
@@ -801,11 +943,11 @@
         if (confirm('Tem certeza que deseja excluir este jogo?')) {
             try {
                 await fetch(`${API_URL}/api/jogos/${id}`, { method: 'DELETE' });
-                alert('Jogo excluído!');
-                carregarJogos();
+                mostrarToast('Jogo excluído!', 'success');
+                await carregarJogos();
                 renderizarListaJogos();
             } catch (error) {
-                alert('Erro ao excluir');
+                mostrarToast('Erro ao excluir', 'error');
             }
         }
     }
@@ -854,13 +996,13 @@
                     <p>${j.categoria} • 👍 ${j.likes || 0}</p>
                 </div>
                 <div class="jogo-actions">
-                    <button class="btn-editar" onclick="toggleBanner(${j.id})">⭐ Remover Banner</button>
+                    <button class="btn-editar" onclick="removerBanner(${j.id})">⭐ Remover Banner</button>
                 </div>
             </div>
         `).join('') : '<p>Nenhum jogo selecionado para banner</p>';
     }
 
-    async function toggleBanner(id) {
+    async function removerBanner(id) {
         const jogo = jogosData.find(j => j.id === id);
         if (jogo) {
             try {
@@ -869,22 +1011,26 @@
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ ...jogo, banner: false })
                 });
-                carregarJogos();
+                mostrarToast('Banner removido!', 'success');
+                await carregarJogos();
                 renderizarBanners();
-                alert('Banner removido!');
             } catch (error) {
-                alert('Erro ao remover banner');
+                mostrarToast('Erro ao remover banner', 'error');
             }
         }
     }
 
-    // Busca em tempo real na gestão
-    document.addEventListener('input', (e) => {
-        if (e.target.id === 'buscaJogos') {
-            renderizarListaJogos();
-        }
-    });
+    // ==================== TOAST ====================
+    function mostrarToast(mensagem, tipo = 'success') {
+        const toast = document.createElement('div');
+        toast.className = 'toast';
+        if (tipo === 'error') toast.classList.add('error');
+        toast.innerHTML = mensagem;
+        document.body.appendChild(toast);
+        setTimeout(() => toast.remove(), 3000);
+    }
 
+    // Busca em tempo real
     document.getElementById('buscaJogos')?.addEventListener('input', renderizarListaJogos);
 </script>
 </body>
