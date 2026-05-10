@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>ZonaXP - Partilhe e Baixe Grátis</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a0a0a 100%);
+            color: white;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            max-width: 550px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        .card {
+            background: linear-gradient(135deg, #111, #1a1a1a);
+            border-radius: 28px;
+            padding: 30px 25px;
+            border: 1px solid rgba(255, 0, 79, 0.3);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+            text-align: center;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, #ff004f, #8000ff, #00ff9c);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+
+        .jogo-info {
+            margin: 20px 0;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+        }
+
+        .jogo-info img {
+            width: 100%;
+            height: auto;
+            max-height: 400px;
+            object-fit: contain;
+            border-radius: 20px;
+            margin-bottom: 20px;
+            border: 3px solid #ff004f;
+            background: #0a0a0a;
+        }
+
+        .jogo-info h2 {
+            font-size: 1.5rem;
+            margin-bottom: 8px;
+        }
+
+        .jogo-info p {
+            color: #888;
+            font-size: 0.85rem;
+        }
+
+        .progresso-area {
+            margin: 25px 0;
+        }
+
+        .progresso-label {
+            font-size: 0.8rem;
+            color: #888;
+            margin-bottom: 8px;
+        }
+
+        .progresso-bar {
+            background: #2a2a2a;
+            border-radius: 30px;
+            height: 12px;
+            overflow: hidden;
+            margin-bottom: 8px;
+        }
+
+        .progresso-fill {
+            background: linear-gradient(90deg, #ff004f, #8000ff);
+            width: 0%;
+            height: 100%;
+            transition: width 0.5s ease;
+            border-radius: 30px;
+        }
+
+        .progresso-texto {
+            font-size: 1rem;
+            font-weight: bold;
+            color: #00ff9c;
+        }
+
+        .btn-partilhar {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(90deg, #25D366, #128C7E);
+            border: none;
+            border-radius: 50px;
+            color: white;
+            font-weight: bold;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .btn-partilhar:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-partilhar:hover:not(:disabled) {
+            transform: scale(1.02);
+        }
+
+        .btn-baixar {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(90deg, #00ff9c, #00cc7a);
+            border: none;
+            border-radius: 50px;
+            color: #0a0a0a;
+            font-weight: bold;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: 0.3s;
+            display: none;
+        }
+
+        .btn-baixar:hover {
+            transform: scale(1.02);
+        }
+
+        .info-text {
+            font-size: 0.7rem;
+            color: #666;
+            margin-top: 15px;
+        }
+
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            display: none;
+        }
+
+        .modal-content {
+            background: #111;
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            max-width: 280px;
+            border: 1px solid #ff004f;
+        }
+
+        .modal-content h3 {
+            color: #ff004f;
+            margin-bottom: 10px;
+        }
+
+        .modal-content p {
+            font-size: 0.85rem;
+            margin: 10px 0;
+        }
+
+        .modal-content button {
+            margin-top: 15px;
+            padding: 10px 20px;
+            background: linear-gradient(90deg, #ff004f, #8000ff);
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        @media (max-width: 600px) {
+            .container { max-width: 100%; }
+            .card { padding: 20px; }
+            .jogo-info img { max-height: 300px; }
+            .jogo-info h2 { font-size: 1.2rem; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="card">
+        <div class="logo">🎮 ZonaXP</div>
+        <div class="jogo-info" id="jogoInfo">
+            <img id="jogoImagem" src="https://res.cloudinary.com/duofl5h4w/image/upload/v1778397837/images_2_einp1c.jpg" alt="Jogo">
+            <h2 id="jogoNome">Carregando...</h2>
+            <p id="jogoDesc">Aguarde um momento</p>
+        </div>
+
+        <div class="progresso-area">
+            <div class="progresso-label">📢 PROGRESSO DA PARTILHA</div>
+            <div class="progresso-bar">
+                <div class="progresso-fill" id="progressoFill"></div>
+            </div>
+            <div class="progresso-texto" id="progressoTexto">0 / 5 partilhas</div>
+        </div>
+
+        <button class="btn-partilhar" id="btnPartilhar">
+            📤 PARTILHAR NO WHATSAPP
+        </button>
+
+        <button class="btn-baixar" id="btnBaixar">
+            🎁 LIBERAR DOWNLOAD
+        </button>
+
+        <div class="info-text">
+            <p>⚠️ Partilhe o link em <strong>5 grupos ou contactos</strong> para desbloquear o jogo!</p>
+            <p>Cada partilha é contada após confirmar no WhatsApp.</p>
+        </div>
+    </div>
+</div>
+
+<!-- Modal de sucesso -->
+<div id="modal" class="modal">
+    <div class="modal-content">
+        <h3>✅ PARABÉNS!</h3>
+        <p id="modalMessage">Você completou as 5 partilhas!</p>
+        <button onclick="fecharModal()">Continuar</button>
+    </div>
+</div>
+
+<script>
+    // ==================== CONFIGURAÇÃO ====================
+    const JOGO = {
+        nome: "GTA VI",
+        descricao: "Complete 5 partilhas para baixar grátis!",
+        imagemUrl: "https://res.cloudinary.com/duofl5h4w/image/upload/v1778397837/images_2_einp1c.jpg",
+        linkDownload: "https://www.mediafire.com/file/.../jogo.zip/file"
+    };
+
+    // Link do jogo para download (o link que aparece na mensagem)
+    const LINK_DO_JOGO = "https://zonaxp.vercel.app/download.html?jogo=35";
+
+    // Mensagem fixa personalizada
+    const MENSAGEM_FIXA = `🎮 *Veja o ${JOGO.nome}* 🎮
+
+Obrigado ZonaXP por ter deixado disponível para jogar!
+
+👇 Link para baixar:
+${LINK_DO_JOGO}`;
+
+    // ==================== SISTEMA DE PARTILHA ====================
+    let partilhasFeitas = 0;
+    const TOTAL_PARTILHAS = 5;
+    let aguardandoRetorno = false;
+
+    function carregarProgresso() {
+        const salvo = localStorage.getItem('partilhasProgresso');
+        if (salvo !== null) {
+            partilhasFeitas = parseInt(salvo);
+            atualizarProgresso();
+        }
+        if (partilhasFeitas >= TOTAL_PARTILHAS) {
+            completarDownload();
+        }
+    }
+
+    function atualizarProgresso() {
+        const percentual = (partilhasFeitas / TOTAL_PARTILHAS) * 100;
+        document.getElementById('progressoFill').style.width = `${percentual}%`;
+        document.getElementById('progressoTexto').innerHTML = `${partilhasFeitas} / ${TOTAL_PARTILHAS} partilhas`;
+        localStorage.setItem('partilhasProgresso', partilhasFeitas);
+        
+        if (partilhasFeitas >= TOTAL_PARTILHAS) {
+            document.getElementById('btnPartilhar').disabled = true;
+            document.getElementById('btnPartilhar').style.opacity = '0.5';
+            completarDownload();
+        }
+    }
+
+    function abrirWhatsApp() {
+        // Abrir WhatsApp diretamente com a mensagem personalizada
+        const urlWhatsApp = `https://wa.me/?text=${encodeURIComponent(MENSAGEM_FIXA)}`;
+        window.open(urlWhatsApp, '_blank');
+        
+        aguardandoRetorno = true;
+        
+        // Mostrar modal para confirmar partilha após voltar
+        setTimeout(() => {
+            if (aguardandoRetorno) {
+                mostrarModalConfirmacaoPosPartilha();
+            }
+        }, 2000);
+    }
+    
+    function mostrarModalConfirmacaoPosPartilha() {
+        const modalDiv = document.createElement('div');
+        modalDiv.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.95);display:flex;justify-content:center;align-items:center;z-index:10000;';
+        modalDiv.innerHTML = `
+            <div style="background:#111;border-radius:20px;padding:25px;max-width:300px;text-align:center;border:1px solid #ff004f;">
+                <h3 style="color:#00ff9c;">✅ Já partilhou?</h3>
+                <p style="margin:15px 0;">Confirme se já partilhou o link num grupo ou contacto.</p>
+                <button id="btnSim" style="background:#25D366;border:none;padding:12px;border-radius:10px;color:white;font-weight:bold;width:100%;margin-bottom:10px;">✅ SIM, JÁ PARTILHEI</button>
+                <button id="btnNao" style="background:#333;border:none;padding:10px;border-radius:10px;color:white;width:100%;">❌ AINDA NÃO</button>
+            </div>
+        `;
+        document.body.appendChild(modalDiv);
+        
+        document.getElementById('btnSim').onclick = () => {
+            partilhasFeitas++;
+            atualizarProgresso();
+            modalDiv.remove();
+            aguardandoRetorno = false;
+            
+            if (partilhasFeitas < TOTAL_PARTILHAS) {
+                alert(`✅ Partilha confirmada! Faltam ${TOTAL_PARTILHAS - partilhasFeitas} partilha(s).`);
+            } else {
+                alert('🎉 Parabéns! Você completou todas as partilhas!');
+            }
+        };
+        
+        document.getElementById('btnNao').onclick = () => {
+            modalDiv.remove();
+            aguardandoRetorno = false;
+        };
+    }
+
+    function completarDownload() {
+        const btnPartilhar = document.getElementById('btnPartilhar');
+        const btnBaixar = document.getElementById('btnBaixar');
+        
+        btnPartilhar.style.display = 'none';
+        btnBaixar.style.display = 'block';
+        confetti();
+    }
+
+    function confetti() {
+        const colors = ['#ff004f', '#00ff9c', '#8000ff', '#ffaa00', '#25D366'];
+        for (let i = 0; i < 100; i++) {
+            const conf = document.createElement('div');
+            conf.style.cssText = `
+                position: fixed;
+                width: 8px;
+                height: 8px;
+                background: ${colors[Math.floor(Math.random() * colors.length)]};
+                border-radius: 50%;
+                left: ${Math.random() * 100}%;
+                top: -10px;
+                pointer-events: none;
+                z-index: 10000;
+                animation: fall ${Math.random() * 2 + 1}s linear forwards;
+            `;
+            document.body.appendChild(conf);
+            setTimeout(() => conf.remove(), 3000);
+        }
+        const style = document.createElement('style');
+        style.textContent = `@keyframes fall { to { transform: translateY(100vh) rotate(360deg); opacity: 0; } }`;
+        document.head.appendChild(style);
+    }
+
+    function baixarJogo() {
+        if (partilhasFeitas >= TOTAL_PARTILHAS) {
+            window.open(JOGO.linkDownload, '_blank');
+        } else {
+            alert(`⚠️ Você ainda precisa de ${TOTAL_PARTILHAS - partilhasFeitas} partilha(s).`);
+        }
+    }
+
+    function fecharModal() {
+        document.getElementById('modal').style.display = 'none';
+        if (partilhasFeitas >= TOTAL_PARTILHAS) {
+            window.open(JOGO.linkDownload, '_blank');
+        }
+    }
+
+    function atualizarInfoJogo() {
+        document.getElementById('jogoNome').innerText = JOGO.nome;
+        document.getElementById('jogoDesc').innerHTML = JOGO.descricao;
+        document.getElementById('jogoImagem').src = JOGO.imagemUrl;
+    }
+
+    // Eventos
+    document.getElementById('btnPartilhar').onclick = abrirWhatsApp;
+    document.getElementById('btnBaixar').onclick = baixarJogo;
+
+    // Inicializar
+    atualizarInfoJogo();
+    carregarProgresso();
+</script>
+</body>
+</html>
