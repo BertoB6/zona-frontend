@@ -377,6 +377,154 @@
             <div class="loading">🔄 Carregando informações do jogo...</div>
         </div>
     </div>
+    
+    <!-- NOTIFICAÇÃO SUGESTIVA -->
+<div id="popupComunidade" class="popup-notificacao" style="display: none;">
+    <div class="popup-content">
+        <div class="popup-icon">💬</div>
+        <div class="popup-texto">
+            <h4>Fique por dentro das novidades! 🎮</h4>
+            <p>Entre no nosso grupo ou canal do WhatsApp e receba jogos exclusivos, atualizações e muito mais!</p>
+        </div>
+        <div class="popup-botoes">
+            <a href="https://chat.whatsapp.com/JSy6GUWD9S22qhhOVpOoHW" target="_blank" class="btn-grupo">📱 Grupo</a>
+            <a href="https://whatsapp.com/channel/0029Vb7YAqi3bbV9tuuiyC1p" target="_blank" class="btn-canal">📢 Canal</a>
+            <button class="btn-fechar-popup" onclick="fecharPopupComunidade()">✕ Fechar</button>
+        </div>
+    </div>
+</div>
+
+<style>
+    .popup-notificacao {
+        position: fixed;
+        bottom: 20px;
+        left: 20px;
+        right: 20px;
+        background: #1a1a1a;
+        border-left: 4px solid #00ff9c;
+        border-radius: 16px;
+        padding: 16px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        z-index: 10000;
+        animation: slideUp 0.5s ease;
+        max-width: 400px;
+        margin: 0 auto;
+    }
+
+    @keyframes slideUp {
+        from {
+            opacity: 0;
+            transform: translateY(100px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .popup-content {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .popup-icon {
+        font-size: 2rem;
+        text-align: center;
+    }
+
+    .popup-texto h4 {
+        color: #00ff9c;
+        margin-bottom: 5px;
+        font-size: 1rem;
+    }
+
+    .popup-texto p {
+        color: #ccc;
+        font-size: 0.85rem;
+        line-height: 1.4;
+    }
+
+    .popup-botoes {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        justify-content: center;
+    }
+
+    .btn-grupo, .btn-canal, .btn-fechar-popup {
+        padding: 8px 16px;
+        border-radius: 30px;
+        font-size: 0.8rem;
+        font-weight: bold;
+        text-decoration: none;
+        cursor: pointer;
+        border: none;
+        text-align: center;
+    }
+
+    .btn-grupo {
+        background: #25D366;
+        color: white;
+    }
+
+    .btn-canal {
+        background: linear-gradient(90deg, #ff004f, #8000ff);
+        color: white;
+    }
+
+    .btn-fechar-popup {
+        background: #333;
+        color: white;
+    }
+
+    .btn-grupo:hover, .btn-canal:hover, .btn-fechar-popup:hover {
+        transform: scale(1.02);
+        opacity: 0.9;
+    }
+
+    @media (min-width: 768px) {
+        .popup-notificacao {
+            left: auto;
+            right: 20px;
+            bottom: 20px;
+            max-width: 350px;
+        }
+    }
+</style>
+
+<script>
+    // ==================== NOTIFICAÇÃO POPUP ====================
+    function mostrarPopupComunidade() {
+        const popup = document.getElementById('popupComunidade');
+        if (!popup) return;
+        
+        // Verificar se já foi fechado antes
+        const popupFechado = localStorage.getItem('popupComunidadeFechado');
+        if (popupFechado === 'true') return;
+        
+        // Mostrar popup após 3 segundos
+        setTimeout(() => {
+            popup.style.display = 'block';
+        }, 3000);
+    }
+
+    function fecharPopupComunidade() {
+        const popup = document.getElementById('popupComunidade');
+        if (popup) {
+            popup.style.display = 'none';
+            // Salvar que o usuário fechou (não mostra por 7 dias)
+            localStorage.setItem('popupComunidadeFechado', 'true');
+            setTimeout(() => {
+                localStorage.removeItem('popupComunidadeFechado');
+            }, 7 * 24 * 60 * 60 * 1000); // 7 dias
+        }
+    }
+
+    // Mostrar popup ao carregar a página
+    document.addEventListener('DOMContentLoaded', mostrarPopupComunidade);
+</script>
+
     <footer>
         <p>ZonaXP - Jogos PSP e Mobile</p>
     </footer>
