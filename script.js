@@ -81,7 +81,7 @@ function renderizarJogos(jogosArray) {
     });
 }
 
-// Função para criar um card de jogo (CORRIGIDA para aceitar URL externa)
+// Função para criar um card de jogo
 function criarCard(jogo, isDestaque) {
     const card = document.createElement('div');
     card.className = 'card';
@@ -89,32 +89,15 @@ function criarCard(jogo, isDestaque) {
     
     const plataformaIcon = jogo.plataforma === "APK Android" ? "📱" : "🎮";
     
-    // CORREÇÃO: Verificar se a imagem é URL externa ou nome de arquivo
-    let imagemPrincipal;
-    if (jogo.imagem && jogo.imagem.startsWith('http')) {
-        // É uma URL externa (Cloudinary, ImgBB, etc.)
-        imagemPrincipal = jogo.imagem;
-    } else {
-        // É nome de arquivo local
-        imagemPrincipal = `${API_URL}/imagens/${jogo.imagem}.jpg`;
-    }
-    
-    // Fallback para imagens antigas no front-end (apenas se for nome de arquivo)
-    const imagemFrontend = (jogo.imagem && !jogo.imagem.startsWith('http')) ? `imagens/${jogo.imagem}.jpg` : '';
-    
-    // Construir o onerror baseado no tipo de imagem
-    let onerrorHandler = '';
-    if (jogo.imagem && !jogo.imagem.startsWith('http')) {
-        onerrorHandler = `this.src='${imagemFrontend}'; this.onerror=null;`;
-    } else {
-        onerrorHandler = `this.src='https://via.placeholder.com/400x300?text=${encodeURIComponent(jogo.nome)}'; this.onerror=null;`;
-    }
+    // Primeiro tenta carregar do backend, depois do front-end
+    const imagemBackend = `${API_URL}/imagens/${jogo.imagem}.jpg`;
+    const imagemFrontend = `imagens/${jogo.imagem}.jpg`;
     
     card.innerHTML = `
-        <img src="${imagemPrincipal}" 
+        <img src="${imagemBackend}" 
              alt="${jogo.nome}" 
              loading="lazy" 
-             onerror="${onerrorHandler}">
+             onerror="this.src='${imagemFrontend}'; this.onerror=null;">
         <h3>${jogo.nome}</h3>
         <div>
             <span class="categoria">${jogo.categoria}</span>
@@ -139,14 +122,22 @@ function criarCard(jogo, isDestaque) {
 // Função principal de download (com suporte a senha)
 function baixar(jogo) {
     if (jogo.pago) {
+        // Jogo pago: checkout
         jogoSelecionado = jogo;
         if (popup && priceText) {
             priceText.innerHTML = `${jogo.preco}<br><span style="font-size: 0.9rem; color: #888;">${jogo.nome}</span>`;
             popup.style.display = "flex";
         }
     } else {
-        // Jogo grátis: redireciona para página de download
-        window.location.href = `download.html?jogo=${jogo.id}`;
+        // Jogo grátis: verificar se já deu os dados
+        const leadDado = localStorage.getItem('lead_dado');
+        if (leadDado === 'true') {
+            // Já deu os dados
+            window.location.href = `download.html?jogo=${jogo.id}`;
+        } else {
+            // Mostrar modal para capturar dados
+            verificarLead(jogo.id);
+        }
     }
 }
 
@@ -341,6 +332,119 @@ document.addEventListener('click', (e) => {
         }
     }
 });
+
+// Verificar se o usuário já forneceu os dados
+function verificarLead(jogoId) {
+    const leadDado = localStorage.getItem('lead_dado');
+    const jogo = jogos.find(j => j.id === jogoId);
+    
+    if (leadDado === 'true') {
+        // Já deu os dados, prosseguir
+        baixar(jogo);
+    } else {
+        // Mostrar modal para capturar dados
+        mostrarModalLead(jogo);
+    }
+}
+
+function mostrarModalLead(jogo) {
+    // Criar modal
+    const modal = document.createElement('div');
+    modal.id = 'leadModal';
+    modal.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.95);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 2000;
+    `;
+    
+    modal.innerHTML = `
+        <div style="background: linear-gradient(135deg, #111, #1a1a1a); border-radius: 20px; padding: 30px; max-width: 400px; width: 90%; border: 1px solid #ff004f; text-align: center;">
+            <h3 style="color: #ff004f; margin-bottom: 10px;">🎮 Antes de baixar</h3>
+            <p style="color: #ccc; margin-bottom: 20px; font-size: 0.9rem;">
+                Preencha os dados abaixo para acessar o jogo <strong>${jogo.nome}</strong>
+            </p>
+            
+            <div style="margin-bottom: 15px;">
+                <input type="text" id="leadNome" placeholder="Seu nome completo" style="width:100%; padding:12px; background:#0a0a0a; border:1px solid #333; border-radius:10px; color:white; margin-bottom:10px;">
+                <input type="email" id="leadEmail" placeholder="Seu email" style="width:100%; padding:12px; background:#0a0a0a; border:1px solid #333; border-radius:10px; color:white; margin-bottom:10px;">
+                <input type="text" id="leadWhatsapp" placeholder="WhatsApp (ex: 841234567)" style="width:100%; padding:12px; background:#0a0a0a; border:1px solid #333; border-radius:10px; color:white;">
+            </div>
+            
+            <button id="btnEnviarLead" style="width:100%; padding:14px; background: linear-gradient(90deg, #00ff9c, #00cc7a); border: none; border-radius:10px; color: #0a0a0a; font-weight: bold; cursor: pointer; font-size: 1rem;">
+                📤 Continuar para Download
+            </button>
+            
+            <button onclick="fecharModalLead()" style="margin-top:10px; background:none; border:none; color:#666; cursor:pointer; font-size:0.8rem;">
+                Fechar
+            </button>
+        </div>
+    `;
+    
+    document.body.appendChild(modal);
+    
+    document.getElementById('btnEnviarLead').onclick = () => {
+        enviarLead(jogo);
+    };
+}
+
+function fecharModalLead() {
+    const modal = document.getElementById('leadModal');
+    if (modal) modal.remove();
+}
+
+async function enviarLead(jogo) {
+    const nome = document.getElementById('leadNome').value.trim();
+    const email = document.getElementById('leadEmail').value.trim();
+    const whatsapp = document.getElementById('leadWhatsapp').value.trim();
+    
+    if (!nome || !email || !whatsapp) {
+        alert('⚠️ Preencha todos os campos!');
+        return;
+    }
+    
+    // Validar WhatsApp (número moçambicano)
+    const whatsappLimpo = whatsapp.replace(/\s/g, '');
+    if (!/^[8|7][0-9]{8}$/.test(whatsappLimpo)) {
+        alert('⚠️ Número de WhatsApp inválido! Use 84xxxxxxx ou 87xxxxxxx');
+        return;
+    }
+    
+    try {
+        const response = await fetch(`${API_URL}/api/leads`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                nome: nome,
+                email: email,
+                whatsapp: whatsappLimpo,
+                jogoInteresse: jogo.nome
+            })
+        });
+        
+        const result = await response.json();
+        
+        if (result.sucesso) {
+            // Salvar que o lead já foi dado
+            localStorage.setItem('lead_dado', 'true');
+            localStorage.setItem('lead_nome', nome);
+            
+            fecharModalLead();
+            // Prosseguir para o download
+            baixar(jogo);
+        } else {
+            alert('❌ Erro ao salvar dados. Tente novamente.');
+        }
+    } catch (error) {
+        alert('❌ Erro de conexão. Tente novamente.');
+    }
+}
 
 // ==================== INICIALIZAÇÃO ====================
 carregarJogosAPI();
