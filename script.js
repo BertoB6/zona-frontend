@@ -119,24 +119,64 @@ function criarCard(jogo, isDestaque) {
     return card;
 }
 
-// ==================== SISTEMA DE LEADS ====================
+// ==================== SISTEMA DE LEADS COM VALIDADE DE 25 DIAS ====================
 
-// Verificar se o usuário já forneceu os dados
-function verificarLead(jogoId) {
-    const leadDado = localStorage.getItem('lead_dado');
-    const jogo = jogos.find(j => j.id === jogoId);
-    
-    if (leadDado === 'true') {
-        // Já deu os dados, prosseguir
-        baixar(jogo);
+// Função principal de download com verificação obrigatória
+function baixar(jogo) {
+    if (jogo.pago) {
+        // Jogo pago: checkout
+        jogoSelecionado = jogo;
+        if (popup && priceText) {
+            priceText.innerHTML = `${jogo.preco}<br><span style="font-size: 0.9rem; color: #888;">${jogo.nome}</span>`;
+            popup.style.display = "flex";
+        }
     } else {
-        // Mostrar modal para capturar dados
-        mostrarModalLead(jogo);
+        // Jogo grátis: verificar se o lead é válido
+        const leadValido = verificarLeadValido();
+        
+        if (leadValido) {
+            // Lead válido, vai direto para download
+            window.location.href = `download.html?jogo=${jogo.id}`;
+        } else {
+            // Lead expirado ou inexistente, mostrar modal
+            mostrarModalLead(jogo);
+        }
     }
 }
 
+// Verificar se o lead está válido (preenchido e dentro dos 25 dias)
+function verificarLeadValido() {
+    const leadDado = localStorage.getItem('lead_dado');
+    const leadData = localStorage.getItem('lead_data');
+    
+    if (leadDado !== 'true' || !leadData) {
+        return false;
+    }
+    
+    // Calcular dias desde o preenchimento
+    const dataPreenchimento = new Date(leadData);
+    const hoje = new Date();
+    const diferencaDias = Math.floor((hoje - dataPreenchimento) / (1000 * 60 * 60 * 24));
+    
+    // Se passaram mais de 25 dias, o lead expirou
+    if (diferencaDias >= 25) {
+        // Limpar dados antigos
+        localStorage.removeItem('lead_dado');
+        localStorage.removeItem('lead_data');
+        localStorage.removeItem('lead_nome');
+        localStorage.removeItem('lead_email');
+        localStorage.removeItem('lead_whatsapp');
+        return false;
+    }
+    
+    return true;
+}
+
+// Mostrar modal com formulário obrigatório
 function mostrarModalLead(jogo) {
-    // Criar modal
+    // Verificar se o modal já existe
+    if (document.getElementById('leadModal')) return;
+    
     const modal = document.createElement('div');
     modal.id = 'leadModal';
     modal.style.cssText = `
@@ -152,41 +192,47 @@ function mostrarModalLead(jogo) {
         z-index: 2000;
     `;
     
+    // Verificar se já existe lead expirado para mostrar mensagem
+    const leadExpirado = localStorage.getItem('lead_dado') === 'true' && !verificarLeadValido();
+    
     modal.innerHTML = `
         <div style="background: linear-gradient(135deg, #111, #1a1a1a); border-radius: 20px; padding: 30px; max-width: 400px; width: 90%; border: 1px solid #ff004f; text-align: center;">
-            <h3 style="color: #ff004f; margin-bottom: 10px;">🎮 Antes de baixar</h3>
+            <h3 style="color: #ff004f; margin-bottom: 5px;">${leadExpirado ? '🔄 Verificação Expirada' : '🔐 Verificação Obrigatória'}</h3>
+            <p style="color: #ffaa00; font-size: 0.8rem; margin-bottom: 10px;">⏳ Válido por 25 dias</p>
             <p style="color: #ccc; margin-bottom: 20px; font-size: 0.9rem;">
-                Preencha os dados abaixo para acessar o jogo <strong>${jogo.nome}</strong>
+                ${leadExpirado ? 'A sua verificação expirou. Preencha novamente para continuar a baixar jogos.' : 'Preencha os dados abaixo para acessar o jogo <strong>' + jogo.nome + '</strong>'}
             </p>
             
             <div style="margin-bottom: 15px;">
-                <input type="text" id="leadNome" placeholder="Seu nome completo" style="width:100%; padding:12px; background:#0a0a0a; border:1px solid #333; border-radius:10px; color:white; margin-bottom:10px;">
-                <input type="email" id="leadEmail" placeholder="Seu email" style="width:100%; padding:12px; background:#0a0a0a; border:1px solid #333; border-radius:10px; color:white; margin-bottom:10px;">
-                <input type="text" id="leadWhatsapp" placeholder="WhatsApp (ex: 841234567)" style="width:100%; padding:12px; background:#0a0a0a; border:1px solid #333; border-radius:10px; color:white;">
+                <input type="text" id="leadNome" placeholder="Seu nome completo" style="width:100%; padding:12px; background:#0a0a0a; border:1px solid #333; border-radius:10px; color:white; margin-bottom:10px;" value="${localStorage.getItem('lead_nome') || ''}">
+                <input type="email" id="leadEmail" placeholder="Seu email" style="width:100%; padding:12px; background:#0a0a0a; border:1px solid #333; border-radius:10px; color:white; margin-bottom:10px;" value="${localStorage.getItem('lead_email') || ''}">
+                <input type="text" id="leadWhatsapp" placeholder="WhatsApp (ex: 841234567)" style="width:100%; padding:12px; background:#0a0a0a; border:1px solid #333; border-radius:10px; color:white;" value="${localStorage.getItem('lead_whatsapp') || ''}">
             </div>
             
             <button id="btnEnviarLead" style="width:100%; padding:14px; background: linear-gradient(90deg, #00ff9c, #00cc7a); border: none; border-radius:10px; color: #0a0a0a; font-weight: bold; cursor: pointer; font-size: 1rem;">
                 📤 Continuar para Download
             </button>
             
-            <button onclick="fecharModalLead()" style="margin-top:10px; background:none; border:none; color:#666; cursor:pointer; font-size:0.8rem;">
-                Fechar
-            </button>
+            <p style="margin-top: 12px; font-size: 0.65rem; color: #666;">
+                Ao continuar, concorda em fornecer os dados para acesso aos jogos.
+            </p>
         </div>
     `;
     
     document.body.appendChild(modal);
     
-    document.getElementById('btnEnviarLead').onclick = () => {
+    document.getElementById('btnEnviarLead').onclick = function() {
         enviarLead(jogo);
     };
 }
 
+// Fechar modal (não é possível fechar sem preencher)
 function fecharModalLead() {
-    const modal = document.getElementById('leadModal');
-    if (modal) modal.remove();
+    // Não faz nada - o modal é obrigatório
+    alert('⚠️ Por favor, preencha os dados para continuar.');
 }
 
+// Enviar lead e salvar com data
 async function enviarLead(jogo) {
     const nome = document.getElementById('leadNome').value.trim();
     const email = document.getElementById('leadEmail').value.trim();
@@ -219,13 +265,20 @@ async function enviarLead(jogo) {
         const result = await response.json();
         
         if (result.sucesso) {
-            // Salvar que o lead já foi dado
+            // Salvar dados com data atual
+            const dataAtual = new Date().toISOString();
             localStorage.setItem('lead_dado', 'true');
+            localStorage.setItem('lead_data', dataAtual);
             localStorage.setItem('lead_nome', nome);
+            localStorage.setItem('lead_email', email);
+            localStorage.setItem('lead_whatsapp', whatsappLimpo);
             
-            fecharModalLead();
-            // Prosseguir para o download
-            baixar(jogo);
+            // Fechar modal
+            const modal = document.getElementById('leadModal');
+            if (modal) modal.remove();
+            
+            // Redirecionar para download
+            window.location.href = `download.html?jogo=${jogo.id}`;
         } else {
             alert('❌ Erro ao salvar dados. Tente novamente.');
         }
@@ -234,26 +287,72 @@ async function enviarLead(jogo) {
     }
 }
 
-// ==================== FUNÇÃO PRINCIPAL DE DOWNLOAD ====================
-
-// Função principal de download (com suporte a senha e leads)
-function baixar(jogo) {
-    if (jogo.pago) {
-        // Jogo pago: checkout
-        jogoSelecionado = jogo;
-        if (popup && priceText) {
-            priceText.innerHTML = `${jogo.preco}<br><span style="font-size: 0.9rem; color: #888;">${jogo.nome}</span>`;
-            popup.style.display = "flex";
+// Mostrar aviso de expiração (5 dias antes)
+function verificarExpiracaoLead() {
+    const leadDado = localStorage.getItem('lead_dado');
+    const leadData = localStorage.getItem('lead_data');
+    
+    if (leadDado === 'true' && leadData) {
+        const dataPreenchimento = new Date(leadData);
+        const hoje = new Date();
+        const diferencaDias = Math.floor((hoje - dataPreenchimento) / (1000 * 60 * 60 * 24));
+        const diasRestantes = 25 - diferencaDias;
+        
+        if (diasRestantes > 0 && diasRestantes <= 5) {
+            // Mostrar aviso sutil no console ou criar notificação
+            console.log(`⚠️ A sua verificação expira em ${diasRestantes} dia(s).`);
+            
+            // Opcional: criar notificação visual
+            const notificacao = document.createElement('div');
+            notificacao.style.cssText = `
+                position: fixed;
+                bottom: 20px;
+                left: 50%;
+                transform: translateX(-50%);
+                background: #ffaa00;
+                color: #0a0a0a;
+                padding: 10px 20px;
+                border-radius: 10px;
+                font-weight: bold;
+                z-index: 9999;
+                font-size: 0.8rem;
+                box-shadow: 0 5px 20px rgba(0,0,0,0.5);
+                animation: fadeInUp 0.5s ease;
+            `;
+            notificacao.textContent = `⚠️ A sua verificação expira em ${diasRestantes} dia(s). Preencha novamente para continuar.`;
+            document.body.appendChild(notificacao);
+            
+            setTimeout(() => {
+                notificacao.style.transition = 'opacity 0.5s';
+                notificacao.style.opacity = '0';
+                setTimeout(() => notificacao.remove(), 500);
+            }, 5000);
         }
-    } else {
-        // Jogo grátis: verificar se já deu os dados
-        const leadDado = localStorage.getItem('lead_dado');
-        if (leadDado === 'true') {
-            // Já deu os dados
-            window.location.href = `download.html?jogo=${jogo.id}`;
-        } else {
-            // Mostrar modal para capturar dados
-            verificarLead(jogo.id);
+    }
+}
+
+// Verificar ao carregar a página se o lead expirou
+function verificarLeadAoCarregar() {
+    const leadDado = localStorage.getItem('lead_dado');
+    if (leadDado === 'true') {
+        const leadData = localStorage.getItem('lead_data');
+        if (leadData) {
+            const dataPreenchimento = new Date(leadData);
+            const hoje = new Date();
+            const diferencaDias = Math.floor((hoje - dataPreenchimento) / (1000 * 60 * 60 * 24));
+            
+            if (diferencaDias >= 25) {
+                // Expirou, limpar dados
+                localStorage.removeItem('lead_dado');
+                localStorage.removeItem('lead_data');
+                localStorage.removeItem('lead_nome');
+                localStorage.removeItem('lead_email');
+                localStorage.removeItem('lead_whatsapp');
+                console.log('🔐 Verificação expirada. Pedir novamente os dados.');
+            } else if (diferencaDias >= 20) {
+                // Avisar que está a expirar
+                verificarExpiracaoLead();
+            }
         }
     }
 }
@@ -457,3 +556,4 @@ document.addEventListener('click', (e) => {
 // ==================== INICIALIZAÇÃO ====================
 carregarJogosAPI();
 carregarJogoPorURL();
+verificarLeadAoCarregar();
