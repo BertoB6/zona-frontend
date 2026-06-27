@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <title>ZonaXP - Download do Jogo</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <style>
         * {
             margin: 0;
@@ -22,7 +23,7 @@
             --accent: #ff004f;
             --like-color: #0f9d58;
             --dislike-color: #ff4444;
-            --share-color: #25D366;
+            --download-blue: #2563eb;
         }
 
         [data-theme="light"] {
@@ -47,7 +48,7 @@
             margin: 0 auto;
         }
 
-        /* Header */
+        /* ==================== HEADER ==================== */
         .header {
             position: sticky;
             top: 0;
@@ -94,7 +95,8 @@
             font-size: 0.9rem;
         }
 
-        .theme-toggle, .menu-icon {
+        .theme-toggle,
+        .menu-icon {
             background: none;
             border: none;
             font-size: 1.3rem;
@@ -107,7 +109,77 @@
             flex-shrink: 0;
         }
 
-        /* Card Principal */
+        .menu-icon {
+            font-size: 1.5rem;
+            order: 1;
+        }
+
+        /* ==================== SIDEBAR ==================== */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            right: -280px;
+            width: 260px;
+            height: 100%;
+            background: var(--bg-card);
+            z-index: 1000;
+            transition: 0.3s;
+            padding: 60px 20px 20px;
+            border-left: 1px solid var(--accent);
+            box-shadow: -2px 0 10px rgba(0,0,0,0.3);
+        }
+
+        .sidebar.active {
+            right: 0;
+        }
+
+        .sidebar .close-btn {
+            position: absolute;
+            top: 15px;
+            left: 20px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--accent);
+        }
+
+        .sidebar ul {
+            list-style: none;
+        }
+
+        .sidebar li {
+            padding: 15px 0;
+            border-bottom: 1px solid var(--border-color);
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .sidebar li:hover {
+            color: var(--accent);
+            padding-left: 10px;
+        }
+
+        .sidebar a {
+            color: var(--text-primary);
+            text-decoration: none;
+            display: block;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            z-index: 999;
+            display: none;
+        }
+
+        .overlay.active {
+            display: block;
+        }
+
+        /* ==================== CARD PRINCIPAL ==================== */
         .download-card {
             background: var(--bg-card);
             border-radius: 20px;
@@ -117,38 +189,117 @@
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
-        /* Imagem */
-        .imagem-area {
+        /* ==================== CARROSSEL DE MÍDIA ==================== */
+        .media-carousel {
             position: relative;
-            text-align: center;
-            background: var(--bg-primary);
+            overflow: hidden;
+            background: #000;
         }
 
-        .imagem-area img {
+        .media-track {
+            display: flex;
+            transition: transform 0.5s ease;
+        }
+
+        .media-slide {
+            min-width: 100%;
+            position: relative;
+            aspect-ratio: 16 / 9;
+            background: #0a0a0a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .media-slide img {
             width: 100%;
-            max-height: 300px;
-            object-fit: cover;
+            height: 100%;
+            object-fit: contain;
         }
 
-        .price-badge {
+        .media-slide video {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            background: #000;
+        }
+
+        .media-btn {
             position: absolute;
-            top: 15px;
-            right: 15px;
-            padding: 6px 14px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: bold;
-            z-index: 2;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0,0,0,0.6);
+            border: none;
+            color: white;
+            font-size: 2rem;
+            padding: 10px 16px;
+            cursor: pointer;
+            border-radius: 50%;
+            z-index: 10;
+            transition: 0.3s;
         }
 
-        .badge-free { background: var(--button-free); color: white; }
-        .badge-paid { background: var(--button-paid); color: white; }
+        .media-btn:hover {
+            background: rgba(255,255,255,0.2);
+        }
 
-        /* Info */
+        .media-btn.prev {
+            left: 10px;
+        }
+        .media-btn.next {
+            right: 10px;
+        }
+
+        .media-dots {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px;
+            background: rgba(0,0,0,0.5);
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+        }
+
+        .media-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.4);
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .media-dot.active {
+            background: var(--accent);
+            width: 20px;
+            border-radius: 4px;
+        }
+
+        .media-counter {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: rgba(0,0,0,0.7);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            z-index: 5;
+        }
+
+        /* ==================== INFORMAÇÕES ==================== */
         .info {
             padding: 20px;
             text-align: center;
@@ -185,61 +336,91 @@
             font-size: 0.85rem;
         }
 
-        /* Rating */
-        .rating-section {
+        /* ==================== RATING E PARTILHA ==================== */
+        .rating-share {
             padding: 15px 20px;
             display: flex;
-            justify-content: center;
-            gap: 30px;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
             border-bottom: 1px solid var(--border-color);
         }
 
-        .like-btn, .dislike-btn {
+        .rating {
+            display: flex;
+            gap: 20px;
+        }
+
+        .like-btn,
+        .dislike-btn {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
             background: none;
             border: none;
             font-size: 1rem;
             cursor: pointer;
             color: var(--text-secondary);
-            padding: 8px 16px;
+            padding: 8px 12px;
             border-radius: 30px;
             transition: 0.2s;
         }
 
-        .like-btn.active { color: var(--like-color); background: rgba(15,157,88,0.1); }
-        .dislike-btn.active { color: var(--dislike-color); background: rgba(255,68,68,0.1); }
-
-        /* Botão Partilhar */
-        .share-section {
-            padding: 0 20px 20px 20px;
-            border-bottom: 1px solid var(--border-color);
+        .like-btn.active {
+            color: var(--like-color);
+            background: rgba(15,157,88,0.1);
+        }
+        .dislike-btn.active {
+            color: var(--dislike-color);
+            background: rgba(255,68,68,0.1);
         }
 
-        .btn-share {
-            width: 100%;
-            padding: 14px;
-            background: var(--share-color);
-            border: none;
-            border-radius: 12px;
-            color: white;
-            font-weight: bold;
-            font-size: 1rem;
-            cursor: pointer;
+        .share-social {
             display: flex;
             align-items: center;
+            gap: 8px;
+        }
+
+        .share-btn,
+        .share-icon {
+            background: none;
+            border: none;
+            font-size: 1.4rem;
+            cursor: pointer;
+            color: var(--text-secondary);
+            transition: 0.3s;
+            padding: 8px;
+            border-radius: 50%;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
             justify-content: center;
-            gap: 10px;
-            transition: all 0.2s;
+            width: 44px;
+            height: 44px;
         }
 
-        .btn-share:hover {
-            transform: translateY(-2px);
-            opacity: 0.9;
+        .share-btn:hover,
+        .share-icon:hover {
+            background: rgba(255,255,255,0.1);
         }
 
-        /* Botões de Download */
+        .share-icon.whatsapp:hover {
+            color: #25D366;
+            background: rgba(37,211,102,0.15);
+        }
+
+        .share-icon.tiktok:hover {
+            color: #000000;
+            background: rgba(0,0,0,0.1);
+        }
+
+        .share-btn:hover {
+            color: var(--accent);
+            background: rgba(255,0,79,0.1);
+        }
+
+        /* ==================== BOTÕES DE DOWNLOAD ==================== */
         .downloads-section {
             padding: 20px;
             border-bottom: 1px solid var(--border-color);
@@ -271,13 +452,35 @@
             align-items: center;
             justify-content: center;
             gap: 10px;
+            color: white;
         }
 
-        .btn-download:hover { transform: translateY(-2px); }
-        .btn-free { background: var(--button-free); color: white; }
-        .btn-paid { background: var(--button-paid); color: white; }
+        .btn-download:hover {
+            transform: translateY(-2px);
+        }
 
-        /* Senha */
+        .btn-blue {
+            background: var(--download-blue);
+        }
+        .btn-blue:hover {
+            background: #1d4ed8;
+        }
+
+        .btn-free {
+            background: var(--button-free);
+        }
+        .btn-free:hover {
+            background: #0b7a44;
+        }
+
+        .btn-paid {
+            background: var(--button-paid);
+        }
+        .btn-paid:hover {
+            background: #e68a00;
+        }
+
+        /* ==================== SENHA ==================== */
         .senha-area {
             background: rgba(255,0,79,0.1);
             border-radius: 12px;
@@ -299,600 +502,599 @@
             font-family: monospace;
         }
 
-        /* Descrição */
+        /* ==================== DESCRIÇÃO ==================== */
         .descricao-area {
             padding: 0 20px 20px 20px;
             border-bottom: 1px solid var(--border-color);
         }
 
-        .descricao-area h4 { color: var(--accent); margin-bottom: 10px; }
-        .descricao-longa { color: var(--text-secondary); font-size: 0.9rem; line-height: 1.6; }
+        .descricao-area h4 {
+            color: var(--accent);
+            margin-bottom: 10px;
+        }
 
-        /* Instruções */
-        .instrucoes {
+        .descricao-longa {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        /* ==================== JOGOS RECOMENDADOS ==================== */
+        .recomendados {
             padding: 20px;
-            border-bottom: 1px solid var(--border-color);
         }
 
-        .instrucoes h4 { color: #00ff9c; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
-        .instrucoes ul { margin-left: 20px; color: var(--text-secondary); font-size: 0.85rem; }
-        .instrucoes li { margin: 5px 0; }
-
-        /* Jogos Relacionados */
-        .relacionados { padding: 20px; }
-        .relacionados h4 { color: var(--accent); margin-bottom: 15px; text-align: center; }
-        .relacionados-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-            gap: 12px;
+        .recomendados h4 {
+            color: var(--accent);
+            margin-bottom: 15px;
         }
 
-        .relacionado-card {
-            background: var(--bg-primary);
-            border-radius: 12px;
-            padding: 10px;
+        .recomendados-scroll {
             display: flex;
-            align-items: center;
-            gap: 10px;
-            cursor: pointer;
-            transition: 0.2s;
-            border: 1px solid var(--border-color);
+            gap: 16px;
+            overflow-x: auto;
+            padding: 8px 4px 16px 4px;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
         }
 
-        .relacionado-card:hover { border-color: var(--accent); transform: translateX(3px); }
-        .relacionado-card img { width: 45px; height: 45px; border-radius: 8px; object-fit: cover; }
-        .relacionado-info { flex: 1; }
-        .relacionado-info h5 { font-size: 0.75rem; margin-bottom: 3px; }
-        .relacionado-info p { font-size: 0.65rem; color: var(--text-secondary); }
+        .recomendados-scroll::-webkit-scrollbar {
+            height: 6px;
+        }
+        .recomendados-scroll::-webkit-scrollbar-track {
+            background: var(--border-color);
+            border-radius: 10px;
+        }
+        .recomendados-scroll::-webkit-scrollbar-thumb {
+            background: var(--accent);
+            border-radius: 10px;
+        }
 
-        .loading, .error { text-align: center; padding: 50px; color: var(--text-secondary); }
-        footer { margin-top: 20px; text-align: center; font-size: 0.7rem; color: var(--text-secondary); }
+        .recom-card {
+            flex: 0 0 160px;
+            background: var(--bg-primary);
+            border-radius: 16px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: 0.3s;
+            border: 1px solid var(--border-color);
+            scroll-snap-align: start;
+        }
 
+        .recom-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--accent);
+        }
+
+        .recom-card img {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+        }
+
+        .recom-card .info {
+            padding: 10px;
+            text-align: left;
+            border-bottom: none;
+        }
+
+        .recom-card .info h5 {
+            font-size: 0.8rem;
+            margin-bottom: 4px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .recom-card .info p {
+            font-size: 0.65rem;
+            color: var(--text-secondary);
+        }
+
+        .recom-card .arrow {
+            text-align: center;
+            padding: 4px;
+            color: var(--accent);
+            font-size: 1.2rem;
+        }
+
+        /* ==================== LOADING E ERRO ==================== */
+        .loading,
+        .error {
+            text-align: center;
+            padding: 50px;
+            color: var(--text-secondary);
+        }
+
+        footer {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+        }
+
+        footer a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        /* ==================== RESPONSIVIDADE ==================== */
         @media (max-width: 600px) {
-            body { padding: 12px; }
-            .header { margin: -12px -12px 20px -12px; }
-            .logo { font-size: 1.1rem; }
-            .search-bar { max-width: 160px; }
-            .search-bar input { padding: 7px 12px; font-size: 0.8rem; }
-            .info h1 { font-size: 1.2rem; }
+            body {
+                padding: 12px;
+            }
+            .header {
+                margin: -12px -12px 20px -12px;
+            }
+            .logo {
+                font-size: 1.1rem;
+            }
+            .search-bar {
+                max-width: 160px;
+            }
+            .search-bar input {
+                padding: 7px 12px;
+                font-size: 0.8rem;
+            }
+            .info h1 {
+                font-size: 1.2rem;
+            }
+            .rating-share {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 8px;
+            }
+            .rating {
+                justify-content: center;
+            }
+            .share-social {
+                justify-content: center;
+            }
+            .media-slide {
+                aspect-ratio: 4 / 3;
+            }
+            .recom-card {
+                flex: 0 0 140px;
+            }
+            .recom-card img {
+                height: 100px;
+            }
         }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <div class="header">
-        <div class="header-content">
-            <div class="logo">ZonaXP</div>
-            <div class="search-bar">
-                <input type="text" id="searchInput" placeholder="Buscar jogos...">
-            </div>
-            <button class="theme-toggle" id="themeToggle">🌙</button>
-            <button class="menu-icon" id="menuBtn">☰</button>
-        </div>
-    </div>
-
-    <div class="download-card" id="downloadCard">
-        <div id="content">
-            <div class="loading">🔄 Carregando informações do jogo...</div>
-        </div>
-    </div>
-    
-    <!-- NOTIFICAÇÃO SUGESTIVA -->
-<div id="popupComunidade" class="popup-notificacao" style="display: none;">
-    <div class="popup-content">
-        <div class="popup-icon">💬</div>
-        <div class="popup-texto">
-            <h4>Fique por dentro das novidades! 🎮</h4>
-            <p>Entre no nosso grupo ou canal do WhatsApp e receba jogos exclusivos, atualizações e muito mais!</p>
-        </div>
-        <div class="popup-botoes">
-            <a href="https://chat.whatsapp.com/Hk5TCNeuHZiH7uV6yY4K5J" target="_blank" class="btn-grupo">📱 Grupo</a>
-            <!-- <a href="https://whatsapp.com/channel/0029Vb7YAqi3bbV9tuuiyC1p" target="_blank" class="btn-canal">📢 Canal</a> -->
-            <button class="btn-fechar-popup" onclick="fecharPopupComunidade()">✕ Fechar</button>
-        </div>
-    </div>
-</div>
-
-<style>
-    .popup-notificacao {
-        position: fixed;
-        bottom: 20px;
-        left: 20px;
-        right: 20px;
-        background: #1a1a1a;
-        border-left: 4px solid #00ff9c;
-        border-radius: 16px;
-        padding: 16px;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        z-index: 10000;
-        animation: slideUp 0.5s ease;
-        max-width: 400px;
-        margin: 0 auto;
-    }
-
-    @keyframes slideUp {
-        from {
-            opacity: 0;
-            transform: translateY(100px);
-        }
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-
-    .popup-content {
-        display: flex;
-        flex-direction: column;
-        gap: 12px;
-    }
-
-    .popup-icon {
-        font-size: 2rem;
-        text-align: center;
-    }
-
-    .popup-texto h4 {
-        color: #00ff9c;
-        margin-bottom: 5px;
-        font-size: 1rem;
-    }
-
-    .popup-texto p {
-        color: #ccc;
-        font-size: 0.85rem;
-        line-height: 1.4;
-    }
-
-    .popup-botoes {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 10px;
-        justify-content: center;
-    }
-
-    .btn-grupo, .btn-canal, .btn-fechar-popup {
-        padding: 8px 16px;
-        border-radius: 30px;
-        font-size: 0.8rem;
-        font-weight: bold;
-        text-decoration: none;
-        cursor: pointer;
-        border: none;
-        text-align: center;
-    }
-
-    .btn-grupo {
-        background: #25D366;
-        color: white;
-    }
-
-    .btn-canal {
-        background: linear-gradient(90deg, #ff004f, #8000ff);
-        color: white;
-    }
-
-    .btn-fechar-popup {
-        background: #333;
-        color: white;
-    }
-
-    .btn-grupo:hover, .btn-canal:hover, .btn-fechar-popup:hover {
-        transform: scale(1.02);
-        opacity: 0.9;
-    }
-
-    @media (min-width: 768px) {
-        .popup-notificacao {
-            left: auto;
-            right: 20px;
-            bottom: 20px;
-            max-width: 350px;
-        }
-    }
-</style>
-
-<script>
-    // ==================== NOTIFICAÇÃO POPUP ====================
-    function mostrarPopupComunidade() {
-        const popup = document.getElementById('popupComunidade');
-        if (!popup) return;
-        
-        // Verificar se já foi fechado antes
-        const popupFechado = localStorage.getItem('popupComunidadeFechado');
-        if (popupFechado === 'true') return;
-        
-        // Mostrar popup após 3 segundos
-        setTimeout(() => {
-            popup.style.display = 'block';
-        }, 3000);
-    }
-
-    function fecharPopupComunidade() {
-        const popup = document.getElementById('popupComunidade');
-        if (popup) {
-            popup.style.display = 'none';
-            // Salvar que o usuário fechou (não mostra por 7 dias)
-            localStorage.setItem('popupComunidadeFechado', 'true');
-            setTimeout(() => {
-                localStorage.removeItem('popupComunidadeFechado');
-            }, 7 * 24 * 60 * 60 * 1000); // 7 dias
-        }
-    }
-
-    // Mostrar popup ao carregar a página
-    document.addEventListener('DOMContentLoaded', mostrarPopupComunidade);
-</script>
-
-    <footer>
-        <p>ZonaXP - Jogos PSP e Mobile</p>
-    </footer>
-</div>
-
-<script>
-// ==================== CONFIGURAÇÃO ====================
-const API_URL = 'https://zona-backend-v3h1.onrender.com';
-const TEMPO_ESPERA_HORAS = 8;
-const TEMPO_ESPERA_MS = TEMPO_ESPERA_HORAS * 60 * 60 * 1000;
-
-let jogoAtual = null;
-let todosJogos = [];
-let votosUsuario = JSON.parse(localStorage.getItem('votos') || '{}');
-
-const content = document.getElementById('content');
-const searchInput = document.getElementById('searchInput');
-const themeToggle = document.getElementById('themeToggle');
-const menuBtn = document.getElementById('menuBtn');
-
-// ==================== MODO ESCURO/CLARO ====================
-function initTheme() {
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme === 'light') {
-        document.documentElement.setAttribute('data-theme', 'light');
-        themeToggle.textContent = '☀️';
-    } else {
-        document.documentElement.setAttribute('data-theme', 'dark');
-        themeToggle.textContent = '🌙';
-    }
-}
-
-themeToggle.addEventListener('click', () => {
-    const current = document.documentElement.getAttribute('data-theme');
-    if (current === 'dark') {
-        document.documentElement.setAttribute('data-theme', 'light');
-        localStorage.setItem('theme', 'light');
-        themeToggle.textContent = '☀️';
-    } else {
-        document.documentElement.setAttribute('data-theme', 'dark');
-        localStorage.setItem('theme', 'dark');
-        themeToggle.textContent = '🌙';
-    }
-});
-
-// ==================== VERIFICAÇÃO DE DOWNLOAD ====================
-function verificarUltimoDownload() {
-    const ultimoDownload = localStorage.getItem('ultimoDownload');
-    if (!ultimoDownload) return true;
-    return (Date.now() - parseInt(ultimoDownload)) >= TEMPO_ESPERA_MS;
-}
-
-function registrarDownload() {
-    localStorage.setItem('ultimoDownload', Date.now().toString());
-}
-
-function mostrarModalEspera() {
-    const ultimoDownload = localStorage.getItem('ultimoDownload');
-    const horasRestantes = Math.ceil((TEMPO_ESPERA_MS - (Date.now() - parseInt(ultimoDownload))) / (60 * 60 * 1000));
-    
-    const modal = document.createElement('div');
-    modal.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.95);display:flex;justify-content:center;align-items:center;z-index:10000;';
-    modal.innerHTML = `
-        <div style="background:var(--bg-card);border-radius:20px;padding:30px;max-width:350px;text-align:center;border:1px solid var(--accent);">
-            <h3 style="color:var(--accent);margin-bottom:15px;">⏰ Aguarde!</h3>
-            <p>Você já baixou um jogo hoje.</p>
-            <p style="font-size:1.5rem;font-weight:bold;color:#00ff9c;margin:15px 0;">${horasRestantes}h restantes</p>
-            <p style="margin-bottom:15px;color:var(--text-secondary);">Para baixar agora, partilhe nosso canal:</p>
-            <div style="background:var(--bg-primary);padding:10px;border-radius:10px;margin-bottom:15px;">
-                <code style="color:#00ff9c;word-break:break-all;">https://whatsapp.com/channel/0029Vb7YAqi3bbV9tuuiyC1p</code>
-            </div>
-            <button id="btnCopiar" style="background:var(--accent);border:none;padding:10px;border-radius:8px;color:white;font-weight:bold;cursor:pointer;width:100%;margin-bottom:10px;">📋 Copiar Link</button>
-            <button id="btnCompartilhar" style="background:linear-gradient(90deg,var(--accent),#8000ff);border:none;padding:12px;border-radius:8px;color:white;font-weight:bold;cursor:pointer;width:100%;margin-bottom:10px;">🎁 Ganhar Jogos Grátis</button>
-            <button id="btnFechar" style="background:#333;border:none;padding:8px;border-radius:8px;color:white;cursor:pointer;width:100%;">Fechar</button>
-        </div>
-    `;
-    document.body.appendChild(modal);
-    
-    document.getElementById('btnCopiar').onclick = () => {
-        navigator.clipboard.writeText('https://whatsapp.com/channel/0029Vb7YAqi3bbV9tuuiyC1p');
-        alert('Link copiado!');
-    };
-    document.getElementById('btnCompartilhar').onclick = () => window.location.href = 'compartilhar.html';
-    document.getElementById('btnFechar').onclick = () => modal.remove();
-}
-
-// ==================== LIKES/DISLIKES ====================
-async function votar(tipo, event) {
-    if (event) event.stopPropagation();
-    if (!jogoAtual) return;
-
-    const votoAtual = votosUsuario[jogoAtual.id];
-    
-    if (votoAtual === tipo) {
-        delete votosUsuario[jogoAtual.id];
-        if (tipo === 'like') jogoAtual.likes--;
-        else jogoAtual.dislikes--;
-    } else {
-        if (votoAtual === 'like') jogoAtual.likes--;
-        if (votoAtual === 'dislike') jogoAtual.dislikes--;
-        
-        votosUsuario[jogoAtual.id] = tipo;
-        if (tipo === 'like') jogoAtual.likes++;
-        else jogoAtual.dislikes++;
-    }
-    
-    localStorage.setItem('votos', JSON.stringify(votosUsuario));
-    
-    try {
-        await fetch(`${API_URL}/api/avaliacao/${jogoAtual.id}`, {
-            method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ likes: jogoAtual.likes, dislikes: jogoAtual.dislikes })
-        });
-    } catch (error) {
-        console.error('Erro ao salvar voto:', error);
-    }
-    
-    atualizarRating();
-}
-
-function atualizarRating() {
-    const ratingDiv = document.querySelector('.rating-section');
-    if (ratingDiv && jogoAtual) {
-        const isLiked = votosUsuario[jogoAtual.id] === 'like';
-        const isDisliked = votosUsuario[jogoAtual.id] === 'dislike';
-        
-        ratingDiv.innerHTML = `
-            <button class="like-btn ${isLiked ? 'active' : ''}" onclick="votar('like', event)">
-                👍 <span>${jogoAtual.likes || 0}</span>
-            </button>
-            <button class="dislike-btn ${isDisliked ? 'active' : ''}" onclick="votar('dislike', event)">
-                👎 <span>${jogoAtual.dislikes || 0}</span>
-            </button>
-        `;
-    }
-}
-
-// ==================== FUNÇÃO DE PARTILHA ====================
-async function partilharJogo() {
-    if (!jogoAtual) return;
-    
-    const shareUrl = `${window.location.origin}/download.html?jogo=${jogoAtual.id}`;
-    const shareTitle = `🎮 ${jogoAtual.nome} - ZonaXP`;
-    const shareText = `${jogoAtual.nome}\n📂 Categoria: ${jogoAtual.categoria}\n🎯 Plataforma: ${jogoAtual.plataforma}\n📦 Tamanho: ${jogoAtual.tamanho || 'Não informado'}\n\n✅ Grátis para download!\n\n👇 Clique no link abaixo:`;
-    
-    // Verificar se o navegador suporta Web Share API
-    if (navigator.share) {
-        try {
-            await navigator.share({
-                title: shareTitle,
-                text: shareText,
-                url: shareUrl
-            });
-        } catch (err) {
-            console.log('Partilha cancelada:', err);
-        }
-    } else {
-        // Fallback: copiar link para clipboard
-        try {
-            await navigator.clipboard.writeText(`${shareText}\n${shareUrl}`);
-            alert('📋 Link copiado! Agora pode colar onde quiser (WhatsApp, Facebook, etc.)');
-        } catch (err) {
-            prompt('Copie o link manualmente:', shareUrl);
-        }
-    }
-}
-
-// ==================== CARREGAR JOGO ====================
-async function carregarJogo() {
-    const urlParams = new URLSearchParams(window.location.search);
-    const jogoId = urlParams.get('jogo');
-    
-    if (!jogoId) {
-        mostrarErro('Nenhum jogo especificado');
-        return;
-    }
-    
-    try {
-        const response = await fetch(`${API_URL}/api/jogos`);
-        const data = await response.json();
-        todosJogos = data.jogos;
-        jogoAtual = todosJogos.find(j => j.id == jogoId);
-        
-        if (!jogoAtual) {
-            mostrarErro('Jogo não encontrado');
-            return;
-        }
-        
-        renderizarPagina();
-    } catch (error) {
-        mostrarErro('Erro ao carregar jogo');
-    }
-}
-
-function getImagemUrl(jogo) {
-    if (!jogo.imagem) return 'https://via.placeholder.com/800x300?text=ZonaXP';
-    if (jogo.imagem.startsWith('http')) return jogo.imagem;
-    return `imagens/${jogo.imagem}.jpg`;
-}
-
-function renderizarBotaoDownload() {
-    if (jogoAtual.pago) {
-        return `<button class="btn-download btn-paid" onclick="window.location.href='checkout.html?jogo=${jogoAtual.id}'">
-            💰 Comprar ${jogoAtual.preco}
-        </button>`;
-    }
-    
-    const temApk = jogoAtual.apk_link;
-    const temObb = jogoAtual.obb_link;
-    const temData = jogoAtual.data_link;
-    const temTexture = jogoAtual.texture_link;
-    const temSave = jogoAtual.save_link;
-    const temIso = jogoAtual.iso_link;
-    
-    const links = [];
-    if (temApk) links.push({ nome: '📱 APK', link: jogoAtual.apk_link });
-    if (temObb) links.push({ nome: '💾 OBB', link: jogoAtual.obb_link });
-    if (temData) links.push({ nome: '📁 DATA', link: jogoAtual.data_link });
-    if (temTexture) links.push({ nome: '🎨 Texturas', link: jogoAtual.texture_link });
-    if (temSave) links.push({ nome: '💾 Savedata', link: jogoAtual.save_link });
-    if (temIso) links.push({ nome: '🎮 ISO/ROM', link: jogoAtual.iso_link });
-    
-    if (links.length === 0 && jogoAtual.download) {
-        links.push({ nome: '⬇️ Download', link: jogoAtual.download });
-    }
-    
-    if (links.length === 0) {
-        return '<p style="text-align:center;color:red;">Nenhum link de download disponível</p>';
-    }
-    
-    return `
-        <div class="download-buttons">
-            ${links.map(link => `
-                <button class="btn-download btn-free" onclick="window.open('${link.link}', '_blank'); registrarDownload();">
-                    ${link.nome}
-                </button>
-            `).join('')}
-        </div>
-    `;
-}
-
-function renderizarPagina() {
-    const badgeClass = jogoAtual.pago ? 'badge-paid' : 'badge-free';
-    const badgeText = jogoAtual.pago ? `💰 ${jogoAtual.preco}` : '🎁 Grátis';
-    const imagemUrl = getImagemUrl(jogoAtual);
-    const isLiked = votosUsuario[jogoAtual.id] === 'like';
-    const isDisliked = votosUsuario[jogoAtual.id] === 'dislike';
-    
-    // Instruções por plataforma
-    let instrucoes = '';
-    if (jogoAtual.plataforma === 'PSP') {
-        instrucoes = `<h4>🎮 Como instalar no PSP:</h4><ul><li>Baixe o arquivo .ISO ou .CSO</li><li>Copie para a pasta ISO/ROM do seu PSP ou emulador</li><li>Abra o emulador PPSSPP e selecione o jogo</li></ul>`;
-    } else if (jogoAtual.plataforma === 'PS2') {
-        instrucoes = `<h4>🎮 Como instalar no PS2:</h4><ul><li>Baixe o arquivo .ISO</li><li>Use o emulador PCSX2</li><li>Carregue a ISO no emulador</li></ul>`;
-    } else if (jogoAtual.plataforma === 'PC') {
-        instrucoes = `<h4>💻 Como instalar no PC:</h4><ul><li>Baixe o arquivo do jogo</li><li>Extraia se necessário (use WinRAR ou 7-Zip)</li><li>Execute o arquivo de instalação</li></ul>`;
-    } else if (jogoAtual.plataforma === 'APK Android') {
-        instrucoes = `<h4>📱 Como instalar no Android:</h4><ul><li>Baixe o arquivo .APK</li><li>Ative "Fontes desconhecidas" nas configurações</li><li>Instale o APK</li><li>Se tiver OBB/DATA, extraia para Android/obb ou Android/data</li></ul>`;
-    }
-    
-    // Jogos relacionados
-    const relacionados = todosJogos.filter(j => j.id !== jogoAtual.id && j.categoria === jogoAtual.categoria && !j.pago).slice(0, 4);
-    
-    content.innerHTML = `
-        <div class="imagem-area">
-            <img src="${imagemUrl}" onerror="this.src='https://via.placeholder.com/800x300?text=${jogoAtual.nome}'">
-            <div class="price-badge ${badgeClass}">${badgeText}</div>
-        </div>
-        
-        <div class="info">
-            <h1>${jogoAtual.nome}</h1>
-            <div>
-                <span class="categoria">${jogoAtual.categoria}</span>
-                <span class="plataforma">${jogoAtual.plataforma === 'APK Android' ? '📱' : '🎮'} ${jogoAtual.plataforma}</span>
-            </div>
-            <div class="tamanho">📦 ${jogoAtual.tamanho || 'Tamanho não informado'}</div>
-        </div>
-        
-        <div class="rating-section">
-            <button class="like-btn ${isLiked ? 'active' : ''}" onclick="votar('like', event)">
-                👍 <span>${jogoAtual.likes || 0}</span>
-            </button>
-            <button class="dislike-btn ${isDisliked ? 'active' : ''}" onclick="votar('dislike', event)">
-                👎 <span>${jogoAtual.dislikes || 0}</span>
-            </button>
-        </div>
-        
-        <div class="share-section">
-            <button class="btn-share" onclick="partilharJogo()">
-                📤 Partilhar Jogo
-            </button>
-        </div>
-        
-        <div class="downloads-section">
-            <div class="download-title">📥 LINKS DE DOWNLOAD</div>
-            ${renderizarBotaoDownload()}
-        </div>
-        
-        ${jogoAtual.senha ? `
-        <div class="senha-area">
-            <h4>🔐 Senha para extrair o arquivo</h4>
-            <div class="senha">${jogoAtual.senha}</div>
-            <p style="font-size:0.7rem; margin-top:8px;">Use esta senha ao extrair o arquivo</p>
-        </div>
-        ` : ''}
-        
-        ${jogoAtual.descricao_longa ? `
-        <div class="descricao-area">
-            <h4>📖 Sobre o jogo</h4>
-            <div class="descricao-longa">${jogoAtual.descricao_longa}</div>
-        </div>
-        ` : ''}
-        
-        <div class="instrucoes">
-            ${instrucoes}
-        </div>
-        
-        ${relacionados.length ? `
-        <div class="relacionados">
-            <h4>🎮 VOCÊ TAMBÉM PODE GOSTAR</h4>
-            <div class="relacionados-grid" id="relacionadosGrid"></div>
-        </div>
-        ` : ''}
-    `;
-    
-    if (relacionados.length) {
-        const grid = document.getElementById('relacionadosGrid');
-        relacionados.forEach(jogo => {
-            const card = document.createElement('div');
-            card.className = 'relacionado-card';
-            card.onclick = () => window.location.href = `download.html?jogo=${jogo.id}`;
-            const imgUrl = jogo.imagem?.startsWith('http') ? jogo.imagem : `${API_URL}/imagens/${jogo.imagem}.jpg`;
-            card.innerHTML = `
-                <img src="${imgUrl}" onerror="this.src='imagens/${jogo.imagem}.jpg'">
-                <div class="relacionado-info">
-                    <h5>${jogo.nome}</h5>
-                    <p>${jogo.categoria}</p>
+    <div class="container">
+        <!-- ========== HEADER ========== -->
+        <div class="header">
+            <div class="header-content">
+                <div class="logo">ZonaXP</div>
+                <div class="search-bar">
+                    <input type="text" id="searchInput" placeholder="Buscar jogos...">
                 </div>
-                <span>⬇️</span>
-            `;
-            grid.appendChild(card);
+                <button class="theme-toggle" id="themeToggle">🌙</button>
+                <button class="menu-icon" id="menuBtn">☰</button>
+            </div>
+        </div>
+
+        <!-- ========== SIDEBAR ========== -->
+        <div class="sidebar" id="sidebar">
+            <div class="close-btn" id="closeMenu">✕</div>
+            <ul>
+                <li id="menuHome">🏠 Home</li>
+                <li id="menuApresentacao">📖 Apresentação</li>
+                <li id="menuSuporte">🛡️ Suporte</li>
+                <li><a href="compartilhar.html">🎁 Ganhar Jogos</a></li>
+            </ul>
+        </div>
+        <div class="overlay" id="overlay"></div>
+
+        <!-- ========== CARD PRINCIPAL ========== -->
+        <div class="download-card" id="downloadCard">
+            <div id="content">
+                <div class="loading">🔄 Carregando informações do jogo...</div>
+            </div>
+        </div>
+
+        <footer>
+            <p>ZonaXP - Jogos PSP e Mobile</p>
+        </footer>
+    </div>
+
+    <script>
+        // ==================== CONFIGURAÇÃO ====================
+        const API_URL = 'https://zona-backend-v3h1.onrender.com';
+        const TEMPO_ESPERA_HORAS = 8;
+        const TEMPO_ESPERA_MS = TEMPO_ESPERA_HORAS * 60 * 60 * 1000;
+
+        let jogoAtual = null;
+        let todosJogos = [];
+        let votosUsuario = JSON.parse(localStorage.getItem('votos') || '{}');
+        let mediaIndex = 0;
+
+        // Elementos DOM
+        const content = document.getElementById('content');
+        const searchInput = document.getElementById('searchInput');
+        const themeToggle = document.getElementById('themeToggle');
+        const menuBtn = document.getElementById('menuBtn');
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('overlay');
+        const closeMenu = document.getElementById('closeMenu');
+
+        // ==================== MODO ESCURO/CLARO ====================
+        function initTheme() {
+            const saved = localStorage.getItem('theme');
+            if (saved === 'light') {
+                document.documentElement.setAttribute('data-theme', 'light');
+                themeToggle.textContent = '☀️';
+            } else {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                themeToggle.textContent = '🌙';
+            }
+        }
+
+        themeToggle.addEventListener('click', function() {
+            const current = document.documentElement.getAttribute('data-theme');
+            if (current === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'light');
+                localStorage.setItem('theme', 'light');
+                themeToggle.textContent = '☀️';
+            } else {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                localStorage.setItem('theme', 'dark');
+                themeToggle.textContent = '🌙';
+            }
         });
-    }
-}
 
-function mostrarErro(mensagem) {
-    content.innerHTML = `<div class="error"><h3>⚠️ Erro</h3><p>${mensagem}</p><button class="btn-download btn-free" onclick="window.location.href='/'">Voltar para Home</button></div>`;
-}
+        // ==================== MENU ====================
+        function initMenu() {
+            if (menuBtn) {
+                menuBtn.addEventListener('click', function() {
+                    sidebar.classList.add('active');
+                    overlay.classList.add('active');
+                });
+            }
+            if (closeMenu) closeMenu.addEventListener('click', fecharMenu);
+            if (overlay) overlay.addEventListener('click', fecharMenu);
+            if (document.getElementById('menuHome')) {
+                document.getElementById('menuHome').addEventListener('click', function() {
+                    fecharMenu();
+                    window.location.href = '/';
+                });
+            }
+            if (document.getElementById('menuApresentacao')) {
+                document.getElementById('menuApresentacao').addEventListener('click', function() {
+                    fecharMenu();
+                    alert('📖 Sobre a ZonaXP\n\nPlataforma de distribuição de jogos para PSP, PS2, PC e APK Android.');
+                });
+            }
+            if (document.getElementById('menuSuporte')) {
+                document.getElementById('menuSuporte').addEventListener('click', function() {
+                    fecharMenu();
+                    alert('🛡️ Suporte\n\n📧 Email: suporte@zonaxp.com\n📱 WhatsApp: +258 85 811 2264');
+                });
+            }
+        }
 
-// ==================== BUSCA ====================
-searchInput.addEventListener('keypress', (e) => {
-    if (e.key === 'Enter' && searchInput.value.trim()) {
-        window.location.href = `/?busca=${encodeURIComponent(searchInput.value)}`;
-    }
-});
+        function fecharMenu() {
+            sidebar.classList.remove('active');
+            overlay.classList.remove('active');
+        }
 
-// ==================== MENU ====================
-menuBtn.addEventListener('click', () => {
-    window.location.href = '/';
-});
+        // ==================== BUSCA ====================
+        searchInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter' && searchInput.value.trim()) {
+                window.location.href = '/?busca=' + encodeURIComponent(searchInput.value);
+            }
+        });
 
-// ==================== INICIALIZAR ====================
-initTheme();
-carregarJogo();
-window.votar = votar;
-window.registrarDownload = registrarDownload;
-window.partilharJogo = partilharJogo;
-</script>
+        // ==================== VERIFICAÇÃO DE DOWNLOAD ====================
+        function verificarUltimoDownload() {
+            const ultimoDownload = localStorage.getItem('ultimoDownload');
+            if (!ultimoDownload) return true;
+            return (Date.now() - parseInt(ultimoDownload)) >= TEMPO_ESPERA_MS;
+        }
+
+        function registrarDownload() {
+            localStorage.setItem('ultimoDownload', Date.now().toString());
+        }
+
+        function mostrarModalEspera() {
+            const ultimoDownload = localStorage.getItem('ultimoDownload');
+            const horasRestantes = Math.ceil((TEMPO_ESPERA_MS - (Date.now() - parseInt(ultimoDownload))) / (60 * 60 * 1000));
+            alert('⏰ Aguarde ' + horasRestantes + 'h para baixar outro jogo.');
+        }
+
+        // ==================== LIKES/DISLIKES ====================
+        async function votar(tipo, event) {
+            if (event) event.stopPropagation();
+            if (!jogoAtual) return;
+
+            const votoAtual = votosUsuario[jogoAtual.id];
+
+            if (votoAtual === tipo) {
+                delete votosUsuario[jogoAtual.id];
+                if (tipo === 'like') jogoAtual.likes--;
+                else jogoAtual.dislikes--;
+            } else {
+                if (votoAtual === 'like') jogoAtual.likes--;
+                if (votoAtual === 'dislike') jogoAtual.dislikes--;
+                votosUsuario[jogoAtual.id] = tipo;
+                if (tipo === 'like') jogoAtual.likes++;
+                else jogoAtual.dislikes++;
+            }
+
+            localStorage.setItem('votos', JSON.stringify(votosUsuario));
+
+            try {
+                await fetch(API_URL + '/api/avaliacao/' + jogoAtual.id, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ likes: jogoAtual.likes, dislikes: jogoAtual.dislikes })
+                });
+            } catch (e) { console.error('Erro ao salvar voto:', e); }
+
+            atualizarRating();
+        }
+
+        function atualizarRating() {
+            const ratingDiv = document.querySelector('.rating');
+            if (ratingDiv && jogoAtual) {
+                const isLiked = votosUsuario[jogoAtual.id] === 'like';
+                const isDisliked = votosUsuario[jogoAtual.id] === 'dislike';
+
+                ratingDiv.innerHTML =
+                    '<button class="like-btn ' + (isLiked ? 'active' : '') + '" onclick="votar(\'like\', event)">👍 <span>' + (jogoAtual.likes || 0) + '</span></button>' +
+                    '<button class="dislike-btn ' + (isDisliked ? 'active' : '') + '" onclick="votar(\'dislike\', event)">👎 <span>' + (jogoAtual.dislikes || 0) + '</span></button>';
+            }
+        }
+
+        // ==================== PARTILHAR JOGO ====================
+        function partilharJogo() {
+            if (!jogoAtual) return;
+            const shareUrl = window.location.origin + '/download.html?jogo=' + jogoAtual.id;
+            const shareText = jogoAtual.nome +
+                '\n📂 Categoria: ' + jogoAtual.categoria +
+                '\n🎯 Plataforma: ' + jogoAtual.plataforma +
+                '\n📦 Tamanho: ' + (jogoAtual.tamanho || 'Não informado') +
+                '\n\n✅ Grátis para download!' +
+                '\n\n👇 Clique no link abaixo: ' + shareUrl;
+
+            if (navigator.share) {
+                navigator.share({ title: 'ZonaXP - ' + jogoAtual.nome, text: shareText, url: shareUrl });
+            } else {
+                navigator.clipboard.writeText(shareText).then(function() {
+                    alert('📋 Mensagem copiada! Partilhe com amigos.');
+                }).catch(function() {
+                    prompt('Copie o texto:', shareText);
+                });
+            }
+        }
+
+        // ==================== CARREGAR JOGO ====================
+        async function carregarJogo() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const jogoId = urlParams.get('jogo');
+
+            if (!jogoId) {
+                mostrarErro('Nenhum jogo especificado');
+                return;
+            }
+
+            try {
+                const response = await fetch(API_URL + '/api/jogos');
+                const data = await response.json();
+                todosJogos = data.jogos;
+                jogoAtual = todosJogos.find(function(j) { return j.id == jogoId; });
+
+                if (!jogoAtual) {
+                    mostrarErro('Jogo não encontrado');
+                    return;
+                }
+
+                renderizarPagina();
+            } catch (error) {
+                mostrarErro('Erro ao carregar jogo');
+            }
+        }
+
+        function getImagemUrl(jogo) {
+            if (!jogo.imagem) return 'https://via.placeholder.com/800x300?text=ZonaXP';
+            if (jogo.imagem.startsWith('http')) return jogo.imagem;
+            return API_URL + '/imagens/' + jogo.imagem + '.jpg';
+        }
+
+        // ==================== CARROSSEL DE MÍDIA ====================
+        function renderizarCarrosselMedia() {
+            const slides = [];
+
+            if (jogoAtual.video_url) {
+                slides.push({ type: 'video', url: jogoAtual.video_url });
+            }
+
+            if (jogoAtual.imagens_extras && jogoAtual.imagens_extras.length > 0) {
+                jogoAtual.imagens_extras.forEach(function(img) {
+                    if (img) slides.push({ type: 'image', url: img });
+                });
+            }
+
+            if (slides.length === 0) {
+                slides.push({ type: 'image', url: getImagemUrl(jogoAtual) });
+            }
+
+            if (slides.length <= 1) {
+                return '<div class="media-slide"><img src="' + slides[0].url + '" alt="' + jogoAtual.nome + '" onerror="this.src=\'https://via.placeholder.com/800x300?text=' + encodeURIComponent(jogoAtual.nome) + '\'"></div>';
+            }
+
+            var html = '<div class="media-carousel" id="mediaCarousel">';
+            html += '<div class="media-track" id="mediaTrack">';
+
+            slides.forEach(function(slide, index) {
+                html += '<div class="media-slide" data-index="' + index + '">';
+                if (slide.type === 'video') {
+                    html += '<video controls playsinline preload="metadata">';
+                    html += '<source src="' + slide.url + '" type="video/mp4">';
+                    html += 'Seu navegador não suporta vídeo.';
+                    html += '</video>';
+                } else {
+                    html += '<img src="' + slide.url + '" alt="' + jogoAtual.nome + '" onerror="this.src=\'https://via.placeholder.com/800x300?text=' + encodeURIComponent(jogoAtual.nome) + '\'">';
+                }
+                html += '</div>';
+            });
+
+            html += '</div>';
+            html += '<button class="media-btn prev" onclick="mediaSlide(-1)">❮</button>';
+            html += '<button class="media-btn next" onclick="mediaSlide(1)">❯</button>';
+            html += '<div class="media-dots" id="mediaDots">';
+            for (var i = 0; i < slides.length; i++) {
+                html += '<div class="media-dot' + (i === 0 ? ' active' : '') + '" onclick="mediaGoTo(' + i + ')"></div>';
+            }
+            html += '</div>';
+            html += '<div class="media-counter">' + (mediaIndex + 1) + ' / ' + slides.length + '</div>';
+            html += '</div>';
+
+            return html;
+        }
+
+        function mediaSlide(direction) {
+            var slides = document.querySelectorAll('.media-slide');
+            if (slides.length === 0) return;
+            mediaIndex = mediaIndex + direction;
+            if (mediaIndex >= slides.length) mediaIndex = 0;
+            if (mediaIndex < 0) mediaIndex = slides.length - 1;
+            var track = document.getElementById('mediaTrack');
+            if (track) track.style.transform = 'translateX(-' + (mediaIndex * 100) + '%)';
+            var dots = document.querySelectorAll('.media-dot');
+            dots.forEach(function(dot, i) {
+                dot.classList.toggle('active', i === mediaIndex);
+            });
+            var counter = document.querySelector('.media-counter');
+            if (counter) counter.textContent = (mediaIndex + 1) + ' / ' + slides.length;
+        }
+
+        function mediaGoTo(index) {
+            mediaIndex = index;
+            var track = document.getElementById('mediaTrack');
+            if (track) track.style.transform = 'translateX(-' + (mediaIndex * 100) + '%)';
+            var dots = document.querySelectorAll('.media-dot');
+            dots.forEach(function(dot, i) {
+                dot.classList.toggle('active', i === mediaIndex);
+            });
+            var counter = document.querySelector('.media-counter');
+            if (counter) counter.textContent = (mediaIndex + 1) + ' / ' + slides.length;
+        }
+
+        // ==================== RENDERIZAR PÁGINA ====================
+        function renderizarPagina() {
+            var badgeClass = jogoAtual.pago ? 'badge-paid' : 'badge-free';
+            var badgeText = jogoAtual.pago ? '💰 ' + jogoAtual.preco : '🎁 Grátis';
+            var isLiked = votosUsuario[jogoAtual.id] === 'like';
+            var isDisliked = votosUsuario[jogoAtual.id] === 'dislike';
+
+            // ===== GERAR LINKS DE DOWNLOAD =====
+            var links = [];
+            if (jogoAtual.download) links.push({ nome: '⬇️ Download', link: jogoAtual.download });
+            if (jogoAtual.apk_link) links.push({ nome: '📱 APK', link: jogoAtual.apk_link });
+            if (jogoAtual.obb_link) links.push({ nome: '💾 OBB', link: jogoAtual.obb_link });
+            if (jogoAtual.data_link) links.push({ nome: '📁 DATA', link: jogoAtual.data_link });
+            if (jogoAtual.texture_link) links.push({ nome: '🎨 Texturas', link: jogoAtual.texture_link });
+            if (jogoAtual.save_link) links.push({ nome: '💾 Savedata', link: jogoAtual.save_link });
+            if (jogoAtual.iso_link) links.push({ nome: '🎮 ISO/ROM', link: jogoAtual.iso_link });
+
+            var botoesDownload = '';
+            if (jogoAtual.pago) {
+                botoesDownload = '<button class="btn-download btn-paid" onclick="window.location.href=\'checkout.html?jogo=' + jogoAtual.id + '\'">💰 Comprar ' + jogoAtual.preco + '</button>';
+            } else if (links.length > 0) {
+                botoesDownload = '<div class="download-buttons">';
+                links.forEach(function(link) {
+                    botoesDownload += '<button class="btn-download btn-blue" onclick="window.open(\'' + link.link + '\', \'_blank\'); registrarDownload();">' + link.nome + '</button>';
+                });
+                botoesDownload += '</div>';
+            } else {
+                botoesDownload = '<p style="text-align:center;color:red;">Nenhum link disponível</p>';
+            }
+
+            // ===== JOGOS RECOMENDADOS =====
+            var recomendados = todosJogos.filter(function(j) {
+                return j.id !== jogoAtual.id && j.categoria === jogoAtual.categoria && !j.pago;
+            }).slice(0, 10);
+
+            var htmlRecomendados = '';
+            if (recomendados.length > 0) {
+                htmlRecomendados = '<div class="recomendados"><h4>🎮 Você também pode gostar</h4><div class="recomendados-scroll">';
+                recomendados.forEach(function(jogo) {
+                    var imgUrl = jogo.imagem && jogo.imagem.startsWith('http') ? jogo.imagem : (API_URL + '/imagens/' + jogo.imagem + '.jpg');
+                    htmlRecomendados += '<div class="recom-card" onclick="window.location.href=\'download.html?jogo=' + jogo.id + '\'">';
+                    htmlRecomendados += '<img src="' + imgUrl + '" onerror="this.src=\'https://via.placeholder.com/160x120?text=' + encodeURIComponent(jogo.nome) + '\'">';
+                    htmlRecomendados += '<div class="info"><h5>' + jogo.nome + '</h5><p>' + jogo.categoria + '</p></div>';
+                    htmlRecomendados += '<div class="arrow">→</div>';
+                    htmlRecomendados += '</div>';
+                });
+                htmlRecomendados += '</div></div>';
+            }
+
+            // ===== MONTAR PÁGINA =====
+            var mediaHtml = renderizarCarrosselMedia();
+
+            content.innerHTML =
+                '<div class="imagem-area">' +
+                mediaHtml +
+                '</div>' +
+
+                '<div class="info">' +
+                '<h1>' + jogoAtual.nome + '</h1>' +
+                '<div><span class="categoria">' + jogoAtual.categoria + '</span><span class="plataforma">' + (jogoAtual.plataforma === 'APK Android' ? '📱' : '🎮') + ' ' + jogoAtual.plataforma + '</span></div>' +
+                '<div class="tamanho">📦 ' + (jogoAtual.tamanho || 'Tamanho não informado') + '</div>' +
+                '</div>' +
+
+                '<div class="rating-share">' +
+                '<div class="rating">' +
+                '<button class="like-btn ' + (isLiked ? 'active' : '') + '" onclick="votar(\'like\', event)">👍 <span>' + (jogoAtual.likes || 0) + '</span></button>' +
+                '<button class="dislike-btn ' + (isDisliked ? 'active' : '') + '" onclick="votar(\'dislike\', event)">👎 <span>' + (jogoAtual.dislikes || 0) + '</span></button>' +
+                '</div>' +
+                '<div class="share-social">' +
+                '<button class="share-btn" onclick="partilharJogo()" title="Partilhar"><i class="fas fa-share-alt"></i></button>' +
+                '<a href="https://whatsapp.com/channel/0029Vb7YAqi3bbV9tuuiyC1p" target="_blank" class="share-icon whatsapp" title="Canal WhatsApp"><i class="fab fa-whatsapp"></i></a>' +
+                '<a href="https://www.tiktok.com/@zonaxp" target="_blank" class="share-icon tiktok" title="TikTok"><i class="fab fa-tiktok"></i></a>' +
+                '</div>' +
+                '</div>' +
+
+                '<div class="downloads-section">' +
+                '<div class="download-title">📥 DOWNLOAD</div>' +
+                botoesDownload +
+                '</div>' +
+
+                (jogoAtual.senha ? '<div class="senha-area"><h4>🔐 Senha</h4><div class="senha">' + jogoAtual.senha + '</div></div>' : '') +
+
+                (jogoAtual.descricao_longa ? '<div class="descricao-area"><h4>📖 Sobre o jogo</h4><div class="descricao-longa">' + jogoAtual.descricao_longa + '</div></div>' : '') +
+
+                htmlRecomendados;
+
+            // Inicializar carrossel de mídia
+            mediaIndex = 0;
+            var track = document.getElementById('mediaTrack');
+            if (track) track.style.transform = 'translateX(0)';
+
+            // Atualizar rating
+            atualizarRating();
+        }
+
+        function mostrarErro(mensagem) {
+            content.innerHTML = '<div class="error"><h3>⚠️ Erro</h3><p>' + mensagem + '</p><button class="btn-download btn-blue" onclick="window.location.href=\'/\'">Voltar para Home</button></div>';
+        }
+
+        // ==================== EXPOR FUNÇÕES GLOBAIS ====================
+        window.votar = votar;
+        window.partilharJogo = partilharJogo;
+        window.mediaSlide = mediaSlide;
+        window.mediaGoTo = mediaGoTo;
+        window.registrarDownload = registrarDownload;
+
+        // ==================== INICIALIZAR ====================
+        initTheme();
+        initMenu();
+        carregarJogo();
+    </script>
+
 </body>
 </html>
