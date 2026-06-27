@@ -5,14 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <title>ZonaXP - Jogos PSP e Mobile</title>
     <style>
-        /* ==================== RESET ==================== */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
-        /* ==================== VARIÁVEIS ==================== */
         :root {
             --bg-primary: #121212;
             --bg-card: #1e1e1e;
@@ -24,6 +22,7 @@
             --accent: #ff004f;
             --like-color: #0f9d58;
             --dislike-color: #ff4444;
+            --destaque-color: #ffaa00;
         }
 
         [data-theme="light"] {
@@ -34,7 +33,6 @@
             --border-color: #dadce0;
         }
 
-        /* ==================== BASE ==================== */
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
             background: var(--bg-primary);
@@ -200,11 +198,50 @@
             color: white;
         }
 
+        /* ==================== SEÇÃO DE DESTAQUES ==================== */
+        .destaque-section {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 0 16px;
+            display: none;
+        }
+
+        .destaque-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .destaque-title {
+            font-size: 1.2rem;
+            color: var(--destaque-color);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .destaque-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .destaque-card {
+            border: 2px solid var(--destaque-color) !important;
+            box-shadow: 0 0 20px rgba(255, 170, 0, 0.2);
+        }
+
+        .destaque-card:hover {
+            box-shadow: 0 0 30px rgba(255, 170, 0, 0.4);
+        }
+
         /* ==================== BANNER ==================== */
         .banner-section {
             max-width: 1200px;
             margin: 20px auto;
             padding: 0 16px;
+            display: none;
         }
 
         .carousel {
@@ -511,6 +548,93 @@
             color: white;
         }
 
+        /* ==================== MODAL DE LEADS ==================== */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.97);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 99999;
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            background: linear-gradient(145deg, #1a1a1a, #0d0d0d);
+            border-radius: 24px;
+            padding: 35px 30px;
+            max-width: 420px;
+            width: 92%;
+            border: 1px solid #ff004f;
+            box-shadow: 0 20px 60px rgba(255, 0, 79, 0.3);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .modal-content h2 {
+            color: #ff004f;
+            font-size: 1.4rem;
+            margin-bottom: 5px;
+        }
+
+        .modal-content .subtitle {
+            color: #ffaa00;
+            font-size: 0.8rem;
+            margin-bottom: 15px;
+        }
+
+        .modal-content p {
+            color: #aaa;
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        .modal-content input {
+            width: 100%;
+            padding: 14px 16px;
+            background: #0a0a0a;
+            border: 1px solid #333;
+            border-radius: 12px;
+            color: white;
+            font-size: 1rem;
+            margin-bottom: 12px;
+            transition: 0.3s;
+        }
+
+        .modal-content input:focus {
+            border-color: #ff004f;
+            outline: none;
+        }
+
+        .modal-content .btn-modal {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(90deg, #00ff9c, #00cc7a);
+            border: none;
+            border-radius: 12px;
+            color: #0a0a0a;
+            font-weight: bold;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .modal-content .btn-modal:hover {
+            transform: scale(1.02);
+        }
+
+        .modal-content .small-text {
+            margin-top: 14px;
+            font-size: 0.6rem;
+            color: #555;
+        }
+
         /* ==================== FOOTER ==================== */
         footer {
             text-align: center;
@@ -536,7 +660,8 @@
         }
 
         @media (max-width: 600px) {
-            .games-grid {
+            .games-grid,
+            .destaque-grid {
                 grid-template-columns: repeat(2, 1fr);
                 gap: 12px;
             }
@@ -592,13 +717,13 @@
             <div class="search-bar">
                 <input type="text" id="searchInput" placeholder="Buscar jogos...">
             </div>
-            <button class="theme-toggle" id="themeToggle" aria-label="Alternar tema">🌙</button>
-            <button class="menu-icon" id="menuBtn" aria-label="Abrir menu">☰</button>
+            <button class="theme-toggle" id="themeToggle">🌙</button>
+            <button class="menu-icon" id="menuBtn">☰</button>
         </div>
     </header>
 
     <!-- ========== SIDEBAR ========== -->
-    <nav class="sidebar" id="sidebar" aria-label="Menu lateral">
+    <nav class="sidebar" id="sidebar">
         <div class="close-btn" id="closeMenu">✕</div>
         <ul>
             <li id="menuHome">🏠 Home</li>
@@ -610,7 +735,7 @@
     <div class="overlay" id="overlay"></div>
 
     <!-- ========== FILTROS ========== -->
-    <nav class="platform-filters" id="platformFilters" aria-label="Filtros por plataforma">
+    <nav class="platform-filters" id="platformFilters">
         <button class="filter-chip active" data-plataforma="todos">Todos</button>
         <button class="filter-chip" data-plataforma="PSP">PSP</button>
         <button class="filter-chip" data-plataforma="PS2">PS2</button>
@@ -618,12 +743,20 @@
         <button class="filter-chip" data-plataforma="APK Android">APK</button>
     </nav>
 
+    <!-- ========== SEÇÃO DE DESTAQUES ========== -->
+    <section class="destaque-section" id="destaqueSection">
+        <div class="destaque-header">
+            <h2 class="destaque-title">⭐ Jogos em Destaque</h2>
+        </div>
+        <div class="destaque-grid" id="destaqueGrid"></div>
+    </section>
+
     <!-- ========== BANNER ========== -->
-    <section class="banner-section" id="bannerSection" style="display: none;" aria-label="Destaques">
+    <section class="banner-section" id="bannerSection">
         <div class="carousel" id="carousel">
             <div class="carousel-track" id="carouselTrack"></div>
-            <button class="carousel-btn prev" id="prevBtn" aria-label="Anterior">❮</button>
-            <button class="carousel-btn next" id="nextBtn" aria-label="Próximo">❯</button>
+            <button class="carousel-btn prev" id="prevBtn">❮</button>
+            <button class="carousel-btn next" id="nextBtn">❯</button>
             <div class="carousel-dots" id="carouselDots"></div>
         </div>
     </section>
@@ -636,7 +769,7 @@
     </main>
 
     <!-- ========== POPUP COMUNIDADE ========== -->
-    <aside class="popup-notificacao" id="popupComunidade" style="display: none;" aria-label="Convite para comunidade">
+    <div class="popup-notificacao" id="popupComunidade" style="display: none;">
         <div class="popup-content">
             <div class="popup-icon">💬</div>
             <div class="popup-texto">
@@ -644,12 +777,29 @@
                 <p>Entre no nosso grupo ou canal do WhatsApp e receba jogos exclusivos, atualizações e muito mais!</p>
             </div>
             <div class="popup-botoes">
-                <a href="https://chat.whatsapp.com/JSy6GUWD9S22qhhOVpOoHW" target="_blank" class="btn-grupo" rel="noopener">📱 Grupo</a>
-                <a href="https://whatsapp.com/channel/0029Vb7YAqi3bbV9tuuiyC1p" target="_blank" class="btn-canal" rel="noopener">📢 Canal</a>
-                <button class="btn-fechar-popup" id="fecharPopupComunidade">✕ Fechar</button>
+                <a href="https://chat.whatsapp.com/JSy6GUWD9S22qhhOVpOoHW" target="_blank" class="btn-grupo">📱 Grupo</a>
+                <a href="https://whatsapp.com/channel/0029Vb7YAqi3bbV9tuuiyC1p" target="_blank" class="btn-canal">📢 Canal</a>
+                <button class="btn-fechar-popup" onclick="fecharPopupComunidade()">✕ Fechar</button>
             </div>
         </div>
-    </aside>
+    </div>
+
+    <!-- ========== MODAL DE LEADS ========== -->
+    <div class="modal-overlay" id="leadModal" style="display: none;">
+        <div class="modal-content">
+            <div style="font-size:3rem; margin-bottom:10px;">🎮</div>
+            <h2>Bem-vindo à ZonaXP!</h2>
+            <p class="subtitle">🔐 Verificação obrigatória - válida por 25 dias</p>
+            <p>Para acessar os jogos, preencha os dados abaixo.</p>
+
+            <input type="text" id="leadNome" placeholder="Seu nome completo">
+            <input type="email" id="leadEmail" placeholder="Seu email">
+            <input type="text" id="leadWhatsapp" placeholder="WhatsApp (ex: 84 123 4567)">
+
+            <button class="btn-modal" id="btnEnviarLead">📤 Verificar Acesso</button>
+            <p class="small-text">Ao continuar, concorda em fornecer os dados para acesso aos jogos.</p>
+        </div>
+    </div>
 
     <!-- ========== FOOTER ========== -->
     <footer>
@@ -661,44 +811,145 @@
     </footer>
 
     <!-- ========== SCRIPTS ========== -->
-    <!-- Script principal (contém lógica de jogos, leads, likes, etc.) -->
     <script src="script.js"></script>
 
-    <!-- Script dedicado ao popup da comunidade (leve e sem conflitos) -->
     <script>
+        // ============================================================
+        // 1. POPUP DA COMUNIDADE (universal - aparece para todos)
+        // ============================================================
         (function() {
-            'use strict';
-
-            const POPUP_KEY = 'popupComunidadeFechado';
-            const DELAY = 5000; // 5 segundos
-
             function mostrarPopup() {
                 const popup = document.getElementById('popupComunidade');
                 if (!popup) return;
-                if (localStorage.getItem(POPUP_KEY) === 'true') return;
-                setTimeout(() => { popup.style.display = 'block'; }, DELAY);
+                const fechado = localStorage.getItem('popupComunidadeFechado');
+                if (fechado === 'true') return;
+                setTimeout(function() {
+                    popup.style.display = 'block';
+                }, 3000);
             }
 
-            function fecharPopup() {
+            window.fecharPopupComunidade = function() {
                 const popup = document.getElementById('popupComunidade');
                 if (popup) {
                     popup.style.display = 'none';
-                    localStorage.setItem(POPUP_KEY, 'true');
-                    // Reativar após 7 dias
-                    setTimeout(() => {
-                        localStorage.removeItem(POPUP_KEY);
+                    localStorage.setItem('popupComunidadeFechado', 'true');
+                    setTimeout(function() {
+                        localStorage.removeItem('popupComunidadeFechado');
                     }, 7 * 24 * 60 * 60 * 1000);
                 }
-            }
+            };
 
-            // Expor função global para o botão fechar
-            window.fecharPopupComunidade = fecharPopup;
-
-            // Mostrar popup após o carregamento do DOM
             if (document.readyState === 'loading') {
                 document.addEventListener('DOMContentLoaded', mostrarPopup);
             } else {
                 mostrarPopup();
+            }
+        })();
+
+        // ============================================================
+        // 2. MODAL DE LEADS (universal - obrigatório para novos visitantes)
+        // ============================================================
+        (function() {
+            const API_URL = 'https://zona-backend-v3h1.onrender.com';
+
+            function leadValido() {
+                const dado = localStorage.getItem('lead_dado');
+                const data = localStorage.getItem('lead_data');
+                if (dado !== 'true' || !data) return false;
+
+                const diff = (Date.now() - new Date(data).getTime()) / (1000 * 60 * 60 * 24);
+                if (diff >= 25) {
+                    localStorage.removeItem('lead_dado');
+                    localStorage.removeItem('lead_data');
+                    localStorage.removeItem('lead_nome');
+                    localStorage.removeItem('lead_email');
+                    localStorage.removeItem('lead_whatsapp');
+                    return false;
+                }
+                return true;
+            }
+
+            function mostrarModal() {
+                const modal = document.getElementById('leadModal');
+                if (!modal) return;
+                if (document.getElementById('leadModal').style.display === 'flex') return;
+                modal.style.display = 'flex';
+            }
+
+            function fecharModal() {
+                const modal = document.getElementById('leadModal');
+                if (modal) modal.style.display = 'none';
+            }
+
+            function enviarLead() {
+                const nome = document.getElementById('leadNome').value.trim();
+                const email = document.getElementById('leadEmail').value.trim();
+                const whatsapp = document.getElementById('leadWhatsapp').value.trim();
+
+                if (!nome || !email || !whatsapp) {
+                    alert('⚠️ Preencha todos os campos!');
+                    return;
+                }
+
+                const wpp = whatsapp.replace(/\s/g, '');
+                if (!/^[8|7][0-9]{8}$/.test(wpp)) {
+                    alert('⚠️ WhatsApp inválido! Use 84xxxxxxx ou 87xxxxxxx');
+                    return;
+                }
+
+                const payload = { nome, email, whatsapp: wpp, jogoInteresse: 'Visitante' };
+
+                fetch(API_URL + '/api/leads', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    })
+                    .then(function(r) {
+                        if (!r.ok) throw new Error('Erro na API');
+                        return r.json();
+                    })
+                    .then(function(result) {
+                        if (result.sucesso) {
+                            localStorage.setItem('lead_dado', 'true');
+                            localStorage.setItem('lead_data', new Date().toISOString());
+                            localStorage.setItem('lead_nome', nome);
+                            localStorage.setItem('lead_email', email);
+                            localStorage.setItem('lead_whatsapp', wpp);
+                            fecharModal();
+                            alert('✅ Verificação concluída! Agora pode baixar os jogos.');
+                            location.reload();
+                        } else {
+                            alert('❌ Erro ao salvar. Tente novamente.');
+                        }
+                    })
+                    .catch(function() {
+                        localStorage.setItem('lead_backup', JSON.stringify(payload));
+                        alert('⚠️ Sem conexão. Os dados foram guardados localmente.');
+                        fecharModal();
+                        location.reload();
+                    });
+            }
+
+            // Inicialização
+            function init() {
+                if (!leadValido()) {
+                    setTimeout(mostrarModal, 1500);
+                }
+            }
+
+            document.getElementById('btnEnviarLead').addEventListener('click', enviarLead);
+
+            // Enter key para enviar
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter' && document.getElementById('leadModal').style.display === 'flex') {
+                    enviarLead();
+                }
+            });
+
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', init);
+            } else {
+                init();
             }
         })();
     </script>
