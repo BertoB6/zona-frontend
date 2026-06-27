@@ -6,20 +6,16 @@ let jogos = [];
 let jogosFiltrados = [];
 let jogoSelecionado = null;
 
-// Elementos DOM
-const container = document.getElementById("games");
+// Elementos DOM - CORRIGIDOS para o index.html atual
+const container = document.getElementById("gamesGrid");
 const destaqueSection = document.getElementById("destaqueSection");
 const destaqueGrid = document.getElementById("destaqueGrid");
 const menuBtn = document.getElementById("menuBtn");
-const sideMenu = document.getElementById("sideMenu");
+const sideMenu = document.getElementById("sidebar");
 const overlay = document.getElementById("overlay");
 const closeMenu = document.getElementById("closeMenu");
-const searchBtn = document.getElementById("searchBtn");
-const searchBar = document.getElementById("searchBar");
 const searchInput = document.getElementById("searchInput");
-const popup = document.getElementById("popup");
-const priceText = document.getElementById("priceText");
-const btnDownloadPremium = document.getElementById("btnDownloadPremium");
+const themeToggle = document.getElementById("themeToggle");
 
 // Elementos do menu
 const menuHome = document.getElementById("menuHome");
@@ -46,77 +42,131 @@ async function carregarJogosAPI() {
     }
 }
 
-// Função para renderizar jogos (com destaque separado)
+
+// Função para renderizar jogos (ordenado por likes apenas)
 function renderizarJogos(jogosArray) {
     if (!container) return;
     
-    // Separar jogos em destaque (máximo 3)
-    const jogosDestaque = jogosArray.filter(jogo => jogo.destaque === true).slice(0, 3);
-    const jogosNormais = jogosArray.filter(jogo => jogo.destaque !== true);
+    // Ordenar por likes (do maior para o menor)
+    const jogosOrdenados = [...jogosArray].sort((a, b) => {
+        return (b.likes || 0) - (a.likes || 0);
+    });
     
-    // Renderizar seção de destaque
-    if (jogosDestaque.length > 0 && destaqueSection && destaqueGrid) {
-        destaqueSection.style.display = 'block';
-        destaqueGrid.innerHTML = '';
-        
-        jogosDestaque.forEach(jogo => {
-            const card = criarCard(jogo, true);
-            destaqueGrid.appendChild(card);
-        });
-    } else if (destaqueSection) {
-        destaqueSection.style.display = 'none';
-    }
-    
-    // Renderizar jogos normais
     container.innerHTML = "";
-    
-    if (jogosNormais.length === 0 && jogosDestaque.length === 0) {
+    if (jogosOrdenados.length === 0) {
         container.innerHTML = '<div style="text-align: center; grid-column: 1/-1; padding: 50px;"><h3>🔍 Nenhum jogo encontrado</h3><p>Tente outra busca</p></div>';
         return;
     }
     
-    jogosNormais.forEach(jogo => {
+    jogosOrdenados.forEach(jogo => {
         const card = criarCard(jogo, false);
         container.appendChild(card);
     });
+    
+    // Esconder seção de destaques (já que não precisas dela)
+    if (destaqueSection) {
+        destaqueSection.style.display = 'none';
+    }
 }
 
-// Função para criar um card de jogo
+// Função para criar um card de jogo - CORRIGIDA
 function criarCard(jogo, isDestaque) {
     const card = document.createElement('div');
-    card.className = 'card';
+    card.className = 'game-card';
     if (isDestaque) card.classList.add('destaque-card');
     
     const plataformaIcon = jogo.plataforma === "APK Android" ? "📱" : "🎮";
     
-    // Primeiro tenta carregar do backend, depois do front-end
-    const imagemBackend = `${API_URL}/imagens/${jogo.imagem}.jpg`;
-    const imagemFrontend = `imagens/${jogo.imagem}.jpg`;
+    // Verificar se a imagem é URL externa ou nome de arquivo
+    let imagemUrl;
+    if (jogo.imagem && jogo.imagem.startsWith('http')) {
+        imagemUrl = jogo.imagem;
+    } else {
+        imagemUrl = `${API_URL}/imagens/${jogo.imagem}.jpg`;
+    }
+    
+    const badgeClass = jogo.pago ? 'badge-paid' : 'badge-free';
+    const badgeText = jogo.pago ? `💰 ${jogo.preco}` : '🎁 Grátis';
     
     card.innerHTML = `
-        <img src="${imagemBackend}" 
-             alt="${jogo.nome}" 
-             loading="lazy" 
-             onerror="this.src='${imagemFrontend}'; this.onerror=null;">
-        <h3>${jogo.nome}</h3>
-        <div>
-            <span class="categoria">${jogo.categoria}</span>
-            <span class="plataforma">${plataformaIcon} ${jogo.plataforma}</span>
+        <div class="price-badge ${badgeClass}">${badgeText}</div>
+        <img src="${imagemUrl}" alt="${jogo.nome}" loading="lazy" onerror="this.src='https://via.placeholder.com/400x300?text=${encodeURIComponent(jogo.nome)}'">
+        <div class="game-info">
+            <div class="game-title">${jogo.nome}</div>
+            <div class="game-desc">${jogo.descricao_curta || jogo.categoria}</div>
+            <div class="rating">
+                <button class="like-btn" data-id="${jogo.id}" data-tipo="like">👍 <span>${jogo.likes || 0}</span></button>
+                <button class="dislike-btn" data-id="${jogo.id}" data-tipo="dislike">👎 <span>${jogo.dislikes || 0}</span></button>
+            </div>
+            <div class="size">📦 ${jogo.tamanho || 'Tamanho não informado'}</div>
+            <button class="btn-download ${jogo.pago ? 'btn-paid' : 'btn-free'}" data-id="${jogo.id}">
+                ${jogo.pago ? `💰 Comprar ${jogo.preco}` : '⬇️ Baixar Grátis'}
+            </button>
         </div>
-        <div class="info-extra">
-            <span class="tamanho">📦 ${jogo.tamanho || 'Tamanho não informado'}</span>
-            ${jogo.destaque ? '<span class="destaque-badge">⭐ Destaque</span>' : ''}
-        </div>
-        <button class="btn" data-id="${jogo.id}">Download</button>
     `;
     
-    const btn = card.querySelector('.btn');
+    // Evento do botão de download
+    const btn = card.querySelector('.btn-download');
     btn.addEventListener('click', (e) => {
         e.stopPropagation();
         baixar(jogo);
     });
     
+    // Eventos de like/dislike
+    const likeBtn = card.querySelector('.like-btn');
+    const dislikeBtn = card.querySelector('.dislike-btn');
+    
+    if (likeBtn) {
+        likeBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            votar(jogo.id, 'like');
+        });
+    }
+    if (dislikeBtn) {
+        dislikeBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            votar(jogo.id, 'dislike');
+        });
+    }
+    
     return card;
+}
+
+// ==================== SISTEMA DE LIKES ====================
+let votosUsuario = JSON.parse(localStorage.getItem('votos') || '{}');
+
+async function votar(jogoId, tipo) {
+    const jogo = jogos.find(j => j.id === jogoId);
+    if (!jogo) return;
+    
+    const votoAtual = votosUsuario[jogoId];
+    
+    if (votoAtual === tipo) {
+        delete votosUsuario[jogoId];
+        if (tipo === 'like') jogo.likes--;
+        else jogo.dislikes--;
+    } else {
+        if (votoAtual === 'like') jogo.likes--;
+        if (votoAtual === 'dislike') jogo.dislikes--;
+        
+        votosUsuario[jogoId] = tipo;
+        if (tipo === 'like') jogo.likes++;
+        else jogo.dislikes++;
+    }
+    
+    localStorage.setItem('votos', JSON.stringify(votosUsuario));
+    
+    try {
+        await fetch(`${API_URL}/api/avaliacao/${jogoId}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ likes: jogo.likes, dislikes: jogo.dislikes })
+        });
+    } catch (error) {
+        console.error('Erro ao salvar voto:', error);
+    }
+    
+    renderizarJogos(jogosFiltrados);
 }
 
 // ==================== SISTEMA DE LEADS COM VALIDADE DE 25 DIAS ====================
@@ -126,10 +176,8 @@ function baixar(jogo) {
     if (jogo.pago) {
         // Jogo pago: checkout
         jogoSelecionado = jogo;
-        if (popup && priceText) {
-            priceText.innerHTML = `${jogo.preco}<br><span style="font-size: 0.9rem; color: #888;">${jogo.nome}</span>`;
-            popup.style.display = "flex";
-        }
+        alert(`💰 Jogo Premium: ${jogo.nome}\nPreço: ${jogo.preco}\n\nVocê será redirecionado para o pagamento.`);
+        window.location.href = `checkout.html?jogo=${jogo.id}`;
     } else {
         // Jogo grátis: verificar se o lead é válido
         const leadValido = verificarLeadValido();
@@ -228,7 +276,6 @@ function mostrarModalLead(jogo) {
 
 // Fechar modal (não é possível fechar sem preencher)
 function fecharModalLead() {
-    // Não faz nada - o modal é obrigatório
     alert('⚠️ Por favor, preencha os dados para continuar.');
 }
 
@@ -299,34 +346,7 @@ function verificarExpiracaoLead() {
         const diasRestantes = 25 - diferencaDias;
         
         if (diasRestantes > 0 && diasRestantes <= 5) {
-            // Mostrar aviso sutil no console ou criar notificação
             console.log(`⚠️ A sua verificação expira em ${diasRestantes} dia(s).`);
-            
-            // Opcional: criar notificação visual
-            const notificacao = document.createElement('div');
-            notificacao.style.cssText = `
-                position: fixed;
-                bottom: 20px;
-                left: 50%;
-                transform: translateX(-50%);
-                background: #ffaa00;
-                color: #0a0a0a;
-                padding: 10px 20px;
-                border-radius: 10px;
-                font-weight: bold;
-                z-index: 9999;
-                font-size: 0.8rem;
-                box-shadow: 0 5px 20px rgba(0,0,0,0.5);
-                animation: fadeInUp 0.5s ease;
-            `;
-            notificacao.textContent = `⚠️ A sua verificação expira em ${diasRestantes} dia(s). Preencha novamente para continuar.`;
-            document.body.appendChild(notificacao);
-            
-            setTimeout(() => {
-                notificacao.style.transition = 'opacity 0.5s';
-                notificacao.style.opacity = '0';
-                setTimeout(() => notificacao.remove(), 500);
-            }, 5000);
         }
     }
 }
@@ -342,35 +362,17 @@ function verificarLeadAoCarregar() {
             const diferencaDias = Math.floor((hoje - dataPreenchimento) / (1000 * 60 * 60 * 24));
             
             if (diferencaDias >= 25) {
-                // Expirou, limpar dados
                 localStorage.removeItem('lead_dado');
                 localStorage.removeItem('lead_data');
                 localStorage.removeItem('lead_nome');
                 localStorage.removeItem('lead_email');
                 localStorage.removeItem('lead_whatsapp');
-                console.log('🔐 Verificação expirada. Pedir novamente os dados.');
+                console.log('🔐 Verificação expirada.');
             } else if (diferencaDias >= 20) {
-                // Avisar que está a expirar
                 verificarExpiracaoLead();
             }
         }
     }
-}
-
-function baixarPremium() {
-    if (jogoSelecionado && jogoSelecionado.download) {
-        window.open(jogoSelecionado.download, "_blank");
-        fecharPopup();
-    } else {
-        alert("Link de download indisponível no momento.");
-    }
-}
-
-function fecharPopup() {
-    if (popup) {
-        popup.style.display = "none";
-    }
-    jogoSelecionado = null;
 }
 
 // ==================== BUSCA ====================
@@ -458,15 +460,7 @@ function fecharMenu() {
     overlay.classList.remove('active');
 }
 
-function toggleSearchBar() {
-    searchBar.classList.toggle('active');
-    if (searchBar.classList.contains('active')) {
-        searchInput.focus();
-    }
-}
-
 function fecharBarraPesquisa() {
-    searchBar.classList.remove('active');
     if (searchInput) {
         searchInput.value = '';
     }
@@ -504,9 +498,9 @@ function carregarJogoPorURL() {
                 const nomeJogo = slugMap[jogoSlug];
                 if (nomeJogo) {
                     setTimeout(() => {
-                        const cards = document.querySelectorAll('.card');
+                        const cards = document.querySelectorAll('.game-card');
                         for (let card of cards) {
-                            if (card.querySelector('h3')?.innerText === nomeJogo) {
+                            if (card.querySelector('.game-title')?.innerText === nomeJogo) {
                                 card.scrollIntoView({ behavior: 'smooth', block: 'center' });
                                 card.style.border = '2px solid #00ff9c';
                                 card.style.transform = 'scale(1.02)';
@@ -530,28 +524,11 @@ if (menuBtn) menuBtn.addEventListener('click', abrirMenu);
 if (closeMenu) closeMenu.addEventListener('click', fecharMenu);
 if (overlay) overlay.addEventListener('click', fecharMenu);
 
-if (searchBtn) searchBtn.addEventListener('click', toggleSearchBar);
 if (searchInput) searchInput.addEventListener('input', (e) => buscarJogos(e.target.value));
 
 if (menuHome) menuHome.addEventListener('click', mostrarHome);
 if (menuApresentacao) menuApresentacao.addEventListener('click', mostrarApresentacao);
 if (menuSuporte) menuSuporte.addEventListener('click', mostrarSuporte);
-
-if (btnDownloadPremium) btnDownloadPremium.addEventListener('click', baixarPremium);
-
-if (popup) {
-    popup.addEventListener('click', (e) => {
-        if (e.target === popup) fecharPopup();
-    });
-}
-
-document.addEventListener('click', (e) => {
-    if (searchBar.classList.contains('active')) {
-        if (!searchBar.contains(e.target) && e.target !== searchBtn) {
-            fecharBarraPesquisa();
-        }
-    }
-});
 
 // ==================== INICIALIZAÇÃO ====================
 carregarJogosAPI();
