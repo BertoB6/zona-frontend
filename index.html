@@ -17,8 +17,8 @@
             --text-primary: #ffffff;
             --text-secondary: #b0b0b0;
             --border-color: #333333;
-            --button-free: #0f9d58;
-            --button-paid: #ff9800;
+            --button-blue: #1a73e8;
+            --button-blue-hover: #1557b0;
             --accent: #ff004f;
             --like-color: #0f9d58;
             --dislike-color: #ff4444;
@@ -198,45 +198,7 @@
             color: white;
         }
 
-        /* ==================== SEÇÃO DE DESTAQUES ==================== */
-        .destaque-section {
-            max-width: 1200px;
-            margin: 20px auto;
-            padding: 0 16px;
-            display: none;
-        }
-
-        .destaque-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-
-        .destaque-title {
-            font-size: 1.2rem;
-            color: var(--destaque-color);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .destaque-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 20px;
-        }
-
-        .destaque-card {
-            border: 2px solid var(--destaque-color) !important;
-            box-shadow: 0 0 20px rgba(255, 170, 0, 0.2);
-        }
-
-        .destaque-card:hover {
-            box-shadow: 0 0 30px rgba(255, 170, 0, 0.4);
-        }
-
-        /* ==================== BANNER ==================== */
+        /* ==================== BANNER (AGORA PRIMEIRO) ==================== */
         .banner-section {
             max-width: 1200px;
             margin: 20px auto;
@@ -323,6 +285,44 @@
             border-radius: 4px;
         }
 
+        /* ==================== SEÇÃO DE DESTAQUES (AGORA SEGUNDO) ==================== */
+        .destaque-section {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 0 16px;
+            display: none;
+        }
+
+        .destaque-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .destaque-title {
+            font-size: 1.2rem;
+            color: var(--destaque-color);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .destaque-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .destaque-card {
+            border: 2px solid var(--destaque-color) !important;
+            box-shadow: 0 0 20px rgba(255, 170, 0, 0.2);
+        }
+
+        .destaque-card:hover {
+            box-shadow: 0 0 30px rgba(255, 170, 0, 0.4);
+        }
+
         /* ==================== GRID DE JOGOS ==================== */
         .games-section {
             max-width: 1200px;
@@ -369,12 +369,12 @@
         }
 
         .badge-free {
-            background: var(--button-free);
+            background: var(--button-blue);
             color: white;
         }
 
         .badge-paid {
-            background: var(--button-paid);
+            background: var(--button-blue);
             color: white;
         }
 
@@ -442,17 +442,20 @@
             border-radius: 24px;
             font-weight: 600;
             cursor: pointer;
-            transition: opacity 0.2s;
+            transition: all 0.3s ease;
         }
 
-        .btn-free {
-            background: var(--button-free);
-            color: white;
-        }
-
+        /* BOTÕES AZUIS - UNIFICADOS */
+        .btn-free,
         .btn-paid {
-            background: var(--button-paid);
+            background: var(--button-blue);
             color: white;
+        }
+
+        .btn-free:hover,
+        .btn-paid:hover {
+            background: var(--button-blue-hover);
+            transform: scale(1.02);
         }
 
         /* ==================== LOADING ==================== */
@@ -743,15 +746,7 @@
         <button class="filter-chip" data-plataforma="APK Android">APK</button>
     </nav>
 
-    <!-- ========== SEÇÃO DE DESTAQUES ========== -->
-    <section class="destaque-section" id="destaqueSection">
-        <div class="destaque-header">
-            <h2 class="destaque-title">⭐ Jogos em Destaque</h2>
-        </div>
-        <div class="destaque-grid" id="destaqueGrid"></div>
-    </section>
-
-    <!-- ========== BANNER ========== -->
+    <!-- ========== BANNER (AGORA PRIMEIRO) ========== -->
     <section class="banner-section" id="bannerSection">
         <div class="carousel" id="carousel">
             <div class="carousel-track" id="carouselTrack"></div>
@@ -759,6 +754,14 @@
             <button class="carousel-btn next" id="nextBtn">❯</button>
             <div class="carousel-dots" id="carouselDots"></div>
         </div>
+    </section>
+
+    <!-- ========== SEÇÃO DE DESTAQUES (AGORA SEGUNDO) ========== -->
+    <section class="destaque-section" id="destaqueSection">
+        <div class="destaque-header">
+            <h2 class="destaque-title">⭐ Jogos em Destaque</h2>
+        </div>
+        <div class="destaque-grid" id="destaqueGrid"></div>
     </section>
 
     <!-- ========== GRID DE JOGOS ========== -->
