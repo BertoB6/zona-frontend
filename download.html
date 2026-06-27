@@ -660,6 +660,52 @@
                 height: 100px;
             }
         }
+        
+        .header-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+.btn-voltar {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid var(--border-color);
+    padding: 6px 14px;
+    border-radius: 30px;
+    color: var(--text-primary);
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.btn-voltar:hover {
+    background: var(--accent);
+    border-color: var(--accent);
+    transform: scale(1.02);
+}
+
+.theme-toggle,
+.menu-icon {
+    background: none;
+    border: none;
+    font-size: 1.3rem;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 50%;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.menu-icon {
+    font-size: 1.5rem;
+    order: 1;
+}
     </style>
 </head>
 <body>
@@ -667,15 +713,18 @@
     <div class="container">
         <!-- ========== HEADER ========== -->
         <div class="header">
-            <div class="header-content">
-                <div class="logo">ZonaXP</div>
-                <div class="search-bar">
-                    <input type="text" id="searchInput" placeholder="Buscar jogos...">
-                </div>
-                <button class="theme-toggle" id="themeToggle">🌙</button>
-                <button class="menu-icon" id="menuBtn">☰</button>
-            </div>
+    <div class="header-content">
+        <div class="logo">ZonaXP</div>
+        <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Buscar jogos...">
         </div>
+        <div class="header-actions">
+            <button class="btn-voltar" onclick="window.location.href='/'">← Voltar</button>
+            <button class="theme-toggle" id="themeToggle">🌙</button>
+            <button class="menu-icon" id="menuBtn">☰</button>
+        </div>
+    </div>
+</div>
 
         <!-- ========== SIDEBAR ========== -->
         <div class="sidebar" id="sidebar">
