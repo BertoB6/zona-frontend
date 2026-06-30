@@ -275,13 +275,150 @@ async function votar(jogoId, tipo, event) {
 }
 
 // ==================== BAIXAR JOGO ====================
-function baixarJogo(id) {
-    var jogo = jogos.find(function(j) { return j.id === id; });
+function baixarJogo(jogoId) {
+    var jogo = jogos.find(function(j) { return j.id === jogoId; });
     if (!jogo) return;
+    
     if (jogo.pago) {
-        window.location.href = 'checkout.html?jogo=' + id;
+        // Jogo pago: vai para página de download
+        window.location.href = 'download.html?jogo=' + jogo.id;
     } else {
-        window.location.href = 'download.html?jogo=' + id;
+        // Jogo grátis: verificar lead
+        const leadValido = verificarLeadValido();
+        if (leadValido) {
+            window.location.href = 'download.html?jogo=' + jogo.id;
+        } else {
+            mostrarModalLead(jogo);
+        }
+    }
+}
+
+// ==================== SISTEMA DE LEADS (copiar do script.js existente) ====================
+function verificarLeadValido() {
+    const leadDado = localStorage.getItem('lead_dado');
+    const leadData = localStorage.getItem('lead_data');
+    
+    if (leadDado !== 'true' || !leadData) {
+        return false;
+    }
+    
+    const dataPreenchimento = new Date(leadData);
+    const hoje = new Date();
+    const diferencaDias = Math.floor((hoje - dataPreenchimento) / (1000 * 60 * 60 * 24));
+    
+    if (diferencaDias >= 25) {
+        localStorage.removeItem('lead_dado');
+        localStorage.removeItem('lead_data');
+        localStorage.removeItem('lead_nome');
+        localStorage.removeItem('lead_email');
+        localStorage.removeItem('lead_whatsapp');
+        return false;
+    }
+    
+    return true;
+}
+
+function mostrarModalLead(jogo) {
+    if (document.getElementById('leadModal')) return;
+    
+    const modal = document.createElement('div');
+    modal.id = 'leadModal';
+    modal.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.95);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 2000;
+    `;
+    
+    const leadExpirado = localStorage.getItem('lead_dado') === 'true' && !verificarLeadValido();
+    
+    modal.innerHTML = `
+        <div style="background: linear-gradient(135deg, #111, #1a1a1a); border-radius: 20px; padding: 30px; max-width: 400px; width: 90%; border: 1px solid #ff004f; text-align: center;">
+            <h3 style="color: #ff004f; margin-bottom: 5px;">${leadExpirado ? '🔄 Verificação Expirada' : '🔐 Verificação Obrigatória'}</h3>
+            <p style="color: #ffaa00; font-size: 0.8rem; margin-bottom: 10px;">⏳ Válido por 25 dias</p>
+            <p style="color: #ccc; margin-bottom: 20px; font-size: 0.9rem;">
+                ${leadExpirado ? 'A sua verificação expirou. Preencha novamente para continuar a baixar jogos.' : 'Preencha os dados abaixo para acessar o jogo <strong>' + jogo.nome + '</strong>'}
+            </p>
+            
+            <div style="margin-bottom: 15px;">
+                <input type="text" id="leadNome" placeholder="Seu nome completo" style="width:100%; padding:12px; background:#0a0a0a; border:1px solid #333; border-radius:10px; color:white; margin-bottom:10px;" value="${localStorage.getItem('lead_nome') || ''}">
+                <input type="email" id="leadEmail" placeholder="Seu email" style="width:100%; padding:12px; background:#0a0a0a; border:1px solid #333; border-radius:10px; color:white; margin-bottom:10px;" value="${localStorage.getItem('lead_email') || ''}">
+                <input type="text" id="leadWhatsapp" placeholder="WhatsApp (ex: 841234567)" style="width:100%; padding:12px; background:#0a0a0a; border:1px solid #333; border-radius:10px; color:white;" value="${localStorage.getItem('lead_whatsapp') || ''}">
+            </div>
+            
+            <button id="btnEnviarLead" style="width:100%; padding:14px; background: linear-gradient(90deg, #00ff9c, #00cc7a); border: none; border-radius:10px; color: #0a0a0a; font-weight: bold; cursor: pointer; font-size: 1rem;">
+                📤 Continuar para Download
+            </button>
+            
+            <p style="margin-top: 12px; font-size: 0.65rem; color: #666;">
+                Ao continuar, concorda em fornecer os dados para acesso aos jogos.
+            </p>
+        </div>
+    `;
+    
+    document.body.appendChild(modal);
+    
+    document.getElementById('btnEnviarLead').onclick = function() {
+        enviarLead(jogo);
+    };
+}
+
+function enviarLead(jogo) {
+    const nome = document.getElementById('leadNome').value.trim();
+    const email = document.getElementById('leadEmail').value.trim();
+    const whatsapp = document.getElementById('leadWhatsapp').value.trim();
+    
+    if (!nome || !email || !whatsapp) {
+        alert('⚠️ Preencha todos os campos!');
+        return;
+    }
+    
+    const whatsappLimpo = whatsapp.replace(/\s/g, '');
+    if (!/^[8|7][0-9]{8}$/.test(whatsappLimpo)) {
+        alert('⚠️ Número de WhatsApp inválido! Use 84xxxxxxx ou 87xxxxxxx');
+        return;
+    }
+    
+    try {
+        fetch(API_URL + '/api/leads', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                nome: nome,
+                email: email,
+                whatsapp: whatsappLimpo,
+                jogoInteresse: jogo.nome
+            })
+        })
+        .then(response => response.json())
+        .then(result => {
+            if (result.sucesso) {
+                const dataAtual = new Date().toISOString();
+                localStorage.setItem('lead_dado', 'true');
+                localStorage.setItem('lead_data', dataAtual);
+                localStorage.setItem('lead_nome', nome);
+                localStorage.setItem('lead_email', email);
+                localStorage.setItem('lead_whatsapp', whatsappLimpo);
+                
+                const modal = document.getElementById('leadModal');
+                if (modal) modal.remove();
+                
+                window.location.href = 'download.html?jogo=' + jogo.id;
+            } else {
+                alert('❌ Erro ao salvar dados. Tente novamente.');
+            }
+        })
+        .catch(() => {
+            alert('❌ Erro de conexão. Tente novamente.');
+        });
+    } catch (error) {
+        alert('❌ Erro de conexão. Tente novamente.');
     }
 }
 

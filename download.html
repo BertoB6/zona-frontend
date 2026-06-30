@@ -820,7 +820,7 @@
             if (document.getElementById('menuSuporte')) {
                 document.getElementById('menuSuporte').addEventListener('click', function() {
                     fecharMenu();
-                    alert('🛡️ Suporte\n\n📧 Email: suporte@zonaxp.com\n📱 WhatsApp: +258 85 852 3520');
+                    alert('🛡️ Suporte\n\n📧 Email: suporte@zonaxp.com\n📱 WhatsApp: +258 85 811 2264');
                 });
             }
         }
@@ -1035,98 +1035,111 @@
 
         // ==================== RENDERIZAR PÁGINA ====================
         function renderizarPagina() {
-            var badgeClass = jogoAtual.pago ? 'badge-paid' : 'badge-free';
-            var badgeText = jogoAtual.pago ? '💰 ' + jogoAtual.preco : '🎁 Grátis';
-            var isLiked = votosUsuario[jogoAtual.id] === 'like';
-            var isDisliked = votosUsuario[jogoAtual.id] === 'dislike';
+    var badgeClass = jogoAtual.pago ? 'badge-paid' : 'badge-free';
+    var badgeText = jogoAtual.pago ? '💰 ' + jogoAtual.preco : '🎁 Grátis';
+    var isLiked = votosUsuario[jogoAtual.id] === 'like';
+    var isDisliked = votosUsuario[jogoAtual.id] === 'dislike';
 
-            // ===== GERAR LINKS DE DOWNLOAD =====
-            var links = [];
-            if (jogoAtual.download) links.push({ nome: '⬇️ Download', link: jogoAtual.download });
-            if (jogoAtual.apk_link) links.push({ nome: '📱 APK', link: jogoAtual.apk_link });
-            if (jogoAtual.obb_link) links.push({ nome: '💾 OBB', link: jogoAtual.obb_link });
-            if (jogoAtual.data_link) links.push({ nome: '📁 DATA', link: jogoAtual.data_link });
-            if (jogoAtual.texture_link) links.push({ nome: '🎨 Texturas', link: jogoAtual.texture_link });
-            if (jogoAtual.save_link) links.push({ nome: '💾 Savedata', link: jogoAtual.save_link });
-            if (jogoAtual.iso_link) links.push({ nome: '🎮 ISO/ROM', link: jogoAtual.iso_link });
+    // ===== GERAR LINKS DE DOWNLOAD =====
+    var links = [];
+    if (jogoAtual.download) links.push({ nome: '⬇️ Download', link: jogoAtual.download });
+    if (jogoAtual.apk_link) links.push({ nome: '📱 APK', link: jogoAtual.apk_link });
+    if (jogoAtual.obb_link) links.push({ nome: '💾 OBB', link: jogoAtual.obb_link });
+    if (jogoAtual.data_link) links.push({ nome: '📁 DATA', link: jogoAtual.data_link });
+    if (jogoAtual.texture_link) links.push({ nome: '🎨 Texturas', link: jogoAtual.texture_link });
+    if (jogoAtual.save_link) links.push({ nome: '💾 Savedata', link: jogoAtual.save_link });
+    if (jogoAtual.iso_link) links.push({ nome: '🎮 ISO/ROM', link: jogoAtual.iso_link });
 
-            var botoesDownload = '';
-            if (jogoAtual.pago) {
-                botoesDownload = '<button class="btn-download btn-paid" onclick="window.location.href=\'checkout.html?jogo=' + jogoAtual.id + '\'">💰 Comprar ' + jogoAtual.preco + '</button>';
-            } else if (links.length > 0) {
-                botoesDownload = '<div class="download-buttons">';
-                links.forEach(function(link) {
-                    botoesDownload += '<button class="btn-download btn-blue" onclick="window.open(\'' + link.link + '\', \'_blank\'); registrarDownload();">' + link.nome + '</button>';
-                });
-                botoesDownload += '</div>';
-            } else {
-                botoesDownload = '<p style="text-align:center;color:red;">Nenhum link disponível</p>';
-            }
+    var botoesDownload = '';
 
-            // ===== JOGOS RECOMENDADOS =====
-            var recomendados = todosJogos.filter(function(j) {
-                return j.id !== jogoAtual.id && j.categoria === jogoAtual.categoria && !j.pago;
-            }).slice(0, 10);
+    if (jogoAtual.pago) {
+        // Jogo pago: dois botões
+        var mensagemWhatsApp = 'Quero%20comprar%20' + encodeURIComponent(jogoAtual.nome);
+        botoesDownload = `
+            <div class="download-buttons">
+                <button class="btn-download btn-paid" onclick="window.location.href='checkout.html?jogo=${jogoAtual.id}'">
+                    💳 Pagar Automático
+                </button>
+                <button class="btn-download btn-blue" onclick="window.open('https://wa.me/258858523520?text=${mensagemWhatsApp}', '_blank')">
+                    📱 Pagar Manual (WhatsApp)
+                </button>
+            </div>
+        `;
+    } else if (links.length > 0) {
+        // Jogo grátis: links normais
+        botoesDownload = '<div class="download-buttons">';
+        links.forEach(function(link) {
+            botoesDownload += '<button class="btn-download btn-blue" onclick="window.open(\'' + link.link + '\', \'_blank\'); registrarDownload();">' + link.nome + '</button>';
+        });
+        botoesDownload += '</div>';
+    } else {
+        botoesDownload = '<p style="text-align:center;color:red;">Nenhum link disponível</p>';
+    }
 
-            var htmlRecomendados = '';
-            if (recomendados.length > 0) {
-                htmlRecomendados = '<div class="recomendados"><h4>🎮 Você também pode gostar</h4><div class="recomendados-scroll">';
-                recomendados.forEach(function(jogo) {
-                    var imgUrl = jogo.imagem && jogo.imagem.startsWith('http') ? jogo.imagem : (API_URL + '/imagens/' + jogo.imagem + '.jpg');
-                    htmlRecomendados += '<div class="recom-card" onclick="window.location.href=\'download.html?jogo=' + jogo.id + '\'">';
-                    htmlRecomendados += '<img src="' + imgUrl + '" onerror="this.src=\'https://via.placeholder.com/160x120?text=' + encodeURIComponent(jogo.nome) + '\'">';
-                    htmlRecomendados += '<div class="info"><h5>' + jogo.nome + '</h5><p>' + jogo.categoria + '</p></div>';
-                    htmlRecomendados += '<div class="arrow">→</div>';
-                    htmlRecomendados += '</div>';
-                });
-                htmlRecomendados += '</div></div>';
-            }
+    // ===== JOGOS RECOMENDADOS =====
+    var recomendados = todosJogos.filter(function(j) {
+        return j.id !== jogoAtual.id && j.categoria === jogoAtual.categoria && !j.pago;
+    }).slice(0, 10);
 
-            // ===== MONTAR PÁGINA =====
-            var mediaHtml = renderizarCarrosselMedia();
+    var htmlRecomendados = '';
+    if (recomendados.length > 0) {
+        htmlRecomendados = '<div class="recomendados"><h4>🎮 Você também pode gostar</h4><div class="recomendados-scroll">';
+        recomendados.forEach(function(jogo) {
+            var imgUrl = jogo.imagem && jogo.imagem.startsWith('http') ? jogo.imagem : (API_URL + '/imagens/' + jogo.imagem + '.jpg');
+            htmlRecomendados += '<div class="recom-card" onclick="window.location.href=\'download.html?jogo=' + jogo.id + '\'">';
+            htmlRecomendados += '<img src="' + imgUrl + '" onerror="this.src=\'https://via.placeholder.com/160x120?text=' + encodeURIComponent(jogo.nome) + '\'">';
+            htmlRecomendados += '<div class="info"><h5>' + jogo.nome + '</h5><p>' + jogo.categoria + '</p></div>';
+            htmlRecomendados += '<div class="arrow">→</div>';
+            htmlRecomendados += '</div>';
+        });
+        htmlRecomendados += '</div></div>';
+    }
 
-            content.innerHTML =
-                '<div class="imagem-area">' +
-                mediaHtml +
-                '</div>' +
+    // ===== MONTAR PÁGINA =====
+    var mediaHtml = renderizarCarrosselMedia();
 
-                '<div class="info">' +
-                '<h1>' + jogoAtual.nome + '</h1>' +
-                '<div><span class="categoria">' + jogoAtual.categoria + '</span><span class="plataforma">' + (jogoAtual.plataforma === 'APK Android' ? '📱' : '🎮') + ' ' + jogoAtual.plataforma + '</span></div>' +
-                '<div class="tamanho">📦 ' + (jogoAtual.tamanho || 'Tamanho não informado') + '</div>' +
-                '</div>' +
+    content.innerHTML =
+        '<div class="imagem-area">' +
+        mediaHtml +
+        '</div>' +
 
-                '<div class="rating-share">' +
-                '<div class="rating">' +
-                '<button class="like-btn ' + (isLiked ? 'active' : '') + '" onclick="votar(\'like\', event)">👍 <span>' + (jogoAtual.likes || 0) + '</span></button>' +
-                '<button class="dislike-btn ' + (isDisliked ? 'active' : '') + '" onclick="votar(\'dislike\', event)">👎 <span>' + (jogoAtual.dislikes || 0) + '</span></button>' +
-                '</div>' +
-                '<div class="share-social">' +
-                '<button class="share-btn" onclick="partilharJogo()" title="Partilhar"><i class="fas fa-share-alt"></i></button>' +
-                '<a href="https://whatsapp.com/channel/0029Vb7YAqi3bbV9tuuiyC1p" target="_blank" class="share-icon whatsapp" title="Canal WhatsApp"><i class="fab fa-whatsapp"></i></a>' +
-                '<a href="https://www.tiktok.com/@zona.xp06?_r=1&_d=eiehfg6hj9j865&sec_uid=MS4wLjABAAAAVdUE27t-C3VguC_y6vd2-Zi77OFTf80YArxbRMulS3SmDRrc9tUxShmTzS0patW-&share_author_id=7498838624072877062&sharer_language=pt&source=h5_m&u_code=ek45a8h5f390a4&timestamp=1782632047&user_id=7498838624072877062&sec_user_id=MS4wLjABAAAAVdUE27t-C3VguC_y6vd2-Zi77OFTf80YArxbRMulS3SmDRrc9tUxShmTzS0patW-&item_author_type=1&utm_source=copy&utm_campaign=client_share&utm_medium=android&share_iid=7647791075893380885&share_link_id=85702a41-2dff-48cd-9b57-821614d9c8d2&share_app_id=1233&ugbiz_name=ACCOUNT&ug_btm=b8727%2Cb7360&social_share_type=5&enable_checksum=1" target="_blank" class="share-icon tiktok" title="TikTok"><i class="fab fa-tiktok"></i></a>' +
-                '</div>' +
-                '</div>' +
+        '<div class="info">' +
+        '<h1>' + jogoAtual.nome + '</h1>' +
+        '<div><span class="categoria">' + jogoAtual.categoria + '</span><span class="plataforma">' + (jogoAtual.plataforma === 'APK Android' ? '📱' : '🎮') + ' ' + jogoAtual.plataforma + '</span></div>' +
+        '<div class="tamanho">📦 ' + (jogoAtual.tamanho || 'Tamanho não informado') + '</div>' +
+        '</div>' +
 
-                '<div class="downloads-section">' +
-                '<div class="download-title">📥 DOWNLOAD</div>' +
-                botoesDownload +
-                '</div>' +
+        '<div class="rating-share">' +
+        '<div class="rating">' +
+        '<button class="like-btn ' + (isLiked ? 'active' : '') + '" onclick="votar(\'like\', event)">👍 <span>' + (jogoAtual.likes || 0) + '</span></button>' +
+        '<button class="dislike-btn ' + (isDisliked ? 'active' : '') + '" onclick="votar(\'dislike\', event)">👎 <span>' + (jogoAtual.dislikes || 0) + '</span></button>' +
+        '</div>' +
+        '<div class="share-social">' +
+        '<button class="share-btn" onclick="partilharJogo()" title="Partilhar"><i class="fas fa-share-alt"></i></button>' +
+        '<a href="https://whatsapp.com/channel/0029Vb7YAqi3bbV9tuuiyC1p" target="_blank" class="share-icon whatsapp" title="Canal WhatsApp"><i class="fab fa-whatsapp"></i></a>' +
+        '<a href="https://www.tiktok.com/@zonaxp" target="_blank" class="share-icon tiktok" title="TikTok"><i class="fab fa-tiktok"></i></a>' +
+        '</div>' +
+        '</div>' +
 
-                (jogoAtual.senha ? '<div class="senha-area"><h4>🔐 Senha</h4><div class="senha">' + jogoAtual.senha + '</div></div>' : '') +
+        '<div class="downloads-section">' +
+        '<div class="download-title">📥 DOWNLOAD</div>' +
+        botoesDownload +
+        '</div>' +
 
-                (jogoAtual.descricao_longa ? '<div class="descricao-area"><h4>📖 Sobre o jogo</h4><div class="descricao-longa">' + jogoAtual.descricao_longa + '</div></div>' : '') +
+        (jogoAtual.senha ? '<div class="senha-area"><h4>🔐 Senha</h4><div class="senha">' + jogoAtual.senha + '</div></div>' : '') +
 
-                htmlRecomendados;
+        (jogoAtual.descricao_longa ? '<div class="descricao-area"><h4>📖 Sobre o jogo</h4><div class="descricao-longa">' + jogoAtual.descricao_longa + '</div></div>' : '') +
 
-            // Inicializar carrossel de mídia
-            mediaIndex = 0;
-            var track = document.getElementById('mediaTrack');
-            if (track) track.style.transform = 'translateX(0)';
+        htmlRecomendados;
 
-            // Atualizar rating
-            atualizarRating();
-        }
+    // Inicializar carrossel de mídia
+    mediaIndex = 0;
+    var track = document.getElementById('mediaTrack');
+    if (track) track.style.transform = 'translateX(0)';
+
+    // Atualizar rating
+    atualizarRating();
+}
 
         function mostrarErro(mensagem) {
             content.innerHTML = '<div class="error"><h3>⚠️ Erro</h3><p>' + mensagem + '</p><button class="btn-download btn-blue" onclick="window.location.href=\'/\'">Voltar para Home</button></div>';

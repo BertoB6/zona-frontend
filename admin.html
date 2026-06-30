@@ -540,19 +540,20 @@
                 <p class="subtitle">Adicione até 4 imagens (URLs externas)</p>
                 <div class="form-grid">
                     <div class="form-group full">
-                        <label>Imagem Principal</label>
+                        <label>Imagem Principal *</label>
                         <input type="text" id="jogoImagem" placeholder="https://...">
+                        <small style="color:#888;">Use link externo (Cloudinary, ImgBB, etc.)</small>
                     </div>
                     <div class="form-group full">
-                        <label>Imagem 2</label>
+                        <label>Imagem 2 (Extra)</label>
                         <input type="text" id="jogoImagem2" placeholder="https://...">
                     </div>
                     <div class="form-group full">
-                        <label>Imagem 3</label>
+                        <label>Imagem 3 (Extra)</label>
                         <input type="text" id="jogoImagem3" placeholder="https://...">
                     </div>
                     <div class="form-group full">
-                        <label>Imagem 4</label>
+                        <label>Imagem 4 (Extra)</label>
                         <input type="text" id="jogoImagem4" placeholder="https://...">
                     </div>
                 </div>
@@ -561,17 +562,23 @@
                 </div>
             </div>
 
-            <!-- ETAPA 3: Mídia (Vídeo + Descrição Longa) -->
+            <!-- ETAPA 3: Mídia (Vídeo + Descrição Longa + Imagens Extras) -->
             <div class="form-card" data-step="3">
                 <h3>🎬 Mídia</h3>
-                <p class="subtitle">Vídeo e descrição detalhada do jogo</p>
+                <p class="subtitle">Vídeo, imagens extras e descrição detalhada</p>
                 <div class="form-grid">
                     <div class="form-group full">
-                        <label>URL do Vídeo</label>
+                        <label>🎥 URL do Vídeo (YouTube, TikTok, etc.)</label>
                         <input type="text" id="videoUrl" placeholder="https://youtube.com/watch?v=...">
+                        <small style="color:#888;">Cole o link do vídeo</small>
                     </div>
                     <div class="form-group full">
-                        <label>Descrição Longa</label>
+                        <label>🖼️ Imagens Extras (URLs separadas por vírgula)</label>
+                        <input type="text" id="imagensExtras" placeholder="https://... , https://... , https://...">
+                        <small style="color:#888;">Adicione até 4 imagens extras separadas por vírgula (aparecem no carrossel)</small>
+                    </div>
+                    <div class="form-group full">
+                        <label>📄 Descrição Longa</label>
                         <textarea id="descricaoLonga" rows="5" placeholder="Descrição detalhada do jogo..."></textarea>
                     </div>
                 </div>
@@ -941,8 +948,9 @@
         document.getElementById('jogoImagem3').value = jogo.imagem3 || '';
         document.getElementById('jogoImagem4').value = jogo.imagem4 || '';
         
-        // Etapa 3
+        // Etapa 3 - NOVOS CAMPOS
         document.getElementById('videoUrl').value = jogo.video_url || '';
+        document.getElementById('imagensExtras').value = (jogo.imagens_extras || []).join(', ');
         document.getElementById('descricaoLonga').value = jogo.descricao_longa || '';
         
         // Etapa 4
@@ -972,6 +980,15 @@
 
     // ==================== SALVAR ====================
     async function salvarJogo() {
+        // Processar imagens extras
+        const imagensExtrasInput = document.getElementById('imagensExtras').value.trim();
+        let imagensExtras = [];
+        if (imagensExtrasInput) {
+            imagensExtras = imagensExtrasInput.split(',').map(function(url) {
+                return url.trim();
+            }).filter(function(url) { return url !== ''; });
+        }
+
         const jogo = {
             nome: document.getElementById('jogoNome').value,
             categoria: document.getElementById('jogoCategoria').value,
@@ -989,6 +1006,7 @@
             imagem3: document.getElementById('jogoImagem3').value,
             imagem4: document.getElementById('jogoImagem4').value,
             video_url: document.getElementById('videoUrl').value,
+            imagens_extras: imagensExtras,
             download: document.getElementById('jogoDownload').value,
             apk_link: document.getElementById('apkLink').value,
             obb_link: document.getElementById('obbLink').value,
