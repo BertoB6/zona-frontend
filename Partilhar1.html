@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>ZonaXP - Partilhe e Baixe Grátis</title>
+    <title>ZonaXP - Partilhe e Baixe</title>
     <style>
         * {
             margin: 0;
@@ -12,145 +12,126 @@
         }
 
         body {
-            background: linear-gradient(135deg, #0a0a0a 0%, #1a0a0a 100%);
+            background: #0a0a0a;
             color: white;
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
             min-height: 100vh;
-            padding: 20px;
             display: flex;
             justify-content: center;
             align-items: center;
+            padding: 20px;
         }
 
         .container {
-            max-width: 550px;
+            max-width: 420px;
             width: 100%;
-            margin: 0 auto;
         }
 
         .card {
-            background: linear-gradient(135deg, #111, #1a1a1a);
-            border-radius: 28px;
-            padding: 30px 25px;
-            border: 1px solid rgba(255, 0, 79, 0.3);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+            background: #111;
+            border-radius: 24px;
+            padding: 25px 20px;
+            border: 1px solid rgba(255, 0, 79, 0.25);
             text-align: center;
-            animation: fadeIn 0.5s ease;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
         }
 
         .logo {
-            font-size: 2rem;
+            font-size: 1.6rem;
             font-weight: bold;
             background: linear-gradient(135deg, #ff004f, #8000ff, #00ff9c);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
         }
 
         .jogo-info {
-            margin: 20px 0;
-            padding: 15px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 20px;
+            margin-bottom: 20px;
         }
 
         .jogo-info img {
             width: 100%;
-            height: auto;
-            max-height: 400px;
+            max-height: 220px;
             object-fit: contain;
-            border-radius: 20px;
-            margin-bottom: 20px;
-            border: 3px solid #ff004f;
+            border-radius: 16px;
+            border: 2px solid #ff004f;
             background: #0a0a0a;
         }
 
         .jogo-info h2 {
-            font-size: 1.5rem;
-            margin-bottom: 8px;
+            font-size: 1.3rem;
+            margin-top: 12px;
         }
 
         .jogo-info p {
             color: #888;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
+            margin-top: 4px;
         }
 
         .progresso-area {
-            margin: 25px 0;
+            margin: 20px 0;
         }
 
         .progresso-label {
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             color: #888;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
         }
 
         .progresso-bar {
-            background: #2a2a2a;
-            border-radius: 30px;
-            height: 12px;
+            background: #222;
+            border-radius: 20px;
+            height: 10px;
             overflow: hidden;
-            margin-bottom: 8px;
         }
 
         .progresso-fill {
             background: linear-gradient(90deg, #ff004f, #8000ff);
             width: 0%;
             height: 100%;
-            transition: width 0.5s ease;
-            border-radius: 30px;
+            transition: width 0.4s ease;
+            border-radius: 20px;
         }
 
         .progresso-texto {
-            font-size: 1rem;
+            font-size: 0.9rem;
             font-weight: bold;
             color: #00ff9c;
+            margin-top: 6px;
         }
 
-        .btn-partilhar {
+        .btn {
             width: 100%;
-            padding: 16px;
-            background: linear-gradient(90deg, #25D366, #128C7E);
+            padding: 14px;
             border: none;
             border-radius: 50px;
-            color: white;
             font-weight: bold;
-            font-size: 1.1rem;
+            font-size: 1rem;
             cursor: pointer;
             transition: 0.3s;
-            margin-bottom: 15px;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
+            gap: 8px;
         }
 
-        .btn-partilhar:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            transform: none;
+        .btn-partilhar {
+            background: linear-gradient(90deg, #25D366, #128C7E);
+            color: white;
         }
 
         .btn-partilhar:hover:not(:disabled) {
             transform: scale(1.02);
         }
 
+        .btn-partilhar:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
         .btn-baixar {
-            width: 100%;
-            padding: 16px;
             background: linear-gradient(90deg, #00ff9c, #00cc7a);
-            border: none;
-            border-radius: 50px;
             color: #0a0a0a;
-            font-weight: bold;
-            font-size: 1.1rem;
-            cursor: pointer;
-            transition: 0.3s;
             display: none;
         }
 
@@ -159,9 +140,14 @@
         }
 
         .info-text {
-            font-size: 0.7rem;
-            color: #666;
+            font-size: 0.65rem;
+            color: #555;
             margin-top: 15px;
+            line-height: 1.5;
+        }
+
+        .info-text strong {
+            color: #ffaa00;
         }
 
         .modal {
@@ -171,48 +157,56 @@
             width: 100%;
             height: 100%;
             background: rgba(0, 0, 0, 0.95);
-            display: flex;
+            display: none;
             justify-content: center;
             align-items: center;
             z-index: 1000;
-            display: none;
         }
 
         .modal-content {
             background: #111;
             border-radius: 20px;
-            padding: 30px;
+            padding: 25px;
             text-align: center;
             max-width: 280px;
             border: 1px solid #ff004f;
         }
 
         .modal-content h3 {
-            color: #ff004f;
+            color: #00ff9c;
             margin-bottom: 10px;
         }
 
         .modal-content p {
+            color: #aaa;
             font-size: 0.85rem;
             margin: 10px 0;
         }
 
         .modal-content button {
-            margin-top: 15px;
+            margin-top: 12px;
             padding: 10px 20px;
-            background: linear-gradient(90deg, #ff004f, #8000ff);
             border: none;
-            border-radius: 10px;
-            color: white;
+            border-radius: 30px;
             font-weight: bold;
             cursor: pointer;
+            width: 100%;
         }
 
-        @media (max-width: 600px) {
-            .container { max-width: 100%; }
-            .card { padding: 20px; }
-            .jogo-info img { max-height: 300px; }
-            .jogo-info h2 { font-size: 1.2rem; }
+        .btn-sim {
+            background: #25D366;
+            color: white;
+        }
+
+        .btn-nao {
+            background: #333;
+            color: white;
+        }
+
+        @media (max-width: 500px) {
+            .card { padding: 20px 16px; }
+            .jogo-info img { max-height: 180px; }
+            .logo { font-size: 1.3rem; }
         }
     </style>
 </head>
@@ -221,57 +215,52 @@
 <div class="container">
     <div class="card">
         <div class="logo">🎮 ZonaXP</div>
-        <div class="jogo-info" id="jogoInfo">
-            <img id="jogoImagem" src="https://res.cloudinary.com/duofl5h4w/image/upload/v1779883204/IMG-20260527-WA0015_euo7hk.jpg" alt="Jogo">
-            <h2 id="jogoNome">Carregando...</h2>
-            <p id="jogoDesc">Aguarde um momento</p>
+
+        <div class="jogo-info">
+            <img id="jogoImagem" src="https://res.cloudinary.com/duofl5h4w/image/upload/v1779986462/ae64ddd32a9d35b93ea9efe2967f70ab_ugvcjk.png" alt="Jogo">
+            <h2 id="jogoNome">Mission Berlin</h2>
+            <p id="jogoDesc">Partilhe e baixe grátis</p>
         </div>
 
         <div class="progresso-area">
-            <div class="progresso-label">📢 PROGRESSO DA PARTILHA</div>
+            <div class="progresso-label">📢 PROGRESSO</div>
             <div class="progresso-bar">
                 <div class="progresso-fill" id="progressoFill"></div>
             </div>
             <div class="progresso-texto" id="progressoTexto">0 / 5 partilhas</div>
         </div>
 
-        <button class="btn-partilhar" id="btnPartilhar">
-            📤 PARTILHAR NO WHATSAPP
-        </button>
-
-        <button class="btn-baixar" id="btnBaixar">
-            🎁 LIBERAR DOWNLOAD
-        </button>
+        <button class="btn btn-partilhar" id="btnPartilhar">📤 PARTILHAR NO WHATSAPP</button>
+        <button class="btn btn-baixar" id="btnBaixar">🎁 LIBERAR DOWNLOAD</button>
 
         <div class="info-text">
-            <p>⚠️ Partilhe o link em <strong>5 grupos ou contactos</strong> para desbloquear o jogo!</p>
-            <p>Cada partilha é contada após confirmar no WhatsApp.</p>
+            ⚠️ Partilhe o link em <strong>5 grupos ou contactos</strong> para desbloquear o jogo.
         </div>
     </div>
 </div>
 
-<!-- Modal de sucesso -->
+<!-- Modal -->
 <div id="modal" class="modal">
     <div class="modal-content">
-        <h3>✅ PARABÉNS!</h3>
-        <p id="modalMessage">Você completou as 5 partilhas!</p>
-        <button onclick="fecharModal()">Continuar</button>
+        <h3>✅ Já partilhou?</h3>
+        <p>Confirme se já partilhou o link.</p>
+        <button class="btn-sim" id="btnSim">✅ SIM, JÁ PARTILHEI</button>
+        <button class="btn-nao" id="btnNao">❌ AINDA NÃO</button>
     </div>
 </div>
 
 <script>
     // ==================== CONFIGURAÇÃO ====================
     const JOGO = {
-        nome: "Mission Berlin",
-        descricao: "Complete 5 partilhas para baixar grátis!",
-        imagemUrl: "https://res.cloudinary.com/duofl5h4w/image/upload/v1779986462/ae64ddd32a9d35b93ea9efe2967f70ab_ugvcjk.png",
-        linkDownload: "https://www.mediafire.com/file/hn0o2jkalhztsgv/Mission_Berlin.apk/file?fbclid=IwZXh0bgNhZW0CMTEAc3J0YwZhcHBfaWQPMjc1MjU0NjkyNTk4Mjc5AAEewPhjlnydmnkjOLQXdPgc_pYQLd3pVL0mdvYxS5cP4qXfOFDTBCuN3YICk0o_aem_YWdncwBC-ow9Jbsytpl8rRyxBohB&brid=YWdncwFMSVgX91FnUFKgu6SeqV-e#"
+        nome: "Sega Rally Revo",
+        descricao: "Partilhe e baixe grátis",
+        imagemUrl: "https://res.cloudinary.com/duofl5h4w/image/upload/v1783956410/MV5BMGQ0ZDBjYjItZDY4Mi00ZGExLWJkOTMtM2RlYTg3ZmRiMTg5XkEyXkFqcGc._V1__ux9czy.jpg",
+        linkDownload: "https://www.mediafire.com/download/dtjatrkozi304an"
     };
 
-    // Link do jogo para download (o link que aparece na mensagem)
-    const LINK_DO_JOGO = "https://zonaxp.vercel.app/download.html?jogo=46";
+    const LINK_DO_JOGO = "https://zonaxp.vercel.app/download.html?jogo=67";
+    const TOTAL_PARTILHAS = 5;
 
-    // Mensagem fixa personalizada
     const MENSAGEM_FIXA = `🎮 *Veja o ${JOGO.nome}* 🎮
 
 Obrigado ZonaXP por ter deixado disponível para jogar!
@@ -279,143 +268,85 @@ Obrigado ZonaXP por ter deixado disponível para jogar!
 👇 Link para baixar:
 ${LINK_DO_JOGO}`;
 
-    // ==================== SISTEMA DE PARTILHA ====================
-    let partilhasFeitas = 0;
-    const TOTAL_PARTILHAS = 5;
+    // ==================== SISTEMA ====================
+    let partilhasFeitas = parseInt(localStorage.getItem('partilhasProgresso')) || 0;
     let aguardandoRetorno = false;
 
-    function carregarProgresso() {
-        const salvo = localStorage.getItem('partilhasProgresso');
-        if (salvo !== null) {
-            partilhasFeitas = parseInt(salvo);
-            atualizarProgresso();
-        }
-        if (partilhasFeitas >= TOTAL_PARTILHAS) {
-            completarDownload();
-        }
-    }
+    // Elementos
+    const btnPartilhar = document.getElementById('btnPartilhar');
+    const btnBaixar = document.getElementById('btnBaixar');
+    const progressoFill = document.getElementById('progressoFill');
+    const progressoTexto = document.getElementById('progressoTexto');
+    const modal = document.getElementById('modal');
+    const btnSim = document.getElementById('btnSim');
+    const btnNao = document.getElementById('btnNao');
 
     function atualizarProgresso() {
-        const percentual = (partilhasFeitas / TOTAL_PARTILHAS) * 100;
-        document.getElementById('progressoFill').style.width = `${percentual}%`;
-        document.getElementById('progressoTexto').innerHTML = `${partilhasFeitas} / ${TOTAL_PARTILHAS} partilhas`;
+        const pct = Math.min((partilhasFeitas / TOTAL_PARTILHAS) * 100, 100);
+        progressoFill.style.width = pct + '%';
+        progressoTexto.textContent = `${partilhasFeitas} / ${TOTAL_PARTILHAS} partilhas`;
         localStorage.setItem('partilhasProgresso', partilhasFeitas);
-        
+
         if (partilhasFeitas >= TOTAL_PARTILHAS) {
-            document.getElementById('btnPartilhar').disabled = true;
-            document.getElementById('btnPartilhar').style.opacity = '0.5';
-            completarDownload();
+            btnPartilhar.style.display = 'none';
+            btnBaixar.style.display = 'flex';
         }
     }
 
     function abrirWhatsApp() {
-        // Abrir WhatsApp diretamente com a mensagem personalizada
-        const urlWhatsApp = `https://wa.me/?text=${encodeURIComponent(MENSAGEM_FIXA)}`;
-        window.open(urlWhatsApp, '_blank');
-        
+        window.open(`https://wa.me/?text=${encodeURIComponent(MENSAGEM_FIXA)}`, '_blank');
         aguardandoRetorno = true;
-        
-        // Mostrar modal para confirmar partilha após voltar
+
         setTimeout(() => {
             if (aguardandoRetorno) {
-                mostrarModalConfirmacaoPosPartilha();
+                modal.style.display = 'flex';
             }
-        }, 2000);
-    }
-    
-    function mostrarModalConfirmacaoPosPartilha() {
-        const modalDiv = document.createElement('div');
-        modalDiv.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.95);display:flex;justify-content:center;align-items:center;z-index:10000;';
-        modalDiv.innerHTML = `
-            <div style="background:#111;border-radius:20px;padding:25px;max-width:300px;text-align:center;border:1px solid #ff004f;">
-                <h3 style="color:#00ff9c;">✅ Já partilhou?</h3>
-                <p style="margin:15px 0;">Confirme se já partilhou o link num grupo ou contacto.</p>
-                <button id="btnSim" style="background:#25D366;border:none;padding:12px;border-radius:10px;color:white;font-weight:bold;width:100%;margin-bottom:10px;">✅ SIM, JÁ PARTILHEI</button>
-                <button id="btnNao" style="background:#333;border:none;padding:10px;border-radius:10px;color:white;width:100%;">❌ AINDA NÃO</button>
-            </div>
-        `;
-        document.body.appendChild(modalDiv);
-        
-        document.getElementById('btnSim').onclick = () => {
-            partilhasFeitas++;
-            atualizarProgresso();
-            modalDiv.remove();
-            aguardandoRetorno = false;
-            
-            if (partilhasFeitas < TOTAL_PARTILHAS) {
-                alert(`✅ Partilha confirmada! Faltam ${TOTAL_PARTILHAS - partilhasFeitas} partilha(s).`);
-            } else {
-                alert('🎉 Parabéns! Você completou todas as partilhas!');
-            }
-        };
-        
-        document.getElementById('btnNao').onclick = () => {
-            modalDiv.remove();
-            aguardandoRetorno = false;
-        };
+        }, 1500);
     }
 
-    function completarDownload() {
-        const btnPartilhar = document.getElementById('btnPartilhar');
-        const btnBaixar = document.getElementById('btnBaixar');
-        
-        btnPartilhar.style.display = 'none';
-        btnBaixar.style.display = 'block';
-        confetti();
-    }
+    function confirmarPartilha() {
+        partilhasFeitas++;
+        atualizarProgresso();
+        modal.style.display = 'none';
+        aguardandoRetorno = false;
 
-    function confetti() {
-        const colors = ['#ff004f', '#00ff9c', '#8000ff', '#ffaa00', '#25D366'];
-        for (let i = 0; i < 100; i++) {
-            const conf = document.createElement('div');
-            conf.style.cssText = `
-                position: fixed;
-                width: 8px;
-                height: 8px;
-                background: ${colors[Math.floor(Math.random() * colors.length)]};
-                border-radius: 50%;
-                left: ${Math.random() * 100}%;
-                top: -10px;
-                pointer-events: none;
-                z-index: 10000;
-                animation: fall ${Math.random() * 2 + 1}s linear forwards;
-            `;
-            document.body.appendChild(conf);
-            setTimeout(() => conf.remove(), 3000);
+        if (partilhasFeitas < TOTAL_PARTILHAS) {
+            alert(`✅ Partilha confirmada! Faltam ${TOTAL_PARTILHAS - partilhasFeitas}.`);
+        } else {
+            alert('🎉 Parabéns! Jogo liberado!');
         }
-        const style = document.createElement('style');
-        style.textContent = `@keyframes fall { to { transform: translateY(100vh) rotate(360deg); opacity: 0; } }`;
-        document.head.appendChild(style);
     }
 
     function baixarJogo() {
-        if (partilhasFeitas >= TOTAL_PARTILHAS) {
-            window.open(JOGO.linkDownload, '_blank');
-        } else {
-            alert(`⚠️ Você ainda precisa de ${TOTAL_PARTILHAS - partilhasFeitas} partilha(s).`);
-        }
-    }
-
-    function fecharModal() {
-        document.getElementById('modal').style.display = 'none';
-        if (partilhasFeitas >= TOTAL_PARTILHAS) {
-            window.open(JOGO.linkDownload, '_blank');
-        }
-    }
-
-    function atualizarInfoJogo() {
-        document.getElementById('jogoNome').innerText = JOGO.nome;
-        document.getElementById('jogoDesc').innerHTML = JOGO.descricao;
-        document.getElementById('jogoImagem').src = JOGO.imagemUrl;
+        window.open(JOGO.linkDownload, '_blank');
     }
 
     // Eventos
-    document.getElementById('btnPartilhar').onclick = abrirWhatsApp;
-    document.getElementById('btnBaixar').onclick = baixarJogo;
+    btnPartilhar.addEventListener('click', abrirWhatsApp);
+    btnBaixar.addEventListener('click', baixarJogo);
+    btnSim.addEventListener('click', confirmarPartilha);
+    btnNao.addEventListener('click', () => {
+        modal.style.display = 'none';
+        aguardandoRetorno = false;
+    });
+
+    // Fechar modal ao clicar fora
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            modal.style.display = 'none';
+            aguardandoRetorno = false;
+        }
+    });
 
     // Inicializar
     atualizarInfoJogo();
-    carregarProgresso();
+    atualizarProgresso();
+
+    function atualizarInfoJogo() {
+        document.getElementById('jogoNome').textContent = JOGO.nome;
+        document.getElementById('jogoDesc').textContent = JOGO.descricao;
+        document.getElementById('jogoImagem').src = JOGO.imagemUrl;
+    }
 </script>
 </body>
 </html>
