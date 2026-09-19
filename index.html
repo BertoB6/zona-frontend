@@ -20,6 +20,7 @@
             --button-free: #0f9d58;
             --button-paid: #ff9800;
             --accent: #ff004f;
+            --destaque-color: #ffaa00;
         }
 
         [data-theme="light"] {
@@ -37,6 +38,7 @@
             transition: all 0.3s ease;
         }
 
+        /* ==================== HEADER ==================== */
         .header {
             position: sticky;
             top: 0;
@@ -101,6 +103,7 @@
             order: 1;
         }
 
+        /* ==================== SIDEBAR ==================== */
         .sidebar {
             position: fixed;
             top: 0;
@@ -115,9 +118,7 @@
             box-shadow: -2px 0 10px rgba(0,0,0,0.3);
         }
 
-        .sidebar.active {
-            right: 0;
-        }
+        .sidebar.active { right: 0; }
 
         .sidebar .close-btn {
             position: absolute;
@@ -128,9 +129,7 @@
             color: var(--accent);
         }
 
-        .sidebar ul {
-            list-style: none;
-        }
+        .sidebar ul { list-style: none; }
 
         .sidebar li {
             padding: 15px 0;
@@ -161,10 +160,9 @@
             display: none;
         }
 
-        .overlay.active {
-            display: block;
-        }
+        .overlay.active { display: block; }
 
+        /* ==================== FILTROS ==================== */
         .platform-filters {
             display: flex;
             gap: 8px;
@@ -192,10 +190,12 @@
             color: white;
         }
 
+        /* ==================== BANNER ==================== */
         .banner-section {
             max-width: 1200px;
             margin: 20px auto;
             padding: 0 16px;
+            display: none;
         }
 
         .carousel {
@@ -226,7 +226,7 @@
             bottom: 0;
             left: 0;
             right: 0;
-            background: linear-gradient(transparent, rgba(0,0,0,0.8));
+            background: linear-gradient(transparent, rgba(0,0,0,0.85));
             padding: 20px;
             color: white;
         }
@@ -273,6 +273,35 @@
             border-radius: 4px;
         }
 
+        /* ==================== DESTAQUES ==================== */
+        .destaque-section {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 0 16px;
+            display: none;
+        }
+
+        .destaque-title {
+            font-size: 1.2rem;
+            color: var(--destaque-color);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .destaque-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .destaque-card {
+            border: 2px solid var(--destaque-color) !important;
+            box-shadow: 0 0 20px rgba(255, 170, 0, 0.2);
+        }
+
+        /* ==================== GRID ==================== */
         .games-section {
             max-width: 1200px;
             margin: 0 auto;
@@ -286,6 +315,7 @@
             gap: 20px;
         }
 
+        /* ==================== SCROLL INDICATOR ==================== */
         .scroll-indicator {
             position: fixed;
             right: 16px;
@@ -322,6 +352,7 @@
             letter-spacing: 2px;
         }
 
+        /* ==================== CARD ==================== */
         .game-card {
             background: var(--bg-card);
             border-radius: 16px;
@@ -331,9 +362,7 @@
             position: relative;
         }
 
-        .game-card:hover {
-            transform: translateY(-4px);
-        }
+        .game-card:hover { transform: translateY(-4px); }
 
         .game-card img {
             width: 100%;
@@ -353,19 +382,10 @@
             z-index: 2;
         }
 
-        .badge-free {
-            background: var(--button-free);
-            color: white;
-        }
+        .badge-free { background: var(--button-free); color: white; }
+        .badge-paid { background: var(--button-paid); color: white; }
 
-        .badge-paid {
-            background: var(--button-paid);
-            color: white;
-        }
-
-        .game-info {
-            padding: 14px;
-        }
+        .game-info { padding: 14px; }
 
         .game-title {
             font-size: 1rem;
@@ -374,9 +394,7 @@
             cursor: pointer;
         }
 
-        .game-title:hover {
-            color: var(--accent);
-        }
+        .game-title:hover { color: var(--accent); }
 
         .game-desc {
             font-size: 0.7rem;
@@ -417,15 +435,8 @@
             color: var(--text-secondary);
         }
 
-        .like-btn .icon.liked {
-            color: #ff004f;
-            transform: scale(1.15);
-        }
-
-        .dislike-btn .icon.disliked {
-            color: #ff004f;
-            transform: scale(1.15);
-        }
+        .like-btn .icon.liked { color: #ff004f; transform: scale(1.15); }
+        .dislike-btn .icon.disliked { color: #ff004f; transform: scale(1.15); }
 
         .size {
             font-size: 0.75rem;
@@ -440,18 +451,10 @@
             border-radius: 24px;
             font-weight: 600;
             cursor: pointer;
-            transition: opacity 0.2s;
         }
 
-        .btn-free {
-            background: var(--button-free);
-            color: white;
-        }
-
-        .btn-paid {
-            background: var(--button-paid);
-            color: white;
-        }
+        .btn-free { background: var(--button-free); color: white; }
+        .btn-paid { background: var(--button-paid); color: white; }
 
         .loading {
             text-align: center;
@@ -459,6 +462,7 @@
             color: var(--text-secondary);
         }
 
+        /* ==================== FOOTER ==================== */
         footer {
             text-align: center;
             padding: 24px;
@@ -467,11 +471,9 @@
             color: var(--text-secondary);
         }
 
-        footer a {
-            color: var(--accent);
-            text-decoration: none;
-        }
+        footer a { color: var(--accent); text-decoration: none; }
 
+        /* ==================== POPUP COMUNIDADE ==================== */
         .popup-notificacao {
             position: fixed;
             bottom: 20px;
@@ -493,12 +495,7 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        .popup-content {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
+        .popup-content { display: flex; flex-direction: column; gap: 12px; }
         .popup-icon { font-size: 2rem; text-align: center; }
         .popup-texto h4 { color: #00ff9c; margin-bottom: 5px; font-size: 1rem; }
         .popup-texto p { color: #ccc; font-size: 0.85rem; line-height: 1.4; }
@@ -525,6 +522,85 @@
         .btn-canal { background: linear-gradient(90deg, #ff004f, #8000ff); color: white; }
         .btn-fechar-popup { background: #333; color: white; }
 
+        /* ==================== MODAL DE LEADS ==================== */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.97);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 99999;
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            background: #1a1a1a;
+            border-radius: 24px;
+            padding: 35px 30px;
+            max-width: 420px;
+            width: 92%;
+            border: 1px solid #ff004f;
+            box-shadow: 0 20px 60px rgba(255,0,79,0.3);
+            text-align: center;
+        }
+
+        .modal-content h2 {
+            color: #ff004f;
+            font-size: 1.4rem;
+            margin-bottom: 5px;
+        }
+
+        .modal-content .subtitle {
+            color: #ffaa00;
+            font-size: 0.8rem;
+            margin-bottom: 15px;
+        }
+
+        .modal-content p {
+            color: #aaa;
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        .modal-content input {
+            width: 100%;
+            padding: 14px 16px;
+            background: #0a0a0a;
+            border: 1px solid #333;
+            border-radius: 12px;
+            color: white;
+            font-size: 1rem;
+            margin-bottom: 12px;
+            transition: 0.3s;
+        }
+
+        .modal-content input:focus {
+            outline: none;
+            border-color: #ff004f;
+            box-shadow: 0 0 10px rgba(255,0,79,0.2);
+        }
+
+        .modal-content .btn-modal {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(90deg, #00ff9c, #00cc7a);
+            border: none;
+            border-radius: 12px;
+            color: #0a0a0a;
+            font-weight: bold;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .modal-content .btn-modal:hover { transform: scale(1.02); }
+
+        /* ==================== RESPONSIVIDADE ==================== */
         @media (min-width: 768px) {
             .popup-notificacao {
                 left: auto;
@@ -535,7 +611,7 @@
         }
 
         @media (max-width: 600px) {
-            .games-grid {
+            .games-grid, .destaque-grid {
                 grid-template-columns: repeat(2, 1fr);
                 gap: 12px;
             }
@@ -560,6 +636,7 @@
 </head>
 <body>
 
+    <!-- ==================== HEADER ==================== -->
     <div class="header">
         <div class="header-content">
             <div class="logo">ZonaXP</div>
@@ -571,6 +648,7 @@
         </div>
     </div>
 
+    <!-- ==================== SIDEBAR ==================== -->
     <div class="sidebar" id="sidebar">
         <div class="close-btn" id="closeMenu">✕</div>
         <ul>
@@ -582,6 +660,7 @@
     </div>
     <div class="overlay" id="overlay"></div>
 
+    <!-- ==================== FILTROS ==================== -->
     <div class="platform-filters" id="platformFilters">
         <button class="filter-chip active" data-plataforma="todos">Todos</button>
         <button class="filter-chip" data-plataforma="PSP">PSP</button>
@@ -590,21 +669,30 @@
         <button class="filter-chip" data-plataforma="APK Android">APK</button>
     </div>
 
-    <div class="banner-section" id="bannerSection" style="display: none;">
-        <div class="carousel" id="carousel">
+    <!-- ==================== BANNER ==================== -->
+    <div class="banner-section" id="bannerSection">
+        <div class="carousel">
             <div class="carousel-track" id="carouselTrack"></div>
             <button class="carousel-btn prev" id="prevBtn">❮</button>
             <button class="carousel-btn next" id="nextBtn">❯</button>
-            <div class="carousel-dots" id="carouselDots"></div>
         </div>
+        <div class="carousel-dots" id="carouselDots"></div>
     </div>
 
+    <!-- ==================== DESTAQUES ==================== -->
+    <div class="destaque-section" id="destaqueSection">
+        <div class="destaque-title">⭐ Jogos em Destaque</div>
+        <div class="destaque-grid" id="destaqueGrid"></div>
+    </div>
+
+    <!-- ==================== GRID DE JOGOS ==================== -->
     <div class="games-section">
         <div class="games-grid" id="gamesGrid">
             <div class="loading">Carregando jogos...</div>
         </div>
     </div>
 
+    <!-- ==================== SCROLL INDICATOR ==================== -->
     <div class="scroll-indicator" id="scrollIndicator">
         <div class="scroll-dot active" data-pos="top"></div>
         <div class="scroll-dot" data-pos="middle"></div>
@@ -612,6 +700,7 @@
         <div class="scroll-dot-label">scroll</div>
     </div>
 
+    <!-- ==================== POPUP COMUNIDADE ==================== -->
     <div id="popupComunidade" class="popup-notificacao" style="display: none;">
         <div class="popup-content">
             <div class="popup-icon">💬</div>
@@ -627,26 +716,45 @@
         </div>
     </div>
 
+    <!-- ==================== MODAL DE LEADS ==================== -->
+    <div class="modal-overlay" id="leadModal">
+        <div class="modal-content">
+            <h2>🎮 Bem-vindo à ZonaXP!</h2>
+            <p class="subtitle">🔐 Verificação obrigatória - válida por 25 dias</p>
+            <p>Para acessar os jogos, preencha os dados abaixo.</p>
+            <input type="text" id="leadNome" placeholder="Seu nome completo">
+            <input type="email" id="leadEmail" placeholder="Seu email">
+            <input type="text" id="leadWhatsapp" placeholder="WhatsApp (ex: 84 123 4567)">
+            <button class="btn-modal" id="btnEnviarLead">📤 Verificar Acesso</button>
+        </div>
+    </div>
+
+    <!-- ==================== FOOTER ==================== -->
     <footer>
         <p><a href="compartilhar.html">🎁 Ganhar Jogos Grátis</a> | <a href="#" id="footerCanal">📱 Canal WhatsApp</a></p>
         <p>© 2026 ZonaXP</p>
     </footer>
 
     <script>
+        // ==================== CONFIG ====================
         const API_URL = 'https://zona-backend-v3h1.onrender.com';
 
         let jogos = [];
         let jogosFiltrados = [];
         let votosUsuario = JSON.parse(localStorage.getItem('votos') || '{}');
         let plataformaAtual = 'todos';
-        let buscaAtual = '';
+        let currentSlide = 0;
+        let carouselInterval = null;
 
+        // ==================== ELEMENTOS ====================
         const gamesGrid = document.getElementById('gamesGrid');
+        const destaqueSection = document.getElementById('destaqueSection');
+        const destaqueGrid = document.getElementById('destaqueGrid');
         const bannerSection = document.getElementById('bannerSection');
         const carouselTrack = document.getElementById('carouselTrack');
+        const carouselDots = document.getElementById('carouselDots');
         const prevBtn = document.getElementById('prevBtn');
         const nextBtn = document.getElementById('nextBtn');
-        const carouselDots = document.getElementById('carouselDots');
         const searchInput = document.getElementById('searchInput');
         const themeToggle = document.getElementById('themeToggle');
         const menuBtn = document.getElementById('menuBtn');
@@ -654,8 +762,9 @@
         const overlay = document.getElementById('overlay');
         const closeMenu = document.getElementById('closeMenu');
         const scrollIndicator = document.getElementById('scrollIndicator');
+        const leadModal = document.getElementById('leadModal');
 
-        // Scroll indicator
+        // ==================== SCROLL INDICATOR ====================
         function atualizarScrollIndicator() {
             const scrollTop = window.scrollY;
             const docHeight = document.documentElement.scrollHeight - window.innerHeight;
@@ -670,7 +779,7 @@
         window.addEventListener('scroll', atualizarScrollIndicator);
         window.addEventListener('resize', atualizarScrollIndicator);
 
-        // Theme
+        // ==================== MODO ESCURO/CLARO ====================
         function initTheme() {
             const saved = localStorage.getItem('theme');
             if (saved === 'light') {
@@ -695,7 +804,7 @@
             }
         });
 
-        // Menu
+        // ==================== MENU ====================
         function initMenu() {
             if (menuBtn) {
                 menuBtn.addEventListener('click', () => {
@@ -730,68 +839,151 @@
             overlay.classList.remove('active');
         }
 
-        // Search
+        // ==================== BUSCA ====================
         function initSearch() {
             if (searchInput) {
                 searchInput.addEventListener('input', (e) => {
                     const termo = e.target.value.trim();
-                    if (!termo) {
-                        jogosFiltrados = [...jogos];
-                    } else {
-                        jogosFiltrados = jogos.filter(jogo =>
+                    let filtrados = [...jogos];
+                    if (termo) {
+                        filtrados = jogos.filter(jogo =>
                             jogo.nome.toLowerCase().includes(termo.toLowerCase()) ||
                             jogo.categoria.toLowerCase().includes(termo.toLowerCase()) ||
                             jogo.plataforma.toLowerCase().includes(termo.toLowerCase())
                         );
                     }
+                    jogosFiltrados = filtrados;
                     renderizarJogos(jogosFiltrados);
                 });
             }
         }
 
-        // Load games
+        // ==================== CARREGAR JOGOS ====================
         async function carregarJogosAPI() {
             try {
-                console.log('Carregando jogos da API...');
                 const response = await fetch(API_URL + '/api/jogos');
-                if (!response.ok) throw new Error('Erro na resposta da API');
+                if (!response.ok) throw new Error('Erro na API');
                 const data = await response.json();
                 jogos = data.jogos || [];
                 jogosFiltrados = [...jogos];
-                renderizarJogos(jogosFiltrados);
+                renderizarTudo(jogosFiltrados);
             } catch (error) {
                 console.error('Erro ao carregar jogos:', error);
-                if (gamesGrid) {
-                    gamesGrid.innerHTML = '<div style="text-align:center;padding:50px;"><h3>❌ Erro ao carregar jogos</h3><p>Verifique sua conexão</p><button onclick="location.reload()" style="padding:10px 20px;background:#ff004f;border:none;border-radius:8px;color:white;cursor:pointer;">Tentar novamente</button></div>';
-                }
+                gamesGrid.innerHTML = '<div style="text-align:center;padding:50px;"><h3>❌ Erro ao carregar jogos</h3><button onclick="location.reload()" style="padding:10px 20px;background:#ff004f;border:none;border-radius:8px;color:white;cursor:pointer;">Tentar novamente</button></div>';
             }
         }
 
-        // Render games
+        // ==================== RENDERIZAR TUDO ====================
+        function renderizarTudo(jogosArray) {
+            renderizarBanner(jogosArray);
+            renderizarDestaques(jogosArray);
+            renderizarJogos(jogosArray);
+        }
+
+        // ==================== BANNER ====================
+        function renderizarBanner(jogosArray) {
+            const banners = jogosArray.filter(j => j.banner === true).slice(0, 5);
+            if (banners.length === 0) {
+                bannerSection.style.display = 'none';
+                return;
+            }
+            bannerSection.style.display = 'block';
+            carouselTrack.innerHTML = '';
+            carouselDots.innerHTML = '';
+
+            banners.forEach((jogo, index) => {
+                const imgUrl = jogo.imagem && jogo.imagem.startsWith('http') ? jogo.imagem : (API_URL + '/imagens/' + jogo.imagem + '.jpg');
+                const slide = document.createElement('div');
+                slide.className = 'carousel-slide';
+                slide.innerHTML = `
+                    <img src="${imgUrl}" onerror="this.src='https://via.placeholder.com/1200x200?text=${encodeURIComponent(jogo.nome)}'">
+                    <div class="carousel-caption">
+                        <h3>${jogo.nome}</h3>
+                        <button class="btn-download ${jogo.pago ? 'btn-paid' : 'btn-free'}" onclick="window.location.href='download.html?jogo=${jogo.id}'">
+                            ${jogo.pago ? '💰 Comprar' : '⬇️ Download'}
+                        </button>
+                    </div>
+                `;
+                carouselTrack.appendChild(slide);
+
+                const dot = document.createElement('div');
+                dot.className = 'dot' + (index === 0 ? ' active' : '');
+                dot.onclick = () => irParaSlide(index);
+                carouselDots.appendChild(dot);
+            });
+
+            currentSlide = 0;
+            if (carouselInterval) clearInterval(carouselInterval);
+            carouselInterval = setInterval(() => {
+                irParaSlide(currentSlide + 1);
+            }, 5000);
+        }
+
+        function irParaSlide(index) {
+            const slides = document.querySelectorAll('.carousel-slide');
+            if (slides.length === 0) return;
+            if (index >= slides.length) index = 0;
+            if (index < 0) index = slides.length - 1;
+            currentSlide = index;
+            carouselTrack.style.transform = `translateX(-${currentSlide * 100}%)`;
+            document.querySelectorAll('.dot').forEach((dot, i) => {
+                dot.classList.toggle('active', i === currentSlide);
+            });
+        }
+
+        if (prevBtn) prevBtn.onclick = () => irParaSlide(currentSlide - 1);
+        if (nextBtn) nextBtn.onclick = () => irParaSlide(currentSlide + 1);
+
+        // ==================== DESTAQUES ====================
+        function renderizarDestaques(jogosArray) {
+            let destaques = jogosArray.filter(j => j.destaque === true).slice(0, 3);
+            
+            // Aplicar filtro de plataforma
+            if (plataformaAtual !== 'todos') {
+                destaques = destaques.filter(j => j.plataforma === plataformaAtual);
+            }
+
+            if (destaques.length === 0) {
+                destaqueSection.style.display = 'none';
+                return;
+            }
+            destaqueSection.style.display = 'block';
+            destaqueGrid.innerHTML = '';
+            destaques.forEach(jogo => {
+                destaqueGrid.appendChild(criarCard(jogo, true));
+            });
+        }
+
+        // ==================== GRID PRINCIPAL ====================
         function renderizarJogos(jogosArray) {
-            if (!gamesGrid) return;
             if (!jogosArray || jogosArray.length === 0) {
                 gamesGrid.innerHTML = '<div style="text-align:center;padding:50px;"><h3>🔍 Nenhum jogo encontrado</h3></div>';
                 return;
             }
 
             let filtrados = [...jogosArray];
+            
+            // Remover destaques (já aparecem na secção de destaques)
+            filtrados = filtrados.filter(j => j.destaque !== true);
+
             if (plataformaAtual !== 'todos') {
                 filtrados = filtrados.filter(j => j.plataforma === plataformaAtual);
             }
 
+            // Ordenar por likes
             filtrados.sort((a, b) => (b.likes || 0) - (a.likes || 0));
 
             gamesGrid.innerHTML = '';
             filtrados.forEach(jogo => {
-                gamesGrid.appendChild(criarCard(jogo));
+                gamesGrid.appendChild(criarCard(jogo, false));
             });
         }
 
-        // Create card
-        function criarCard(jogo) {
+        // ==================== CRIAR CARD ====================
+        function criarCard(jogo, isDestaque) {
             const card = document.createElement('div');
             card.className = 'game-card';
+            if (isDestaque) card.classList.add('destaque-card');
 
             const imgUrl = jogo.imagem && jogo.imagem.startsWith('http') ? jogo.imagem : (API_URL + '/imagens/' + jogo.imagem + '.jpg');
             const badgeClass = jogo.pago ? 'badge-paid' : 'badge-free';
@@ -814,14 +1006,15 @@
                         </button>
                     </div>
                     <div class="size">📦 ${jogo.tamanho || 'Tamanho não informado'}</div>
-                    <button class="btn-download ${jogo.pago ? 'btn-paid' : 'btn-free'}" onclick="baixarJogo(${jogo.id})">${jogo.pago ? '💰 Comprar ' + jogo.preco : '⬇️ Baixar Grátis'}</button>
+                    <button class="btn-download ${jogo.pago ? 'btn-paid' : 'btn-free'}" onclick="baixarJogo(${jogo.id})">
+                        ${jogo.pago ? '💰 Comprar ' + jogo.preco : '⬇️ Baixar Grátis'}
+                    </button>
                 </div>
             `;
-
             return card;
         }
 
-        // Vote
+        // ==================== VOTAR ====================
         async function votar(jogoId, tipo, event) {
             if (event) event.stopPropagation();
             const jogo = jogos.find(j => j.id === jogoId);
@@ -851,13 +1044,20 @@
                 });
             } catch (e) { console.error('Erro ao salvar voto:', e); }
 
-            renderizarJogos(jogosFiltrados);
+            renderizarTudo(jogosFiltrados);
         }
 
-        // Download
+        // ==================== BAIXAR JOGO ====================
         function baixarJogo(jogoId) {
             const jogo = jogos.find(j => j.id === jogoId);
             if (!jogo) return;
+
+            // Verificar lead válido
+            if (!verificarLeadValido()) {
+                mostrarModalLead();
+                return;
+            }
+
             if (jogo.pago) {
                 window.location.href = 'checkout.html?jogo=' + jogoId;
             } else {
@@ -865,36 +1065,121 @@
             }
         }
 
-        // Filters
+        // ==================== FILTROS ====================
         document.querySelectorAll('.filter-chip').forEach(btn => {
             btn.addEventListener('click', function() {
                 document.querySelectorAll('.filter-chip').forEach(b => b.classList.remove('active'));
                 this.classList.add('active');
                 plataformaAtual = this.getAttribute('data-plataforma');
-                renderizarJogos(jogosFiltrados);
+                renderizarTudo(jogosFiltrados);
             });
         });
 
-        // Apresentação
+        // ==================== APRESENTAÇÃO E SUPORTE ====================
         function mostrarApresentacao() {
             const totalPSP = jogos.filter(j => j.plataforma === 'PSP').length;
             const totalAPK = jogos.filter(j => j.plataforma === 'APK Android').length;
-            gamesGrid.innerHTML =
-                '<div style="grid-column:1/-1;text-align:center;padding:40px 20px;"><h2 style="color:#ff004f;">📖 Sobre a ZonaXP</h2><div style="background:#111;padding:20px;border-radius:15px;margin-top:15px;"><p>Plataforma de distribuição de jogos para PSP, PS2, PC e APK Android.</p><p>🎮 ' + totalPSP +
-                ' jogos PSP | 📱 ' + totalAPK + ' jogos APK</p><p>Total: ' + jogos.length + ' jogos disponíveis!</p></div></div>';
-            if (bannerSection) bannerSection.style.display = 'none';
+            gamesGrid.innerHTML = `
+                <div style="grid-column:1/-1;text-align:center;padding:40px 20px;">
+                    <h2 style="color:#ff004f;">📖 Sobre a ZonaXP</h2>
+                    <div style="background:#111;padding:20px;border-radius:15px;margin-top:15px;">
+                        <p>Plataforma de distribuição de jogos para PSP, PS2, PC e APK Android.</p>
+                        <p>🎮 ${totalPSP} jogos PSP | 📱 ${totalAPK} jogos APK</p>
+                        <p>Total: ${jogos.length} jogos disponíveis!</p>
+                    </div>
+                </div>
+            `;
+            bannerSection.style.display = 'none';
+            destaqueSection.style.display = 'none';
         }
 
         function mostrarSuporte() {
-            gamesGrid.innerHTML =
-                '<div style="grid-column:1/-1;text-align:center;padding:40px 20px;"><h2 style="color:#ff004f;">🛡️ Suporte</h2><div style="background:#111;padding:20px;border-radius:15px;margin-top:15px;"><p>📧 Email: suporte@zonaxp.com</p><p>📱 WhatsApp: +258 85 811 2264</p><p>📢 Canal: <a href="https://whatsapp.com/channel/0029Vb7YAqi3bbV9tuuiyC1p" target="_blank" style="color:#00ff9c;">Clique aqui</a></p></div></div>';
-            if (bannerSection) bannerSection.style.display = 'none';
+            gamesGrid.innerHTML = `
+                <div style="grid-column:1/-1;text-align:center;padding:40px 20px;">
+                    <h2 style="color:#ff004f;">🛡️ Suporte</h2>
+                    <div style="background:#111;padding:20px;border-radius:15px;margin-top:15px;">
+                        <p>📧 Email: suporte@zonaxp.com</p>
+                        <p>📱 WhatsApp: +258 85 811 2264</p>
+                        <p>📢 Canal: <a href="https://whatsapp.com/channel/0029Vb7YAqi3bbV9tuuiyC1p" target="_blank" style="color:#00ff9c;">Clique aqui</a></p>
+                    </div>
+                </div>
+            `;
+            bannerSection.style.display = 'none';
+            destaqueSection.style.display = 'none';
         }
 
-        // Popup comunidade
+        // ==================== SISTEMA DE LEADS ====================
+        function verificarLeadValido() {
+            const leadDado = localStorage.getItem('lead_dado');
+            const leadData = localStorage.getItem('lead_data');
+            if (leadDado !== 'true' || !leadData) return false;
+
+            const diff = (Date.now() - new Date(leadData).getTime()) / (1000 * 60 * 60 * 24);
+            if (diff >= 25) {
+                localStorage.removeItem('lead_dado');
+                localStorage.removeItem('lead_data');
+                localStorage.removeItem('lead_nome');
+                localStorage.removeItem('lead_email');
+                localStorage.removeItem('lead_whatsapp');
+                return false;
+            }
+            return true;
+        }
+
+        function mostrarModalLead() {
+            if (verificarLeadValido()) return;
+            leadModal.style.display = 'flex';
+        }
+
+        function fecharModalLead() {
+            leadModal.style.display = 'none';
+        }
+
+        function enviarLead() {
+            const nome = document.getElementById('leadNome').value.trim();
+            const email = document.getElementById('leadEmail').value.trim();
+            const whatsapp = document.getElementById('leadWhatsapp').value.trim();
+
+            if (!nome || !email || !whatsapp) {
+                alert('⚠️ Preencha todos os campos!');
+                return;
+            }
+
+            const wpp = whatsapp.replace(/\s/g, '');
+            if (!/^[8|7][0-9]{8}$/.test(wpp)) {
+                alert('⚠️ WhatsApp inválido! Use 84xxxxxxx ou 87xxxxxxx');
+                return;
+            }
+
+            fetch(API_URL + '/api/leads', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ nome, email, whatsapp: wpp, jogoInteresse: 'Visitante' })
+            })
+            .then(r => r.json())
+            .then(result => {
+                if (result.sucesso) {
+                    localStorage.setItem('lead_dado', 'true');
+                    localStorage.setItem('lead_data', new Date().toISOString());
+                    localStorage.setItem('lead_nome', nome);
+                    localStorage.setItem('lead_email', email);
+                    localStorage.setItem('lead_whatsapp', wpp);
+                    fecharModalLead();
+                    alert('✅ Verificação concluída! Agora pode baixar os jogos.');
+                } else {
+                    alert('❌ Erro ao salvar. Tente novamente.');
+                }
+            })
+            .catch(() => {
+                alert('❌ Erro de conexão. Tente novamente.');
+            });
+        }
+
+        document.getElementById('btnEnviarLead').addEventListener('click', enviarLead);
+
+        // ==================== POPUP COMUNIDADE ====================
         function mostrarPopupComunidade() {
             const popup = document.getElementById('popupComunidade');
-            if (!popup) return;
             const popupFechado = localStorage.getItem('popupComunidadeFechado');
             if (popupFechado === 'true') return;
             setTimeout(() => { popup.style.display = 'block'; }, 3000);
@@ -902,24 +1187,33 @@
 
         function fecharPopupComunidade() {
             const popup = document.getElementById('popupComunidade');
-            if (popup) {
-                popup.style.display = 'none';
-                localStorage.setItem('popupComunidadeFechado', 'true');
-                setTimeout(() => { localStorage.removeItem('popupComunidadeFechado'); }, 7 * 24 * 60 * 60 * 1000);
-            }
+            popup.style.display = 'none';
+            localStorage.setItem('popupComunidadeFechado', 'true');
+            setTimeout(() => { localStorage.removeItem('popupComunidadeFechado'); }, 7 * 24 * 60 * 60 * 1000);
         }
 
-        document.addEventListener('DOMContentLoaded', mostrarPopupComunidade);
-
-        // Init
+        // ==================== INICIALIZAR ====================
         initTheme();
         initMenu();
         initSearch();
-        carregarJogosAPI();
-        setTimeout(atualizarScrollIndicator, 1000);
 
+        carregarJogosAPI();
+
+        // Verificar lead após carregar (só se não tiver)
+        setTimeout(() => {
+            if (!verificarLeadValido()) {
+                mostrarModalLead();
+            }
+            atualizarScrollIndicator();
+        }, 2000);
+
+        // Popup comunidade
+        document.addEventListener('DOMContentLoaded', mostrarPopupComunidade);
+
+        // Expor funções globais
         window.votar = votar;
         window.baixarJogo = baixarJogo;
+        window.fecharPopupComunidade = fecharPopupComunidade;
     </script>
 </body>
 </html>
