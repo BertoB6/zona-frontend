@@ -1,806 +1,528 @@
 <!DOCTYPE html>
 <html lang="pt">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-<title>ZonaXP - Ganhe Jogos Grátis</title>
-<style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>ZonaXP - Partilhe e Baixe</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+        body {
+            background: #0a0a0a;
+            color: white;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
 
-body {
-    background: #0a0a0a;
-    color: white;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    padding: 20px;
-    min-height: 100vh;
-}
+        .container {
+            max-width: 450px;
+            width: 100%;
+        }
 
-.container {
-    max-width: 500px;
-    width: 100%;
-    margin: auto;
-}
+        .card {
+            background: #111;
+            border-radius: 24px;
+            padding: 25px 20px;
+            border: 1px solid rgba(255, 0, 79, 0.3);
+            text-align: center;
+        }
 
-.card {
-    background: linear-gradient(135deg, #111, #1a1a1a);
-    border-radius: 25px;
-    padding: 25px;
-    border: 1px solid rgba(255,0,79,0.3);
-    animation: fadeIn 0.5s ease;
-}
+        .logo {
+            font-size: 1.6rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, #ff004f, #8000ff, #00ff9c);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 15px;
+        }
 
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-}
+        .jogo-info {
+            margin-bottom: 20px;
+        }
 
-.header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-    padding-bottom: 15px;
-    border-bottom: 1px solid #333;
-}
+        .jogo-info img {
+            width: 100%;
+            max-height: 200px;
+            object-fit: contain;
+            border-radius: 16px;
+            border: 2px solid #ff004f;
+            background: #0a0a0a;
+            margin-bottom: 12px;
+        }
 
-.logo {
-    font-size: 1.6rem;
-    font-weight: bold;
-    background: linear-gradient(135deg, #ff004f, #8000ff, #00ff9c);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-}
+        .jogo-info h2 {
+            font-size: 1.3rem;
+            margin-bottom: 5px;
+        }
 
-.pontos {
-    background: linear-gradient(135deg, #ff004f, #8000ff);
-    padding: 5px 12px;
-    border-radius: 50px;
-    font-weight: bold;
-    font-size: 0.9rem;
-}
+        .jogo-info p {
+            color: #888;
+            font-size: 0.85rem;
+        }
 
-.descricao {
-    text-align: center;
-    margin-bottom: 20px;
-    padding: 15px;
-    background: rgba(0,255,156,0.1);
-    border-radius: 15px;
-}
+        .progresso-area {
+            margin: 20px 0;
+        }
 
-.descricao h2 {
-    font-size: 1.2rem;
-    color: #00ff9c;
-    margin-bottom: 8px;
-}
+        .progresso-label {
+            font-size: 0.8rem;
+            color: #888;
+            margin-bottom: 8px;
+        }
 
-.descricao p {
-    font-size: 0.85rem;
-    color: #ccc;
-}
+        .progresso-bar {
+            background: #222;
+            border-radius: 20px;
+            height: 12px;
+            overflow: hidden;
+            margin-bottom: 8px;
+        }
 
-/* CHECK-IN */
-.checkin-area {
-    background: #0a0a0a;
-    border-radius: 15px;
-    padding: 15px;
-    margin-bottom: 20px;
-    text-align: center;
-    border: 1px solid #333;
-}
+        .progresso-fill {
+            background: linear-gradient(90deg, #ff004f, #8000ff);
+            width: 0%;
+            height: 100%;
+            transition: width 0.5s ease;
+            border-radius: 20px;
+        }
 
-.checkin-title {
-    color: #ff004f;
-    margin-bottom: 15px;
-    font-size: 1rem;
-}
+        .progresso-texto {
+            font-size: 1rem;
+            font-weight: bold;
+            color: #00ff9c;
+        }
 
-.dias-grid {
-    display: flex;
-    justify-content: space-between;
-    gap: 8px;
-    margin-bottom: 15px;
-}
+        .btn-partilhar {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(90deg, #25D366, #128C7E);
+            border: none;
+            border-radius: 50px;
+            color: white;
+            font-weight: bold;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
 
-.dia-card {
-    flex: 1;
-    background: #1a1a1a;
-    border-radius: 10px;
-    padding: 10px 5px;
-    text-align: center;
-    border: 1px solid #333;
-}
+        .btn-partilhar:hover:not(:disabled) {
+            transform: scale(1.02);
+        }
 
-.dia-card.completed {
-    border-color: #00ff9c;
-    background: rgba(0,255,156,0.1);
-}
+        .btn-partilhar:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
 
-.dia-card.completed .dia-numero {
-    color: #00ff9c;
-}
+        .btn-baixar {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(90deg, #00ff9c, #00cc7a);
+            border: none;
+            border-radius: 50px;
+            color: #0a0a0a;
+            font-weight: bold;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: 0.3s;
+            display: none;
+        }
 
-.dia-card.today {
-    border-color: #ff004f;
-    box-shadow: 0 0 10px rgba(255,0,79,0.3);
-}
+        .btn-baixar:hover {
+            transform: scale(1.02);
+        }
 
-.dia-numero {
-    font-size: 0.8rem;
-    color: #888;
-}
+        .info-text {
+            font-size: 0.75rem;
+            color: #666;
+            margin-top: 15px;
+            line-height: 1.5;
+        }
 
-.dia-premio {
-    font-size: 0.7rem;
-    color: #ffaa00;
-    margin-top: 5px;
-}
+        .info-text strong {
+            color: #ffaa00;
+        }
 
-.btn-checkin {
-    width: 100%;
-    padding: 12px;
-    background: linear-gradient(90deg, #00ff9c, #00cc7a);
-    border: none;
-    border-radius: 10px;
-    color: #0a0a0a;
-    font-weight: bold;
-    cursor: pointer;
-    margin-top: 10px;
-}
+        /* MODAL */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.97);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
 
-.btn-checkin:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-}
+        .modal-overlay.ativo {
+            display: flex;
+        }
 
-/* MISSÕES */
-.missoes-area {
-    background: #0a0a0a;
-    border-radius: 15px;
-    padding: 15px;
-    margin-bottom: 20px;
-}
+        .modal-content {
+            background: #111;
+            border-radius: 20px;
+            padding: 25px;
+            text-align: center;
+            max-width: 320px;
+            width: 90%;
+            border: 1px solid #ff004f;
+        }
 
-.missoes-title {
-    color: #ff004f;
-    margin-bottom: 15px;
-    font-size: 1rem;
-}
+        .modal-content h3 {
+            color: #00ff9c;
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
 
-.missao-item {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 12px 0;
-    border-bottom: 1px solid #222;
-}
+        .modal-content p {
+            color: #aaa;
+            font-size: 0.85rem;
+            margin: 10px 0;
+        }
 
-.missao-info {
-    flex: 1;
-}
+        .modal-content button {
+            margin-top: 12px;
+            padding: 12px;
+            border: none;
+            border-radius: 30px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            font-size: 0.95rem;
+        }
 
-.missao-nome {
-    font-weight: bold;
-    font-size: 0.9rem;
-}
+        .btn-sim {
+            background: #25D366;
+            color: white;
+        }
 
-.missao-recompensa {
-    font-size: 0.7rem;
-    color: #00ff9c;
-}
+        .btn-nao {
+            background: #333;
+            color: white;
+        }
 
-.missao-status {
-    background: #333;
-    border: none;
-    padding: 6px 12px;
-    border-radius: 20px;
-    color: white;
-    font-size: 0.7rem;
-    cursor: pointer;
-}
+        /* LOADING / ERRO */
+        .loading, .erro {
+            text-align: center;
+            padding: 50px;
+            color: #888;
+        }
 
-.missao-status.completed {
-    background: #00ff9c;
-    color: #0a0a0a;
-}
+        .erro h3 {
+            color: #ff004f;
+            margin-bottom: 10px;
+        }
 
-/* SORTEIO */
-.sorteio-area {
-    background: linear-gradient(135deg, #1a1a1a, #111);
-    border-radius: 15px;
-    padding: 20px;
-    margin-bottom: 20px;
-    text-align: center;
-    border: 1px solid #ff004f;
-}
+        .btn-voltar {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background: #333;
+            border: none;
+            border-radius: 30px;
+            color: white;
+            cursor: pointer;
+            font-weight: bold;
+        }
 
-.sorteio-title {
-    color: #ffaa00;
-    margin-bottom: 10px;
-}
+        /* TOAST */
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #ff004f;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            z-index: 10000;
+            display: none;
+            max-width: 90%;
+            text-align: center;
+        }
 
-.sorteios-disponiveis {
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: #00ff9c;
-    margin-bottom: 15px;
-}
-
-.btn-girar {
-    width: 100%;
-    padding: 15px;
-    background: linear-gradient(90deg, #ffaa00, #ff6600);
-    border: none;
-    border-radius: 50px;
-    color: #0a0a0a;
-    font-weight: bold;
-    font-size: 1.2rem;
-    cursor: pointer;
-    transition: 0.3s;
-}
-
-.btn-girar:hover:not(:disabled) {
-    transform: scale(1.02);
-}
-
-.btn-girar:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-}
-
-/* RESULTADO SORTEIO */
-.resultado-sorteio {
-    margin-top: 15px;
-    padding: 12px;
-    background: rgba(0,255,156,0.1);
-    border-radius: 10px;
-    display: none;
-}
-
-/* ESTATÍSTICAS */
-.estatisticas-area {
-    background: #0a0a0a;
-    border-radius: 15px;
-    padding: 15px;
-    margin-bottom: 20px;
-}
-
-.estatisticas-title {
-    color: #ff004f;
-    margin-bottom: 15px;
-    font-size: 1rem;
-}
-
-.estats-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
-}
-
-.estat-card {
-    background: #1a1a1a;
-    padding: 10px;
-    border-radius: 10px;
-    text-align: center;
-}
-
-.estat-valor {
-    font-size: 1.3rem;
-    font-weight: bold;
-    color: #00ff9c;
-}
-
-.estat-label {
-    font-size: 0.7rem;
-    color: #888;
-}
-
-/* LINK AREA */
-.link-area {
-    background: #0a0a0a;
-    border: 1px dashed #ff004f;
-    border-radius: 12px;
-    padding: 12px;
-    text-align: center;
-    margin-bottom: 15px;
-}
-
-.link-url {
-    font-size: 0.7rem;
-    color: #00ff9c;
-    word-break: break-all;
-}
-
-.btn-copiar {
-    background: #ff004f;
-    border: none;
-    padding: 6px 15px;
-    border-radius: 20px;
-    color: white;
-    font-size: 0.75rem;
-    cursor: pointer;
-    margin-top: 8px;
-}
-
-/* NOTIFICAÇÃO */
-.notification {
-    position: fixed;
-    bottom: 20px;
-    left: 20px;
-    right: 20px;
-    max-width: 350px;
-    margin: 0 auto;
-    background: #1a1a1a;
-    border-left: 4px solid #00ff9c;
-    padding: 12px 15px;
-    border-radius: 12px;
-    transform: translateX(-120%);
-    transition: transform 0.3s ease;
-    z-index: 1000;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.notification.show {
-    transform: translateX(0);
-}
-
-/* MODAL SORTEIO */
-.modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0,0,0,0.95);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 2000;
-    display: none;
-}
-
-.modal-content {
-    background: linear-gradient(135deg, #111, #1a1a1a);
-    border-radius: 20px;
-    padding: 30px;
-    text-align: center;
-    max-width: 300px;
-    border: 1px solid #ffaa00;
-}
-
-.modal-content h3 {
-    color: #ffaa00;
-    margin-bottom: 15px;
-}
-
-.modal-content button {
-    margin-top: 20px;
-    padding: 10px 20px;
-    background: linear-gradient(90deg, #ff004f, #8000ff);
-    border: none;
-    border-radius: 8px;
-    color: white;
-    cursor: pointer;
-}
-
-</style>
+        .toast.ativo {
+            display: block;
+        }
+    </style>
 </head>
-
 <body>
 
 <div class="container">
-    <div class="card">
-        
-        <div class="header">
-            <div class="logo">ZonaXP</div>
-            <div class="pontos" id="pontosDisplay">0</div>
-        </div>
-        
-        <div class="descricao">
-            <h2>🎮 Ganhe Jogos Grátis!</h2>
-            <p>Complete missões e ganhe prêmios</p>
-        </div>
-        
-        <!-- CHECK-IN DIÁRIO -->
-        <div class="checkin-area">
-            <div class="checkin-title">📅 CHECK-IN DIÁRIO</div>
-            <div class="dias-grid" id="diasGrid"></div>
-            <button class="btn-checkin" id="checkinBtn">✅ FAZER CHECK-IN</button>
-        </div>
-        
-        <!-- MISSÕES -->
-        <div class="missoes-area">
-            <div class="missoes-title">🎯 MISSÕES</div>
-            <div id="missoesList"></div>
-        </div>
-        
-        <!-- SORTEIO -->
-        <div class="sorteio-area">
-            <div class="sorteio-title">🎲 SORTEIO DE JOGOS</div>
-            <div class="sorteios-disponiveis" id="sorteiosCount">0 sorteios</div>
-            <button class="btn-girar" id="girarBtn" disabled>🎁 GIRAR RODA DA SORTE</button>
-            <div class="resultado-sorteio" id="resultadoSorteio"></div>
-        </div>
-        
-        <!-- ESTATÍSTICAS -->
-        <div class="estatisticas-area">
-            <div class="estatisticas-title">📊 MINHAS ESTATÍSTICAS</div>
-            <div class="estats-grid">
-                <div class="estat-card">
-                    <div class="estat-valor" id="diasSeguidos">0</div>
-                    <div class="estat-label">Dias seguidos</div>
-                </div>
-                <div class="estat-card">
-                    <div class="estat-valor" id="totalPontos">0</div>
-                    <div class="estat-label">Pontos</div>
-                </div>
-                <div class="estat-card">
-                    <div class="estat-valor" id="jogosGanhos">0</div>
-                    <div class="estat-label">Jogos ganhos</div>
-                </div>
-                <div class="estat-card">
-                    <div class="estat-valor" id="amigosConvidados">0</div>
-                    <div class="estat-label">Amigos</div>
-                </div>
-            </div>
-        </div>
-        
-        <!-- LINK DO CANAL -->
-        <div class="link-area">
-            <div class="link-url" id="channelLink">https://whatsapp.com/channel/0029Vb7YAqi3bbV9tuuiyC1p</div>
-            <button class="btn-copiar" onclick="copiarLink()">📋 COPIAR LINK</button>
-        </div>
-        
+    <div class="card" id="app">
+        <div class="loading">🔄 Carregando...</div>
     </div>
 </div>
 
-<div id="notification" class="notification">
-    <div class="notification-icon">✅</div>
-    <div class="notification-content">
-        <div class="notification-title">Sucesso!</div>
-        <div class="notification-message"></div>
-    </div>
-</div>
-
-<div id="modal" class="modal">
+<!-- MODAL DE CONFIRMAÇÃO -->
+<div class="modal-overlay" id="modalConfirmar">
     <div class="modal-content">
-        <h3 id="modalTitle">🎉</h3>
-        <p id="modalMessage"></p>
-        <button onclick="fecharModal()">Continuar</button>
+        <h3>✅ Já partilhaste?</h3>
+        <p>Confirma se já partilhaste o link num grupo ou contacto.</p>
+        <button class="btn-sim" onclick="confirmarPartilha()">✅ SIM, JÁ PARTILHEI</button>
+        <button class="btn-nao" onclick="fecharModal()">❌ AINDA NÃO</button>
     </div>
 </div>
+
+<div class="toast" id="toast"></div>
 
 <script>
+    const API_URL = 'https://zona-backend-v3h1.onrender.com';
 
-// ==================== CONFIGURAÇÕES ====================
-const CANAL_LINK = "https://whatsapp.com/channel/0029Vb7YAqi3bbV9tuuiyC1p";
-const CONVITE_LINK = "https://zonaxp.vercel.app/?ref=";
+    let jogoAtual = null;
+    let utilizadorAtual = null;
+    let partilhasFeitas = 0;
+    let totalPartilhas = 0;
+    let aguardandoRetorno = false;
 
-// Jogos para sorteio
-const premios = [
-    { tipo: "jogo", nome: "Need for Speed", download: "download.html?jogo=2", chance: 20 },
-    { tipo: "jogo", nome: "FC Mobile 24", download: "download.html?jogo=3", chance: 20 },
-    { tipo: "ponto", valor: 1, chance: 25 },
-    { tipo: "ponto", valor: 2, chance: 15 },
-    { tipo: "desconto", valor: 50, chance: 10 },
-    { tipo: "jogo_pago", nome: "Mortal Kombat 11", download: "checkout.html", chance: 8 },
-    { tipo: "nada", valor: 0, chance: 2 }
-];
+    // ==================== VERIFICAR SESSÃO ====================
+    function verificarSessao() {
+        const sessao = localStorage.getItem('sessaoAtiva');
+        const utilizadorStr = localStorage.getItem('utilizador');
 
-// ==================== DADOS DO USUÁRIO ====================
-let userData = {
-    pontos: 0,
-    diasCheckin: [false, false, false, false, false],
-    ultimoCheckin: null,
-    missoes: {
-        partilhar: false,
-        seguir: false,
-        convidar: 0,
-        avaliar: false
-    },
-    sorteiosDisponiveis: 0,
-    jogosGanhos: 0,
-    codigoConvite: Math.random().toString(36).substring(2, 8).toUpperCase()
-};
+        if (sessao !== 'true' || !utilizadorStr) {
+            localStorage.setItem('redirectAfterLogin', window.location.href);
+            window.location.href = 'login.html';
+            return null;
+        }
 
-// Carregar dados salvos
-function carregarDados() {
-    const saved = localStorage.getItem('zonaxp_missoes');
-    if (saved) {
-        const data = JSON.parse(saved);
-        userData = { ...userData, ...data };
+        try {
+            return JSON.parse(utilizadorStr);
+        } catch (e) {
+            window.location.href = 'login.html';
+            return null;
+        }
     }
-    atualizarInterface();
-}
 
-function salvarDados() {
-    localStorage.setItem('zonaxp_missoes', JSON.stringify(userData));
-}
+    // ==================== TOAST ====================
+    function mostrarToast(mensagem) {
+        const toast = document.getElementById('toast');
+        toast.textContent = mensagem;
+        toast.classList.add('ativo');
+        setTimeout(() => toast.classList.remove('ativo'), 3000);
+    }
 
-// ==================== CHECK-IN ====================
-function renderizarDias() {
-    const grid = document.getElementById('diasGrid');
-    grid.innerHTML = '';
-    
-    const premiosDia = ['1 ponto', '1 ponto', '2 pontos', '2 pontos', 'JOGO GRÁTIS'];
-    
-    for (let i = 0; i < 5; i++) {
-        const dia = document.createElement('div');
-        dia.className = 'dia-card';
-        if (userData.diasCheckin[i]) dia.classList.add('completed');
-        
-        const hoje = new Date().getDay();
-        const podeCheckin = !userData.diasCheckin[i] && i === getProximoDia() && verificarPodeCheckin();
-        
-        dia.innerHTML = `
-            <div class="dia-numero">Dia ${i+1}</div>
-            <div class="dia-premio">🎁 ${premiosDia[i]}</div>
+    // ==================== CARREGAR JOGO ====================
+    async function carregarJogo() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const jogoId = urlParams.get('jogo');
+        const slug = urlParams.get('slug');
+
+        if (!jogoId && !slug) {
+            mostrarErro('Nenhum jogo especificado');
+            return;
+        }
+
+        try {
+            let jogo = null;
+
+            if (slug) {
+                const res = await fetch(API_URL + '/api/jogos/slug/' + slug);
+                if (res.ok) jogo = await res.json();
+            } else {
+                const res = await fetch(API_URL + '/api/jogos/' + jogoId);
+                if (res.ok) jogo = await res.json();
+            }
+
+            if (!jogo) {
+                mostrarErro('Jogo não encontrado');
+                return;
+            }
+
+            jogoAtual = jogo;
+            totalPartilhas = jogo.partilhas_necessarias || 0;
+
+            // Verificar progresso guardado para este jogo
+            const progressoKey = 'partilhas_' + jogo.id;
+            const progressoGuardado = localStorage.getItem(progressoKey);
+            if (progressoGuardado) {
+                partilhasFeitas = parseInt(progressoGuardado) || 0;
+            }
+
+            renderizarPagina();
+        } catch (error) {
+            console.error('Erro:', error);
+            mostrarErro('Erro ao carregar jogo');
+        }
+    }
+
+    // ==================== RENDERIZAR ====================
+    function renderizarPagina() {
+        const imgUrl = jogoAtual.imagem && jogoAtual.imagem.startsWith('http')
+            ? jogoAtual.imagem
+            : (API_URL + '/imagens/' + jogoAtual.imagem + '.jpg');
+
+        const app = document.getElementById('app');
+        app.innerHTML = `
+            <div class="logo">🎮 ZonaXP</div>
+
+            <div class="jogo-info">
+                <img src="${imgUrl}" onerror="this.src='https://via.placeholder.com/400x200?text=${encodeURIComponent(jogoAtual.nome)}'">
+                <h2>${jogoAtual.nome}</h2>
+                <p>${jogoAtual.categoria} • ${jogoAtual.plataforma}</p>
+            </div>
+
+            <div class="progresso-area">
+                <div class="progresso-label">📢 PROGRESSO DA PARTILHA</div>
+                <div class="progresso-bar">
+                    <div class="progresso-fill" id="progressoFill"></div>
+                </div>
+                <div class="progresso-texto" id="progressoTexto">0 / ${totalPartilhas} partilhas</div>
+            </div>
+
+            <button class="btn-partilhar" id="btnPartilhar" onclick="abrirWhatsApp()">
+                📤 PARTILHAR NO WHATSAPP
+            </button>
+
+            <button class="btn-baixar" id="btnBaixar" onclick="irParaDownload()">
+                🎁 LIBERAR DOWNLOAD
+            </button>
+
+            <div class="info-text">
+                ⚠️ Partilhe o link em <strong>${totalPartilhas} grupos ou contactos</strong> para desbloquear o jogo.
+            </div>
         `;
-        grid.appendChild(dia);
-    }
-}
 
-function getProximoDia() {
-    for (let i = 0; i < 5; i++) {
-        if (!userData.diasCheckin[i]) return i;
+        atualizarProgresso();
     }
-    return -1;
-}
 
-function verificarPodeCheckin() {
-    if (!userData.ultimoCheckin) return true;
-    const ultimo = new Date(userData.ultimoCheckin);
-    const hoje = new Date();
-    return hoje.getDate() !== ultimo.getDate();
-}
+    // ==================== ATUALIZAR PROGRESSO ====================
+    function atualizarProgresso() {
+        const fill = document.getElementById('progressoFill');
+        const texto = document.getElementById('progressoTexto');
+        const btnPartilhar = document.getElementById('btnPartilhar');
+        const btnBaixar = document.getElementById('btnBaixar');
 
-function fazerCheckin() {
-    const proximoDia = getProximoDia();
-    if (proximoDia === -1) {
-        mostrarNotificacao('Check-in completo!', 'Você já completou os 5 dias!', false);
-        return;
-    }
-    
-    if (!verificarPodeCheckin()) {
-        mostrarNotificacao('Aguarde!', 'Você já fez check-in hoje. Volte amanhã!', false);
-        return;
-    }
-    
-    // Completar check-in
-    userData.diasCheckin[proximoDia] = true;
-    userData.ultimoCheckin = new Date().toISOString();
-    
-    // Dar recompensa
-    let recompensa = '';
-    if (proximoDia === 0 || proximoDia === 1) {
-        userData.pontos += 1;
-        userData.sorteiosDisponiveis++;
-        recompensa = '1 ponto + 1 sorteio!';
-    } else if (proximoDia === 2 || proximoDia === 3) {
-        userData.pontos += 2;
-        userData.sorteiosDisponiveis++;
-        recompensa = '2 pontos + 1 sorteio!';
-    } else if (proximoDia === 4) {
-        userData.sorteiosDisponiveis += 2;
-        recompensa = 'JOGO GRÁTIS GARANTIDO + 2 sorteios!';
-    }
-    
-    salvarDados();
-    atualizarInterface();
-    mostrarModal('🎉 Check-in realizado!', `Você ganhou ${recompensa}`);
-}
+        if (!fill || !texto) return;
 
-// ==================== MISSÕES ====================
-function renderizarMissoes() {
-    const container = document.getElementById('missoesList');
-    container.innerHTML = `
-        <div class="missao-item">
-            <div class="missao-info">
-                <div class="missao-nome">📢 Partilhar link</div>
-                <div class="missao-recompensa">+1 ponto +1 sorteio</div>
-            </div>
-            <button class="missao-status ${userData.missoes.partilhar ? 'completed' : ''}" 
-                    onclick="completarMissao('partilhar')" 
-                    ${userData.missoes.partilhar ? 'disabled' : ''}>
-                ${userData.missoes.partilhar ? '✔️ CONCLUÍDO' : '✅ COMPLETAR'}
-            </button>
-        </div>
-        <div class="missao-item">
-            <div class="missao-info">
-                <div class="missao-nome">📱 Seguir canal WhatsApp</div>
-                <div class="missao-recompensa">+1 ponto +1 sorteio</div>
-            </div>
-            <button class="missao-status ${userData.missoes.seguir ? 'completed' : ''}" 
-                    onclick="completarMissao('seguir')" 
-                    ${userData.missoes.seguir ? 'disabled' : ''}>
-                ${userData.missoes.seguir ? '✔️ CONCLUÍDO' : '✅ COMPLETAR'}
-            </button>
-        </div>
-        <div class="missao-item">
-            <div class="missao-info">
-                <div class="missao-nome">👥 Convidar amigo</div>
-                <div class="missao-recompensa">+2 pontos +1 sorteio</div>
-            </div>
-            <button class="missao-status" onclick="convidarAmigo()">
-                📋 CONVIDAR
-            </button>
-        </div>
-        <div class="missao-item">
-            <div class="missao-info">
-                <div class="missao-nome">⭐ Avaliar o site</div>
-                <div class="missao-recompensa">+1 ponto +1 sorteio</div>
-            </div>
-            <button class="missao-status ${userData.missoes.avaliar ? 'completed' : ''}" 
-                    onclick="completarMissao('avaliar')" 
-                    ${userData.missoes.avaliar ? 'disabled' : ''}>
-                ${userData.missoes.avaliar ? '✔️ CONCLUÍDO' : '✅ COMPLETAR'}
-            </button>
-        </div>
-    `;
-}
+        const pct = totalPartilhas > 0 ? Math.min((partilhasFeitas / totalPartilhas) * 100, 100) : 100;
+        fill.style.width = pct + '%';
+        texto.textContent = partilhasFeitas + ' / ' + totalPartilhas + ' partilhas';
 
-function completarMissao(missao) {
-    if (userData.missoes[missao]) return;
-    
-    userData.missoes[missao] = true;
-    
-    let pontos = 1;
-    let sorteios = 1;
-    if (missao === 'convidar') {
-        pontos = 2;
-    }
-    
-    userData.pontos += pontos;
-    userData.sorteiosDisponiveis += sorteios;
-    
-    salvarDados();
-    atualizarInterface();
-    mostrarModal('🎯 Missão concluída!', `Você ganhou ${pontos} ponto(s) + ${sorteios} sorteio(s)!`);
-}
+        // Guardar progresso
+        localStorage.setItem('partilhas_' + jogoAtual.id, partilhasFeitas);
 
-function convidarAmigo() {
-    const linkConvite = `${CONVITE_LINK}${userData.codigoConvite}`;
-    navigator.clipboard.writeText(linkConvite);
-    mostrarNotificacao('Link copiado!', 'Compartilhe com um amigo. Quando ele se cadastrar, você ganha pontos!', true);
-}
-
-// ==================== SORTEIO ====================
-function girarSorteio() {
-    if (userData.sorteiosDisponiveis <= 0) {
-        mostrarNotificacao('Sem sorteios!', 'Complete missões para ganhar sorteios', false);
-        return;
-    }
-    
-    // Sortear prêmio
-    let totalChance = premios.reduce((sum, p) => sum + p.chance, 0);
-    let random = Math.random() * totalChance;
-    let acumulado = 0;
-    let premioSorteado = null;
-    
-    for (let premio of premios) {
-        acumulado += premio.chance;
-        if (random <= acumulado) {
-            premioSorteado = premio;
-            break;
+        if (partilhasFeitas >= totalPartilhas) {
+            btnPartilhar.style.display = 'none';
+            btnBaixar.style.display = 'block';
+        } else {
+            btnPartilhar.style.display = 'flex';
+            btnBaixar.style.display = 'none';
         }
     }
-    
-    userData.sorteiosDisponiveis--;
-    
-    let mensagem = '';
-    let titulo = '🎲 Sorteio!';
-    
-    if (premioSorteado.tipo === 'jogo') {
-        userData.jogosGanhos++;
-        mensagem = `🎮 Parabéns! Você ganhou o jogo ${premioSorteado.nome}! Clique em OK para baixar.`;
-        salvarDados();
-        atualizarInterface();
-        mostrarModal(titulo, mensagem);
+
+    // ==================== ABRIR WHATSAPP ====================
+    function abrirWhatsApp() {
+        if (partilhasFeitas >= totalPartilhas) {
+            mostrarToast('🎉 Já completaste todas as partilhas!');
+            return;
+        }
+
+        // Link do jogo para partilhar
+        const linkJogo = window.location.origin + '/download.html?jogo=' + (jogoAtual.slug || jogoAtual.id);
+
+        const mensagem = `🎮 Veja o ${jogoAtual.nome} 🎮
+
+Obrigado ZonaXP por ter deixado disponível para jogar!
+
+👇 Link para baixar:
+${linkJogo}`;
+
+        const urlWhatsApp = 'https://wa.me/?text=' + encodeURIComponent(mensagem);
+        window.open(urlWhatsApp, '_blank');
+
+        aguardandoRetorno = true;
+
+        // Mostrar modal após voltar
         setTimeout(() => {
-            window.open(premioSorteado.download, '_blank');
-        }, 500);
-        return;
-    } else if (premioSorteado.tipo === 'ponto') {
-        userData.pontos += premioSorteado.valor;
-        mensagem = `✨ Você ganhou ${premioSorteado.valor} ponto(s)!`;
-    } else if (premioSorteado.tipo === 'desconto') {
-        mensagem = `🎫 Você ganhou ${premioSorteado.valor}% de desconto em qualquer jogo pago! Use o código: ZONA${premioSorteado.valor}`;
-    } else if (premioSorteado.tipo === 'jogo_pago') {
-        userData.jogosGanhos++;
-        mensagem = `🎮 PARABÉNS! Você ganhou o jogo ${premioSorteado.nome} GRÁTIS!`;
-        salvarDados();
-        atualizarInterface();
-        mostrarModal(titulo, mensagem);
-        setTimeout(() => {
-            window.open(premioSorteado.download, '_blank');
-        }, 500);
-        return;
-    } else {
-        mensagem = '😢 Que pena! Não foi desta vez. Tente novamente!';
+            if (aguardandoRetorno) {
+                document.getElementById('modalConfirmar').classList.add('ativo');
+            }
+        }, 1500);
     }
-    
-    salvarDados();
-    atualizarInterface();
-    mostrarModal(titulo, mensagem);
-}
 
-// ==================== UTILITÁRIOS ====================
-function atualizarInterface() {
-    document.getElementById('pontosDisplay').innerText = userData.pontos;
-    document.getElementById('sorteiosCount').innerHTML = `${userData.sorteiosDisponiveis} sorteio${userData.sorteiosDisponiveis !== 1 ? 's' : ''}`;
-    document.getElementById('diasSeguidos').innerText = userData.diasCheckin.filter(d => d).length;
-    document.getElementById('totalPontos').innerText = userData.pontos;
-    document.getElementById('jogosGanhos').innerText = userData.jogosGanhos;
-    document.getElementById('amigosConvidados').innerText = userData.missoes.convidar;
-    
-    const girarBtn = document.getElementById('girarBtn');
-    girarBtn.disabled = userData.sorteiosDisponiveis <= 0;
-    
-    renderizarDias();
-    renderizarMissoes();
-}
+    // ==================== CONFIRMAR PARTILHA ====================
+    function confirmarPartilha() {
+        partilhasFeitas++;
+        atualizarProgresso();
+        fecharModal();
+        aguardandoRetorno = false;
 
-function mostrarNotificacao(titulo, mensagem, sucesso = true) {
-    const notification = document.getElementById('notification');
-    const icon = notification.querySelector('.notification-icon');
-    const title = notification.querySelector('.notification-title');
-    const message = notification.querySelector('.notification-message');
-    
-    icon.innerHTML = sucesso ? '✅' : '⚠️';
-    title.innerHTML = titulo;
-    title.style.color = sucesso ? '#00ff9c' : '#ff004f';
-    message.innerHTML = mensagem;
-    
-    notification.classList.add('show');
-    setTimeout(() => notification.classList.remove('show'), 4000);
-}
-
-function mostrarModal(titulo, mensagem) {
-    document.getElementById('modalTitle').innerHTML = titulo;
-    document.getElementById('modalMessage').innerHTML = mensagem;
-    document.getElementById('modal').style.display = 'flex';
-}
-
-function fecharModal() {
-    document.getElementById('modal').style.display = 'none';
-}
-
-function copiarLink() {
-    navigator.clipboard.writeText(CANAL_LINK);
-    mostrarNotificacao('Link copiado!', 'Partilhe com seus amigos!', true);
-}
-
-// ==================== EVENTOS ====================
-document.getElementById('checkinBtn').addEventListener('click', fazerCheckin);
-document.getElementById('girarBtn').addEventListener('click', girarSorteio);
-
-// Verificar convite por URL
-function verificarConvite() {
-    const urlParams = new URLSearchParams(window.location.search);
-    const ref = urlParams.get('ref');
-    if (ref && ref !== userData.codigoConvite) {
-        if (!userData.convidadoPor) {
-            userData.missoes.convidar++;
-            userData.pontos += 2;
-            userData.sorteiosDisponiveis++;
-            userData.convidadoPor = ref;
-            salvarDados();
-            atualizarInterface();
-            mostrarModal('🎉 Amigo convidou!', 'Você ganhou 2 pontos extras por ter sido convidado!');
+        if (partilhasFeitas < totalPartilhas) {
+            const faltam = totalPartilhas - partilhasFeitas;
+            mostrarToast('✅ Partilha confirmada! Faltam ' + faltam);
+        } else {
+            mostrarToast('🎉 Parabéns! Jogo liberado!');
         }
     }
-}
 
-// ==================== INICIALIZAR ====================
-carregarDados();
-verificarConvite();
+    function fecharModal() {
+        document.getElementById('modalConfirmar').classList.remove('ativo');
+        aguardandoRetorno = false;
+    }
 
+    // ==================== IR PARA DOWNLOAD ====================
+    async function irParaDownload() {
+        // Registar no histórico do utilizador
+        if (utilizadorAtual && jogoAtual) {
+            try {
+                await fetch(API_URL + '/api/utilizadores/' + utilizadorAtual.id + '/historico', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ jogoId: jogoAtual.id })
+                });
+            } catch (e) {
+                console.error('Erro ao guardar histórico:', e);
+            }
+        }
+
+        // Limpar progresso de partilhas
+        localStorage.removeItem('partilhas_' + jogoAtual.id);
+
+        // Ir para download
+        window.location.href = 'download.html?jogo=' + (jogoAtual.slug || jogoAtual.id);
+    }
+
+    // ==================== MOSTRAR ERRO ====================
+    function mostrarErro(mensagem) {
+        document.getElementById('app').innerHTML = `
+            <div class="erro">
+                <h3>⚠️ Erro</h3>
+                <p>${mensagem}</p>
+                <button class="btn-voltar" onclick="window.location.href='/'">← Voltar ao site</button>
+            </div>
+        `;
+    }
+
+    // ==================== INICIALIZAR ====================
+    utilizadorAtual = verificarSessao();
+    if (utilizadorAtual) {
+        carregarJogo();
+    }
+
+    // Expor funções globais
+    window.abrirWhatsApp = abrirWhatsApp;
+    window.confirmarPartilha = confirmarPartilha;
+    window.fecharModal = fecharModal;
+    window.irParaDownload = irParaDownload;
 </script>
+
 </body>
 </html>

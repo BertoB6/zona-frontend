@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>ZonaXP - Recuperar Conta</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #0a0a0a;
+            color: white;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 400px;
+            width: 100%;
+        }
+
+        .card {
+            background: #111;
+            border-radius: 24px;
+            padding: 30px 25px;
+            border: 1px solid rgba(255, 0, 79, 0.3);
+        }
+
+        .logo {
+            text-align: center;
+            font-size: 2rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, #ff004f, #8000ff, #00ff9c);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            text-align: center;
+            color: #ff004f;
+            margin-bottom: 5px;
+            font-size: 1.4rem;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #888;
+            font-size: 0.85rem;
+            margin-bottom: 25px;
+        }
+
+        .etapa {
+            display: none;
+        }
+
+        .etapa.ativa {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            color: #aaa;
+            font-size: 0.8rem;
+            margin-bottom: 5px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 14px 16px;
+            background: #0a0a0a;
+            border: 1px solid #333;
+            border-radius: 12px;
+            color: white;
+            font-size: 1rem;
+            transition: 0.3s;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #ff004f;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(90deg, #ff004f, #8000ff);
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-weight: bold;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 10px;
+        }
+
+        .btn:hover {
+            transform: scale(1.02);
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .btn-verde {
+            background: linear-gradient(90deg, #00ff9c, #00cc7a);
+            color: #0a0a0a;
+        }
+
+        .erro {
+            background: rgba(255, 0, 79, 0.15);
+            border: 1px solid #ff004f;
+            border-radius: 10px;
+            padding: 10px;
+            color: #ff6b8a;
+            font-size: 0.85rem;
+            margin-bottom: 15px;
+            display: none;
+            text-align: center;
+        }
+
+        .sucesso {
+            background: rgba(0, 255, 156, 0.15);
+            border: 1px solid #00ff9c;
+            border-radius: 10px;
+            padding: 15px;
+            color: #00ff9c;
+            text-align: center;
+            display: none;
+            margin-bottom: 15px;
+        }
+
+        .codigo-box {
+            background: #0a0a0a;
+            border: 2px dashed #ff004f;
+            border-radius: 12px;
+            padding: 15px;
+            text-align: center;
+            margin: 15px 0;
+        }
+
+        .codigo-box .codigo {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #00ff9c;
+            letter-spacing: 8px;
+            font-family: monospace;
+        }
+
+        .codigo-box small {
+            display: block;
+            color: #888;
+            font-size: 0.7rem;
+            margin-top: 8px;
+        }
+
+        .links {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 0.85rem;
+            color: #888;
+        }
+
+        .links a {
+            color: #00ff9c;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .links a:hover {
+            text-decoration: underline;
+        }
+
+        .instrucao {
+            background: rgba(255, 170, 0, 0.1);
+            border-left: 3px solid #ffaa00;
+            padding: 10px 12px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            font-size: 0.8rem;
+            color: #ffaa00;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="card">
+        <div class="logo">🎮 ZonaXP</div>
+        <h2>Recuperar Conta</h2>
+        <p class="subtitle">Recupera o acesso à tua conta</p>
+
+        <!-- ETAPA 1: PEDIR CÓDIGO -->
+        <div class="etapa ativa" id="etapa1">
+            <div class="instrucao">
+                💡 Insere o teu número de WhatsApp para receber um código de recuperação
+            </div>
+
+            <div class="erro" id="erro1"></div>
+
+            <div class="form-group">
+                <label>📱 Número de WhatsApp</label>
+                <input type="tel" id="whatsappRec" placeholder="Ex: 84 123 4567" required>
+            </div>
+
+            <button class="btn" id="btnPedir" onclick="pedirCodigo()">📩 Pedir Código</button>
+        </div>
+
+        <!-- ETAPA 2: MOSTRAR CÓDIGO -->
+        <div class="etapa" id="etapa2">
+            <div class="sucesso" id="sucesso2">✅ Código gerado com sucesso!</div>
+
+            <div class="instrucao">
+                ⚠️ Guarda este código. Vais precisar dele para redefinir a senha.
+            </div>
+
+            <div class="codigo-box">
+                <div class="codigo" id="codigoMostrado">000000</div>
+                <small>Válido por 10 minutos</small>
+            </div>
+
+            <button class="btn btn-verde" onclick="irParaEtapa3()">✅ Já guardei o código</button>
+        </div>
+
+        <!-- ETAPA 3: VERIFICAR E REDEFINIR -->
+        <div class="etapa" id="etapa3">
+            <div class="erro" id="erro3"></div>
+
+            <div class="form-group">
+                <label>🔑 Código de Recuperação</label>
+                <input type="text" id="codigoInput" placeholder="Insere o código de 6 dígitos" maxlength="6">
+            </div>
+
+            <div class="form-group">
+                <label>🔐 Nova Senha</label>
+                <input type="password" id="novaSenha" placeholder="Mínimo 6 caracteres">
+            </div>
+
+            <div class="form-group">
+                <label>🔐 Confirmar Nova Senha</label>
+                <input type="password" id="novaSenha2" placeholder="Repete a nova senha">
+            </div>
+
+            <button class="btn" id="btnRedefinir" onclick="redefinirSenha()">🔄 Redefinir Senha</button>
+        </div>
+
+        <!-- ETAPA 4: SUCESSO -->
+        <div class="etapa" id="etapa4">
+            <div class="sucesso" style="display:block;">
+                ✅ Senha redefinida com sucesso!
+            </div>
+            <button class="btn" onclick="window.location.href='login.html'">🔐 Ir para Login</button>
+        </div>
+
+        <div class="links">
+            <a href="login.html">← Voltar ao login</a>
+        </div>
+    </div>
+</div>
+
+<script>
+    const API_URL = 'https://zona-backend-v3h1.onrender.com';
+    let whatsappAtual = '';
+    let codigoAtual = '';
+
+    function mostrarErro(etapa, mensagem) {
+        const erroDiv = document.getElementById('erro' + etapa);
+        erroDiv.textContent = '❌ ' + mensagem;
+        erroDiv.style.display = 'block';
+    }
+
+    function esconderErro(etapa) {
+        const erroDiv = document.getElementById('erro' + etapa);
+        if (erroDiv) erroDiv.style.display = 'none';
+    }
+
+    function irParaEtapa(numero) {
+        document.querySelectorAll('.etapa').forEach(e => e.classList.remove('ativa'));
+        document.getElementById('etapa' + numero).classList.add('ativa');
+    }
+
+    // ==================== ETAPA 1: PEDIR CÓDIGO ====================
+    async function pedirCodigo() {
+        const whatsapp = document.getElementById('whatsappRec').value.trim();
+        esconderErro(1);
+
+        if (!whatsapp) {
+            mostrarErro(1, 'Insere o teu número de WhatsApp');
+            return;
+        }
+
+        const wpp = whatsapp.replace(/\s/g, '');
+        if (!/^[8|7][0-9]{8}$/.test(wpp)) {
+            mostrarErro(1, 'Número inválido. Use 84xxxxxxx ou 87xxxxxxx');
+            return;
+        }
+
+        const btn = document.getElementById('btnPedir');
+        btn.disabled = true;
+        btn.textContent = 'A gerar código...';
+
+        try {
+            const res = await fetch(API_URL + '/api/recuperar/pedir', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ whatsapp: wpp })
+            });
+
+            const result = await res.json();
+
+            if (res.ok && result.sucesso) {
+                whatsappAtual = wpp;
+                codigoAtual = result.codigo;
+
+                document.getElementById('codigoMostrado').textContent = result.codigo;
+                irParaEtapa(2);
+            } else {
+                mostrarErro(1, result.erro || 'Erro ao pedir código');
+                btn.disabled = false;
+                btn.textContent = '📩 Pedir Código';
+            }
+        } catch (error) {
+            mostrarErro(1, 'Erro de conexão. Tente novamente.');
+            btn.disabled = false;
+            btn.textContent = '📩 Pedir Código';
+        }
+    }
+
+    function irParaEtapa3() {
+        irParaEtapa(3);
+    }
+
+    // ==================== ETAPA 3: REDEFINIR SENHA ====================
+    async function redefinirSenha() {
+        const codigo = document.getElementById('codigoInput').value.trim();
+        const novaSenha = document.getElementById('novaSenha').value;
+        const novaSenha2 = document.getElementById('novaSenha2').value;
+
+        esconderErro(3);
+
+        if (!codigo || !novaSenha) {
+            mostrarErro(3, 'Preenche todos os campos');
+            return;
+        }
+
+        if (codigo.length !== 6) {
+            mostrarErro(3, 'O código deve ter 6 dígitos');
+            return;
+        }
+
+        if (novaSenha.length < 6) {
+            mostrarErro(3, 'A nova senha deve ter pelo menos 6 caracteres');
+            return;
+        }
+
+        if (novaSenha !== novaSenha2) {
+            mostrarErro(3, 'As senhas não coincidem');
+            return;
+        }
+
+        const btn = document.getElementById('btnRedefinir');
+        btn.disabled = true;
+        btn.textContent = 'A redefinir...';
+
+        try {
+            const res = await fetch(API_URL + '/api/recuperar/redefinir', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    whatsapp: whatsappAtual,
+                    codigo: codigo,
+                    novaSenha: novaSenha
+                })
+            });
+
+            const result = await res.json();
+
+            if (res.ok && result.sucesso) {
+                irParaEtapa(4);
+            } else {
+                mostrarErro(3, result.erro || 'Erro ao redefinir senha');
+                btn.disabled = false;
+                btn.textContent = '🔄 Redefinir Senha';
+            }
+        } catch (error) {
+            mostrarErro(3, 'Erro de conexão. Tente novamente.');
+            btn.disabled = false;
+            btn.textContent = '🔄 Redefinir Senha';
+        }
+    }
+</script>
+
+</body>
+</html>

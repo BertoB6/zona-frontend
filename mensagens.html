@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>ZonaXP - Suporte</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #0a0a0a;
+            color: white;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* HEADER */
+        .header {
+            background: #111;
+            border-bottom: 1px solid #333;
+            padding: 12px 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header h1 {
+            font-size: 1.2rem;
+            background: linear-gradient(135deg, #ff004f, #8000ff, #00ff9c);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .header .status {
+            font-size: 0.75rem;
+            color: #00ff9c;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .header .status::before {
+            content: '';
+            width: 8px;
+            height: 8px;
+            background: #00ff9c;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        /* ÁREA DE MENSAGENS */
+        .chat-area {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            max-width: 800px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .mensagem {
+            max-width: 75%;
+            padding: 12px 16px;
+            border-radius: 16px;
+            font-size: 0.9rem;
+            line-height: 1.4;
+            word-wrap: break-word;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .mensagem.utilizador {
+            background: linear-gradient(135deg, #ff004f, #8000ff);
+            color: white;
+            align-self: flex-end;
+            border-bottom-right-radius: 4px;
+        }
+
+        .mensagem.admin {
+            background: #222;
+            color: #eee;
+            align-self: flex-start;
+            border-bottom-left-radius: 4px;
+            border: 1px solid #333;
+        }
+
+        .mensagem .hora {
+            display: block;
+            font-size: 0.65rem;
+            opacity: 0.7;
+            margin-top: 4px;
+        }
+
+        .mensagem.admin .hora {
+            color: #888;
+        }
+
+        /* ESTADO VAZIO */
+        .vazio {
+            text-align: center;
+            padding: 60px 20px;
+            color: #666;
+        }
+
+        .vazio .icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+
+        .vazio h3 {
+            color: #888;
+            margin-bottom: 8px;
+            font-size: 1rem;
+        }
+
+        .vazio p {
+            font-size: 0.85rem;
+            line-height: 1.5;
+        }
+
+        /* INPUT */
+        .input-area {
+            background: #111;
+            border-top: 1px solid #333;
+            padding: 12px 16px;
+            display: flex;
+            gap: 10px;
+            max-width: 800px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .input-area input {
+            flex: 1;
+            padding: 14px 18px;
+            background: #0a0a0a;
+            border: 1px solid #333;
+            border-radius: 30px;
+            color: white;
+            font-size: 0.95rem;
+            transition: 0.3s;
+        }
+
+        .input-area input:focus {
+            outline: none;
+            border-color: #ff004f;
+        }
+
+        .input-area button {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #ff004f, #8000ff);
+            border: none;
+            border-radius: 50%;
+            color: white;
+            font-size: 1.3rem;
+            cursor: pointer;
+            transition: 0.3s;
+            flex-shrink: 0;
+        }
+
+        .input-area button:hover {
+            transform: scale(1.05);
+        }
+
+        .input-area button:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* LOADING */
+        .loading {
+            text-align: center;
+            padding: 50px;
+            color: #888;
+        }
+
+        /* TOAST */
+        .toast {
+            position: fixed;
+            bottom: 90px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #ff004f;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            z-index: 2000;
+            display: none;
+        }
+
+        .toast.ativo {
+            display: block;
+        }
+
+        /* BOTÃO VOLTAR */
+        .btn-voltar {
+            background: none;
+            border: none;
+            color: #888;
+            font-size: 1.3rem;
+            cursor: pointer;
+            padding: 0 10px;
+        }
+
+        .btn-voltar:hover {
+            color: #fff;
+        }
+
+        @media (max-width: 600px) {
+            .mensagem {
+                max-width: 85%;
+                font-size: 0.85rem;
+            }
+            .header h1 {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER -->
+    <div class="header">
+        <button class="btn-voltar" onclick="window.history.back()">←</button>
+        <h1>💬 Suporte ZonaXP</h1>
+        <div class="status">Online</div>
+    </div>
+
+    <!-- ÁREA DE MENSAGENS -->
+    <div class="chat-area" id="chatArea">
+        <div class="loading">🔄 Carregando conversa...</div>
+    </div>
+
+    <!-- INPUT -->
+    <div class="input-area" id="inputArea" style="display:none;">
+        <input type="text" id="mensagemInput" placeholder="Escreve a tua mensagem..." maxlength="500">
+        <button id="btnEnviar" onclick="enviarMensagem()">➤</button>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <script>
+        const API_URL = 'https://zona-backend-v3h1.onrender.com';
+        let utilizadorAtual = null;
+        let conversaAtual = null;
+        let carregando = false;
+
+        // ==================== VERIFICAR SESSÃO ====================
+        function verificarSessao() {
+            const sessao = localStorage.getItem('sessaoAtiva');
+            const utilizadorStr = localStorage.getItem('utilizador');
+
+            if (sessao !== 'true' || !utilizadorStr) {
+                localStorage.setItem('redirectAfterLogin', 'mensagens.html');
+                window.location.href = 'login.html';
+                return null;
+            }
+
+            try {
+                return JSON.parse(utilizadorStr);
+            } catch (e) {
+                window.location.href = 'login.html';
+                return null;
+            }
+        }
+
+        // ==================== TOAST ====================
+        function mostrarToast(mensagem) {
+            const toast = document.getElementById('toast');
+            toast.textContent = mensagem;
+            toast.classList.add('ativo');
+            setTimeout(() => toast.classList.remove('ativo'), 3000);
+        }
+
+        // ==================== CARREGAR CONVERSA ====================
+        async function carregarConversa() {
+            if (carregando) return;
+            carregando = true;
+
+            try {
+                const res = await fetch(API_URL + '/api/mensagens/' + utilizadorAtual.id);
+                const data = await res.json();
+
+                conversaAtual = data;
+                renderizarMensagens();
+            } catch (error) {
+                console.error('Erro ao carregar conversa:', error);
+                document.getElementById('chatArea').innerHTML = `
+                    <div class="vazio">
+                        <div class="icon">⚠️</div>
+                        <h3>Erro ao carregar mensagens</h3>
+                        <p>Verifica a tua conexão</p>
+                    </div>
+                `;
+            } finally {
+                carregando = false;
+            }
+        }
+
+        // ==================== RENDERIZAR MENSAGENS ====================
+        function renderizarMensagens() {
+            const chatArea = document.getElementById('chatArea');
+            const inputArea = document.getElementById('inputArea');
+
+            if (!conversaAtual || !conversaAtual.mensagens || conversaAtual.mensagens.length === 0) {
+                chatArea.innerHTML = `
+                    <div class="vazio">
+                        <div class="icon">💬</div>
+                        <h3>Sem mensagens ainda</h3>
+                        <p>Envia a tua primeira mensagem e o admin responderá o mais breve possível.</p>
+                    </div>
+                `;
+                inputArea.style.display = 'flex';
+                return;
+            }
+
+            chatArea.innerHTML = '';
+            inputArea.style.display = 'flex';
+
+            conversaAtual.mensagens.forEach(msg => {
+                const div = document.createElement('div');
+                div.className = 'mensagem ' + msg.de;
+
+                const hora = new Date(msg.data).toLocaleTimeString('pt-PT', {
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+
+                div.innerHTML = `
+                    ${msg.texto}
+                    <span class="hora">${hora}</span>
+                `;
+                chatArea.appendChild(div);
+            });
+
+            // Scroll para o final
+            chatArea.scrollTop = chatArea.scrollHeight;
+        }
+
+        // ==================== ENVIAR MENSAGEM ====================
+        async function enviarMensagem() {
+            const input = document.getElementById('mensagemInput');
+            const btn = document.getElementById('btnEnviar');
+            const texto = input.value.trim();
+
+            if (!texto) return;
+
+            btn.disabled = true;
+            input.disabled = true;
+
+            try {
+                const res = await fetch(API_URL + '/api/mensagens', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        utilizadorId: utilizadorAtual.id,
+                        texto: texto
+                    })
+                });
+
+                const result = await res.json();
+
+                if (res.ok && result.sucesso) {
+                    input.value = '';
+                    conversaAtual = result.conversa;
+                    renderizarMensagens();
+                } else {
+                    mostrarToast('❌ Erro ao enviar mensagem');
+                }
+            } catch (error) {
+                mostrarToast('❌ Erro de conexão');
+            } finally {
+                btn.disabled = false;
+                input.disabled = false;
+                input.focus();
+            }
+        }
+
+        // ==================== ENTER PARA ENVIAR ====================
+        document.getElementById('mensagemInput').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') enviarMensagem();
+        });
+
+        // ==================== ATUALIZAR AUTOMATICAMENTE ====================
+        function iniciarAtualizacao() {
+            setInterval(() => {
+                if (!carregando) carregarConversa();
+            }, 10000); // a cada 10 segundos
+        }
+
+        // ==================== INICIALIZAR ====================
+        utilizadorAtual = verificarSessao();
+
+        if (utilizadorAtual) {
+            carregarConversa();
+            iniciarAtualizacao();
+            document.getElementById('mensagemInput').focus();
+        }
+    </script>
+
+</body>
+</html>

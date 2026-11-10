@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>ZonaXP - Entrar</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #0a0a0a;
+            color: white;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 400px;
+            width: 100%;
+        }
+
+        .card {
+            background: #111;
+            border-radius: 24px;
+            padding: 30px 25px;
+            border: 1px solid rgba(255, 0, 79, 0.3);
+        }
+
+        .logo {
+            text-align: center;
+            font-size: 2rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, #ff004f, #8000ff, #00ff9c);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            text-align: center;
+            color: #ff004f;
+            margin-bottom: 5px;
+            font-size: 1.4rem;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #888;
+            font-size: 0.85rem;
+            margin-bottom: 25px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            color: #aaa;
+            font-size: 0.8rem;
+            margin-bottom: 5px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 14px 16px;
+            background: #0a0a0a;
+            border: 1px solid #333;
+            border-radius: 12px;
+            color: white;
+            font-size: 1rem;
+            transition: 0.3s;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #ff004f;
+        }
+
+        .btn-login {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(90deg, #ff004f, #8000ff);
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-weight: bold;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 10px;
+        }
+
+        .btn-login:hover {
+            transform: scale(1.02);
+        }
+
+        .btn-login:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .erro {
+            background: rgba(255, 0, 79, 0.15);
+            border: 1px solid #ff004f;
+            border-radius: 10px;
+            padding: 10px;
+            color: #ff6b8a;
+            font-size: 0.85rem;
+            margin-bottom: 15px;
+            display: none;
+            text-align: center;
+        }
+
+        .links {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 0.85rem;
+            color: #888;
+        }
+
+        .links a {
+            color: #00ff9c;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .links a:hover {
+            text-decoration: underline;
+        }
+
+        .links .separador {
+            margin: 0 8px;
+            color: #444;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="card">
+        <div class="logo">🎮 ZonaXP</div>
+        <h2>Entrar</h2>
+        <p class="subtitle">Acede à tua conta</p>
+
+        <div class="erro" id="erro"></div>
+
+        <form id="formLogin">
+            <div class="form-group">
+                <label>📱 Número de WhatsApp</label>
+                <input type="tel" id="whatsapp" placeholder="Ex: 84 123 4567" required>
+            </div>
+
+            <div class="form-group">
+                <label>🔐 Senha</label>
+                <input type="password" id="senha" placeholder="A tua senha" required>
+            </div>
+
+            <button type="submit" class="btn-login" id="btnLogin">Entrar</button>
+        </form>
+
+        <div class="links">
+            <a href="registar.html">Criar conta</a>
+            <span class="separador">•</span>
+            <a href="recuperar.html">Esqueci a senha</a>
+        </div>
+    </div>
+</div>
+
+<script>
+    const API_URL = 'https://zona-backend-v3h1.onrender.com';
+
+    document.getElementById('formLogin').addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const whatsapp = document.getElementById('whatsapp').value.trim();
+        const senha = document.getElementById('senha').value;
+
+        const erroDiv = document.getElementById('erro');
+        const btn = document.getElementById('btnLogin');
+
+        erroDiv.style.display = 'none';
+
+        if (!whatsapp || !senha) {
+            erroDiv.textContent = '⚠️ Preencha todos os campos';
+            erroDiv.style.display = 'block';
+            return;
+        }
+
+        const wpp = whatsapp.replace(/\s/g, '');
+        if (!/^[8|7][0-9]{8}$/.test(wpp)) {
+            erroDiv.textContent = '⚠️ Número inválido';
+            erroDiv.style.display = 'block';
+            return;
+        }
+
+        btn.disabled = true;
+        btn.textContent = 'A entrar...';
+
+        try {
+            const response = await fetch(API_URL + '/api/utilizadores/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ whatsapp: wpp, senha })
+            });
+
+            const result = await response.json();
+
+            if (result.sucesso) {
+                // Guardar sessão no localStorage
+                localStorage.setItem('utilizador', JSON.stringify(result.utilizador));
+                localStorage.setItem('sessaoAtiva', 'true');
+
+                // Redirecionar para a página anterior ou para o index
+                const redirect = localStorage.getItem('redirectAfterLogin') || '/';
+                localStorage.removeItem('redirectAfterLogin');
+                window.location.href = redirect;
+            } else {
+                erroDiv.textContent = '❌ ' + (result.erro || 'Erro ao entrar');
+                erroDiv.style.display = 'block';
+                btn.disabled = false;
+                btn.textContent = 'Entrar';
+            }
+        } catch (error) {
+            erroDiv.textContent = '❌ Erro de conexão. Tente novamente.';
+            erroDiv.style.display = 'block';
+            btn.disabled = false;
+            btn.textContent = 'Entrar';
+        }
+    });
+</script>
+
+</body>
+</html>

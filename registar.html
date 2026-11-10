@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>ZonaXP - Criar Conta</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #0a0a0a;
+            color: white;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 400px;
+            width: 100%;
+        }
+
+        .card {
+            background: #111;
+            border-radius: 24px;
+            padding: 30px 25px;
+            border: 1px solid rgba(255, 0, 79, 0.3);
+        }
+
+
+        h2 {
+            text-align: center;
+            color: #ff004f;
+            margin-bottom: 5px;
+            font-size: 1.4rem;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #888;
+            font-size: 0.85rem;
+            margin-bottom: 25px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            color: #aaa;
+            font-size: 0.8rem;
+            margin-bottom: 5px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 14px 16px;
+            background: #0a0a0a;
+            border: 1px solid #333;
+            border-radius: 12px;
+            color: white;
+            font-size: 1rem;
+            transition: 0.3s;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #ff004f;
+        }
+
+        .btn-registar {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(90deg, #00ff9c, #00cc7a);
+            border: none;
+            border-radius: 12px;
+            color: #0a0a0a;
+            font-weight: bold;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 10px;
+        }
+
+        .btn-registar:hover {
+            transform: scale(1.02);
+        }
+
+        .btn-registar:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .erro {
+            background: rgba(255, 0, 79, 0.15);
+            border: 1px solid #ff004f;
+            border-radius: 10px;
+            padding: 10px;
+            color: #ff6b8a;
+            font-size: 0.85rem;
+            margin-bottom: 15px;
+            display: none;
+            text-align: center;
+        }
+
+        .links {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 0.85rem;
+            color: #888;
+        }
+
+        .links a {
+            color: #00ff9c;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .links a:hover {
+            text-decoration: underline;
+        }
+
+        .sucesso {
+            background: rgba(0, 255, 156, 0.15);
+            border: 1px solid #00ff9c;
+            border-radius: 10px;
+            padding: 15px;
+            color: #00ff9c;
+            text-align: center;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="card">
+        <div class="logo"></div>
+        <h2>Criar Conta</h2>
+        <p class="subtitle">Junta-te à comunidade ZonaXP</p>
+
+        <div class="erro" id="erro"></div>
+        <div class="sucesso" id="sucesso">✅ Conta criada! A redirecionar para login...</div>
+
+        <form id="formRegistar">
+            <div class="form-group">
+                <label>👤 Nome completo</label>
+                <input type="text" id="nome" placeholder="Ex: João Silva" required>
+            </div>
+
+            <div class="form-group">
+                <label>📱 Número de WhatsApp</label>
+                <input type="tel" id="whatsapp" placeholder="Ex: 84 123 4567" required>
+            </div>
+
+            <div class="form-group">
+                <label>🔐 Senha</label>
+                <input type="password" id="senha" placeholder="Mínimo 6 caracteres" required minlength="6">
+            </div>
+
+            <div class="form-group">
+                <label>🔐 Confirmar senha</label>
+                <input type="password" id="senha2" placeholder="Repete a senha" required>
+            </div>
+
+            <button type="submit" class="btn-registar" id="btnRegistar">Criar Conta</button>
+        </form>
+
+        <div class="links">
+            Já tens conta? <a href="login.html">Entrar aqui</a>
+        </div>
+    </div>
+</div>
+
+<script>
+    const API_URL = 'https://zona-backend-v3h1.onrender.com';
+
+    document.getElementById('formRegistar').addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const nome = document.getElementById('nome').value.trim();
+        const whatsapp = document.getElementById('whatsapp').value.trim();
+        const senha = document.getElementById('senha').value;
+        const senha2 = document.getElementById('senha2').value;
+
+        const erroDiv = document.getElementById('erro');
+        const sucessoDiv = document.getElementById('sucesso');
+        const btn = document.getElementById('btnRegistar');
+
+        erroDiv.style.display = 'none';
+
+        // Validações
+        if (!nome || !whatsapp || !senha) {
+            erroDiv.textContent = '⚠️ Preencha todos os campos';
+            erroDiv.style.display = 'block';
+            return;
+        }
+
+        if (senha.length < 6) {
+            erroDiv.textContent = '⚠️ A senha deve ter pelo menos 6 caracteres';
+            erroDiv.style.display = 'block';
+            return;
+        }
+
+        if (senha !== senha2) {
+            erroDiv.textContent = '⚠️ As senhas não coincidem';
+            erroDiv.style.display = 'block';
+            return;
+        }
+
+        const wpp = whatsapp.replace(/\s/g, '');
+        if (!/^[8|7][0-9]{8}$/.test(wpp)) {
+            erroDiv.textContent = '⚠️ Número inválido. Use 84xxxxxxx ou 87xxxxxxx';
+            erroDiv.style.display = 'block';
+            return;
+        }
+
+        btn.disabled = true;
+        btn.textContent = 'A criar conta...';
+
+        try {
+            const response = await fetch(API_URL + '/api/utilizadores/registar', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ nome, whatsapp: wpp, senha })
+            });
+
+            const result = await response.json();
+
+            if (result.sucesso) {
+                sucessoDiv.style.display = 'block';
+                document.getElementById('formRegistar').style.display = 'none';
+
+                // Guardar dados do utilizador para login automático
+                localStorage.setItem('utilizador', JSON.stringify(result.utilizador));
+
+                // Redirecionar para login após 2 segundos
+                setTimeout(() => {
+                    window.location.href = 'login.html';
+                }, 2000);
+            } else {
+                erroDiv.textContent = '❌ ' + (result.erro || 'Erro ao criar conta');
+                erroDiv.style.display = 'block';
+                btn.disabled = false;
+                btn.textContent = 'Criar Conta';
+            }
+        } catch (error) {
+            erroDiv.textContent = '❌ Erro de conexão. Tente novamente.';
+            erroDiv.style.display = 'block';
+            btn.disabled = false;
+            btn.textContent = 'Criar Conta';
+        }
+    });
+</script>
+
+</body>
+</html>

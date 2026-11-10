@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>ZonaXP - Meu Perfil</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #0a0a0a;
+            color: white;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #333;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, #ff004f, #8000ff, #00ff9c);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .btn-sair {
+            background: #ff004f;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 30px;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 0.85rem;
+        }
+
+        .btn-sair:hover {
+            background: #cc0040;
+        }
+
+        /* CARD DE PERFIL */
+        .perfil-card {
+            background: #111;
+            border-radius: 24px;
+            padding: 25px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255, 0, 79, 0.3);
+            text-align: center;
+        }
+
+        .foto-perfil {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ff004f, #8000ff);
+            margin: 0 auto 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            overflow: hidden;
+            border: 3px solid #ff004f;
+        }
+
+        .foto-perfil img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .perfil-card h2 {
+            font-size: 1.4rem;
+            margin-bottom: 4px;
+        }
+
+        .perfil-card .nickname {
+            color: #00ff9c;
+            font-size: 0.85rem;
+            margin-bottom: 10px;
+        }
+
+        .perfil-card .bio {
+            color: #888;
+            font-size: 0.85rem;
+            margin-bottom: 15px;
+            font-style: italic;
+        }
+
+        .perfil-info {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            font-size: 0.8rem;
+            color: #aaa;
+            margin-bottom: 15px;
+        }
+
+        .btn-editar {
+            background: linear-gradient(90deg, #ff004f, #8000ff);
+            border: none;
+            padding: 12px 25px;
+            border-radius: 30px;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 0.9rem;
+            margin-top: 10px;
+        }
+
+        .btn-editar:hover {
+            transform: scale(1.02);
+        }
+
+        /* ESTATÍSTICAS */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .stat-card {
+            background: #111;
+            border-radius: 16px;
+            padding: 15px;
+            text-align: center;
+            border: 1px solid #222;
+        }
+
+        .stat-card .numero {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #00ff9c;
+        }
+
+        .stat-card .label {
+            font-size: 0.7rem;
+            color: #888;
+            margin-top: 4px;
+        }
+
+        /* SECÇÕES */
+        .seccao {
+            background: #111;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid #222;
+        }
+
+        .seccao h3 {
+            color: #ff004f;
+            font-size: 1rem;
+            margin-bottom: 15px;
+        }
+
+        .lista-vazia {
+            text-align: center;
+            color: #666;
+            font-size: 0.85rem;
+            padding: 20px;
+        }
+
+        /* FORMULÁRIO DE EDIÇÃO */
+        .form-editar {
+            display: none;
+            background: #111;
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 20px;
+            border: 1px solid #ff004f;
+        }
+
+        .form-editar.ativo {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            color: #aaa;
+            font-size: 0.8rem;
+            margin-bottom: 5px;
+        }
+
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            background: #0a0a0a;
+            border: 1px solid #333;
+            border-radius: 10px;
+            color: white;
+            font-size: 0.9rem;
+            font-family: inherit;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 60px;
+        }
+
+        .form-group input:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: #ff004f;
+        }
+
+        .form-botoes {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .btn-guardar {
+            flex: 1;
+            background: linear-gradient(90deg, #00ff9c, #00cc7a);
+            border: none;
+            padding: 12px;
+            border-radius: 10px;
+            color: #0a0a0a;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .btn-cancelar {
+            flex: 1;
+            background: #333;
+            border: none;
+            padding: 12px;
+            border-radius: 10px;
+            color: white;
+            cursor: pointer;
+        }
+
+        /* JOGO CARD */
+        .jogo-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px;
+            background: #0a0a0a;
+            border-radius: 10px;
+            margin-bottom: 8px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .jogo-item:hover {
+            background: #1a1a1a;
+        }
+
+        .jogo-item img {
+            width: 45px;
+            height: 45px;
+            border-radius: 8px;
+            object-fit: cover;
+        }
+
+        .jogo-item .info h4 {
+            font-size: 0.85rem;
+            margin-bottom: 3px;
+        }
+
+        .jogo-item .info p {
+            font-size: 0.7rem;
+            color: #888;
+        }
+
+        /* NOTIFICAÇÃO */
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            right: 20px;
+            max-width: 400px;
+            margin: 0 auto;
+            background: #00ff9c;
+            color: #0a0a0a;
+            padding: 12px 18px;
+            border-radius: 10px;
+            text-align: center;
+            font-weight: bold;
+            z-index: 1000;
+            display: none;
+        }
+
+        .toast.erro {
+            background: #ff004f;
+            color: white;
+        }
+
+        .toast.ativo {
+            display: block;
+        }
+
+        /* LOADING */
+        .loading {
+            text-align: center;
+            padding: 50px;
+            color: #888;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container" id="app">
+    <div class="loading" id="loading">🔄 Carregando perfil...</div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+    const API_URL = 'https://zona-backend-v3h1.onrender.com';
+    let utilizadorAtual = null;
+    let todosJogos = [];
+
+    // ==================== VERIFICAR SESSÃO ====================
+    function verificarSessao() {
+        const sessao = localStorage.getItem('sessaoAtiva');
+        const utilizadorStr = localStorage.getItem('utilizador');
+
+        if (sessao !== 'true' || !utilizadorStr) {
+            // Não logado - redirecionar para login
+            localStorage.setItem('redirectAfterLogin', 'perfil.html');
+            window.location.href = 'login.html';
+            return null;
+        }
+
+        try {
+            return JSON.parse(utilizadorStr);
+        } catch (e) {
+            window.location.href = 'login.html';
+            return null;
+        }
+    }
+
+    // ==================== TOAST ====================
+    function mostrarToast(mensagem, tipo = 'sucesso') {
+        const toast = document.getElementById('toast');
+        toast.textContent = mensagem;
+        toast.className = 'toast ativo' + (tipo === 'erro' ? ' erro' : '');
+        setTimeout(() => {
+            toast.className = 'toast';
+        }, 3000);
+    }
+
+    // ==================== CARREGAR DADOS ====================
+    async function carregarDados() {
+        try {
+            // Buscar dados atualizados do utilizador
+            const resUser = await fetch(API_URL + '/api/utilizadores/' + utilizadorAtual.id);
+            if (!resUser.ok) throw new Error('Erro ao buscar utilizador');
+            const userAtualizado = await resUser.json();
+            utilizadorAtual = userAtualizado;
+            localStorage.setItem('utilizador', JSON.stringify(userAtualizado));
+
+            // Buscar todos os jogos
+            const resJogos = await fetch(API_URL + '/api/jogos');
+            const dataJogos = await resJogos.json();
+            todosJogos = dataJogos.jogos || [];
+
+            renderizarPerfil();
+        } catch (error) {
+            console.error('Erro:', error);
+            document.getElementById('app').innerHTML =
+                '<div class="loading">❌ Erro ao carregar perfil<br><button onclick="location.reload()" style="margin-top:15px;padding:10px 20px;background:#ff004f;border:none;border-radius:8px;color:white;cursor:pointer;">Tentar novamente</button></div>';
+        }
+    }
+
+    // ==================== RENDERIZAR PERFIL ====================
+    function renderizarPerfil() {
+        const fotoHtml = utilizadorAtual.foto
+            ? `<img src="${utilizadorAtual.foto}" onerror="this.style.display='none'">`
+            : '👤';
+
+        const jogosHistorico = todosJogos.filter(j => utilizadorAtual.historico.includes(j.id));
+        const jogosFavoritos = todosJogos.filter(j => utilizadorAtual.favoritos.includes(j.id));
+        const jogosLikes = Object.keys(utilizadorAtual.likes || {}).length;
+
+        document.getElementById('app').innerHTML = `
+            <div class="header">
+                <div class="logo">🎮 ZonaXP</div>
+                <button class="btn-sair" onclick="fazerLogout()">Sair</button>
+            </div>
+
+            <div class="perfil-card">
+                <div class="foto-perfil">${fotoHtml}</div>
+                <h2>${utilizadorAtual.nome}</h2>
+                ${utilizadorAtual.nickname ? `<div class="nickname">@${utilizadorAtual.nickname}</div>` : ''}
+                ${utilizadorAtual.bio ? `<div class="bio">"${utilizadorAtual.bio}"</div>` : ''}
+                <div class="perfil-info">
+                    ${utilizadorAtual.cidade ? `<span>📍 ${utilizadorAtual.cidade}</span>` : ''}
+                    ${utilizadorAtual.nacionalidade ? `<span>🌍 ${utilizadorAtual.nacionalidade}</span>` : ''}
+                    <span>📱 ${utilizadorAtual.whatsapp}</span>
+                </div>
+                <button class="btn-editar" onclick="mostrarEdicao()">✏️ Editar Perfil</button>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="numero">${jogosHistorico.length}</div>
+                    <div class="label">📥 Downloads</div>
+                </div>
+                <div class="stat-card">
+                    <div class="numero">${jogosFavoritos.length}</div>
+                    <div class="label">⭐ Favoritos</div>
+                </div>
+                <div class="stat-card">
+                    <div class="numero">${jogosLikes}</div>
+                    <div class="label">♥ Likes</div>
+                </div>
+            </div>
+
+            <div class="seccao">
+                <h3>📥 HISTÓRICO DE DOWNLOADS</h3>
+                ${jogosHistorico.length === 0
+                    ? '<div class="lista-vazia">Ainda não baixaste nenhum jogo</div>'
+                    : jogosHistorico.map(j => criarItemJogo(j)).join('')}
+            </div>
+
+            <div class="seccao">
+                <h3>⭐ FAVORITOS</h3>
+                ${jogosFavoritos.length === 0
+                    ? '<div class="lista-vazia">Ainda não tens favoritos</div>'
+                    : jogosFavoritos.map(j => criarItemJogo(j)).join('')}
+            </div>
+
+            <div class="seccao">
+                <h3>💬 SUPORTE</h3>
+                <a href="mensagens.html" style="display:block;background:linear-gradient(90deg,#ff004f,#8000ff);padding:12px;border-radius:10px;color:white;text-align:center;text-decoration:none;font-weight:bold;">
+                    Enviar Mensagem ao Admin
+                </a>
+            </div>
+
+            <!-- FORMULÁRIO DE EDIÇÃO -->
+            <div class="form-editar" id="formEditar">
+                <h3 style="color:#ff004f;margin-bottom:15px;">✏️ Editar Perfil</h3>
+
+                <div class="form-group">
+                    <label>Nome</label>
+                    <input type="text" id="editNome" value="${utilizadorAtual.nome || ''}">
+                </div>
+
+                <div class="form-group">
+                    <label>Nickname (@)</label>
+                    <input type="text" id="editNickname" value="${utilizadorAtual.nickname || ''}" placeholder="Ex: joaosilva">
+                </div>
+
+                <div class="form-group">
+                    <label>Foto de Perfil (URL)</label>
+                    <input type="text" id="editFoto" value="${utilizadorAtual.foto || ''}" placeholder="https://...">
+                </div>
+
+                <div class="form-group">
+                    <label>Cidade</label>
+                    <input type="text" id="editCidade" value="${utilizadorAtual.cidade || ''}" placeholder="Ex: Maputo">
+                </div>
+
+                <div class="form-group">
+                    <label>Nacionalidade</label>
+                    <input type="text" id="editNacionalidade" value="${utilizadorAtual.nacionalidade || ''}" placeholder="Ex: Moçambicana">
+                </div>
+
+                <div class="form-group">
+                    <label>Bio</label>
+                    <textarea id="editBio" placeholder="Fala um pouco sobre ti...">${utilizadorAtual.bio || ''}</textarea>
+                </div>
+
+                <div class="form-botoes">
+                    <button class="btn-cancelar" onclick="esconderEdicao()">Cancelar</button>
+                    <button class="btn-guardar" onclick="guardarPerfil()">💾 Guardar</button>
+                </div>
+            </div>
+        `;
+    }
+
+    function criarItemJogo(jogo) {
+        const imgUrl = jogo.imagem && jogo.imagem.startsWith('http') ? jogo.imagem : (API_URL + '/imagens/' + jogo.imagem + '.jpg');
+        return `
+            <div class="jogo-item" onclick="window.location.href='download.html?jogo=${jogo.slug || jogo.id}'">
+                <img src="${imgUrl}" onerror="this.src='https://via.placeholder.com/45'">
+                <div class="info">
+                    <h4>${jogo.nome}</h4>
+                    <p>${jogo.categoria} • ${jogo.plataforma}</p>
+                </div>
+            </div>
+        `;
+    }
+
+    // ==================== EDIÇÃO ====================
+    function mostrarEdicao() {
+        document.getElementById('formEditar').classList.add('ativo');
+        document.getElementById('formEditar').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function esconderEdicao() {
+        document.getElementById('formEditar').classList.remove('ativo');
+    }
+
+    async function guardarPerfil() {
+        const dados = {
+            nome: document.getElementById('editNome').value.trim(),
+            nickname: document.getElementById('editNickname').value.trim(),
+            foto: document.getElementById('editFoto').value.trim(),
+            cidade: document.getElementById('editCidade').value.trim(),
+            nacionalidade: document.getElementById('editNacionalidade').value.trim(),
+            bio: document.getElementById('editBio').value.trim()
+        };
+
+        if (!dados.nome) {
+            mostrarToast('⚠️ O nome é obrigatório', 'erro');
+            return;
+        }
+
+        try {
+            const res = await fetch(API_URL + '/api/utilizadores/' + utilizadorAtual.id, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(dados)
+            });
+
+            const result = await res.json();
+
+            if (res.ok) {
+                utilizadorAtual = result;
+                localStorage.setItem('utilizador', JSON.stringify(result));
+                mostrarToast('✅ Perfil atualizado!');
+                esconderEdicao();
+                renderizarPerfil();
+            } else {
+                mostrarToast('❌ ' + (result.erro || 'Erro ao guardar'), 'erro');
+            }
+        } catch (error) {
+            mostrarToast('❌ Erro de conexão', 'erro');
+        }
+    }
+
+    // ==================== LOGOUT ====================
+    function fazerLogout() {
+        localStorage.removeItem('sessaoAtiva');
+        localStorage.removeItem('utilizador');
+        window.location.href = '/';
+    }
+
+    // ==================== INICIALIZAR ====================
+    utilizadorAtual = verificarSessao();
+    if (utilizadorAtual) {
+        carregarDados();
+    }
+</script>
+
+</body>
+</html>

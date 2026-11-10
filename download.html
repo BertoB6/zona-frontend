@@ -21,8 +21,6 @@
             --button-free: #0f9d58;
             --button-paid: #ff9800;
             --accent: #ff004f;
-            --like-color: #0f9d58;
-            --dislike-color: #ff4444;
             --download-blue: #2563eb;
         }
 
@@ -48,7 +46,7 @@
             margin: 0 auto;
         }
 
-        /* ==================== HEADER ==================== */
+        /* HEADER */
         .header {
             position: sticky;
             top: 0;
@@ -95,8 +93,7 @@
             font-size: 0.9rem;
         }
 
-        .theme-toggle,
-        .menu-icon {
+        .theme-toggle, .menu-icon {
             background: none;
             border: none;
             font-size: 1.3rem;
@@ -114,7 +111,34 @@
             order: 1;
         }
 
-        /* ==================== SIDEBAR ==================== */
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-shrink: 0;
+        }
+
+        .btn-voltar {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid var(--border-color);
+            padding: 6px 14px;
+            border-radius: 30px;
+            color: var(--text-primary);
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .btn-voltar:hover {
+            background: var(--accent);
+            border-color: var(--accent);
+            transform: scale(1.02);
+        }
+
+        /* SIDEBAR */
         .sidebar {
             position: fixed;
             top: 0;
@@ -129,9 +153,7 @@
             box-shadow: -2px 0 10px rgba(0,0,0,0.3);
         }
 
-        .sidebar.active {
-            right: 0;
-        }
+        .sidebar.active { right: 0; }
 
         .sidebar .close-btn {
             position: absolute;
@@ -142,9 +164,7 @@
             color: var(--accent);
         }
 
-        .sidebar ul {
-            list-style: none;
-        }
+        .sidebar ul { list-style: none; }
 
         .sidebar li {
             padding: 15px 0;
@@ -175,11 +195,9 @@
             display: none;
         }
 
-        .overlay.active {
-            display: block;
-        }
+        .overlay.active { display: block; }
 
-        /* ==================== CARD PRINCIPAL ==================== */
+        /* CARD PRINCIPAL */
         .download-card {
             background: var(--bg-card);
             border-radius: 20px;
@@ -189,117 +207,38 @@
         }
 
         @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        /* ==================== CARROSSEL DE MÍDIA ==================== */
-        .media-carousel {
+        /* IMAGEM */
+        .imagem-area {
             position: relative;
-            overflow: hidden;
-            background: #000;
+            text-align: center;
+            background: var(--bg-primary);
         }
 
-        .media-track {
-            display: flex;
-            transition: transform 0.5s ease;
-        }
-
-        .media-slide {
-            min-width: 100%;
-            position: relative;
-            aspect-ratio: 16 / 9;
-            background: #0a0a0a;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .media-slide img {
+        .imagem-area img {
             width: 100%;
-            height: 100%;
-            object-fit: contain;
+            max-height: 300px;
+            object-fit: cover;
         }
 
-        .media-slide video {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-            background: #000;
-        }
-
-        .media-btn {
+        .price-badge {
             position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            background: rgba(0,0,0,0.6);
-            border: none;
-            color: white;
-            font-size: 2rem;
-            padding: 10px 16px;
-            cursor: pointer;
-            border-radius: 50%;
-            z-index: 10;
-            transition: 0.3s;
-        }
-
-        .media-btn:hover {
-            background: rgba(255,255,255,0.2);
-        }
-
-        .media-btn.prev {
-            left: 10px;
-        }
-        .media-btn.next {
-            right: 10px;
-        }
-
-        .media-dots {
-            display: flex;
-            justify-content: center;
-            gap: 8px;
-            padding: 12px;
-            background: rgba(0,0,0,0.5);
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-        }
-
-        .media-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: rgba(255,255,255,0.4);
-            cursor: pointer;
-            transition: 0.3s;
-        }
-
-        .media-dot.active {
-            background: var(--accent);
-            width: 20px;
-            border-radius: 4px;
-        }
-
-        .media-counter {
-            position: absolute;
-            top: 12px;
-            right: 12px;
-            background: rgba(0,0,0,0.7);
-            color: white;
-            padding: 4px 12px;
+            top: 15px;
+            right: 15px;
+            padding: 6px 14px;
             border-radius: 20px;
-            font-size: 0.75rem;
-            z-index: 5;
+            font-size: 0.8rem;
+            font-weight: bold;
+            z-index: 2;
         }
 
-        /* ==================== INFORMAÇÕES ==================== */
+        .badge-free { background: var(--button-free); color: white; }
+        .badge-paid { background: var(--button-paid); color: white; }
+
+        /* INFORMAÇÕES */
         .info {
             padding: 20px;
             text-align: center;
@@ -336,7 +275,7 @@
             font-size: 0.85rem;
         }
 
-        /* ==================== RATING E PARTILHA ==================== */
+        /* RATING E PARTILHA */
         .rating-share {
             padding: 15px 20px;
             display: flex;
@@ -350,30 +289,39 @@
         .rating {
             display: flex;
             gap: 20px;
+            align-items: center;
         }
 
         .like-btn,
         .dislike-btn {
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 8px;
             background: none;
             border: none;
-            font-size: 1rem;
             cursor: pointer;
             color: var(--text-secondary);
             padding: 8px 12px;
             border-radius: 30px;
             transition: 0.2s;
+            font-size: 1rem;
         }
 
-        .like-btn.active {
-            color: var(--like-color);
-            background: rgba(15,157,88,0.1);
+        .like-btn .icon,
+        .dislike-btn .icon {
+            font-size: 1.8rem;
+            transition: 0.2s;
+            color: var(--text-secondary);
+            line-height: 1;
         }
-        .dislike-btn.active {
-            color: var(--dislike-color);
-            background: rgba(255,68,68,0.1);
+
+        .like-btn .icon.liked { color: #ff004f; transform: scale(1.15); }
+        .dislike-btn .icon.disliked { color: #ff004f; transform: scale(1.15); }
+
+        .like-btn .count,
+        .dislike-btn .count {
+            font-size: 0.85rem;
+            font-weight: bold;
         }
 
         .share-social {
@@ -405,22 +353,11 @@
             background: rgba(255,255,255,0.1);
         }
 
-        .share-icon.whatsapp:hover {
-            color: #25D366;
-            background: rgba(37,211,102,0.15);
-        }
+        .share-icon.whatsapp:hover { color: #25D366; background: rgba(37,211,102,0.15); }
+        .share-icon.tiktok:hover { color: #000000; background: rgba(0,0,0,0.1); }
+        .share-btn:hover { color: var(--accent); background: rgba(255,0,79,0.1); }
 
-        .share-icon.tiktok:hover {
-            color: #000000;
-            background: rgba(0,0,0,0.1);
-        }
-
-        .share-btn:hover {
-            color: var(--accent);
-            background: rgba(255,0,79,0.1);
-        }
-
-        /* ==================== BOTÕES DE DOWNLOAD ==================== */
+        /* BOTÕES DE DOWNLOAD */
         .downloads-section {
             padding: 20px;
             border-bottom: 1px solid var(--border-color);
@@ -455,32 +392,30 @@
             color: white;
         }
 
-        .btn-download:hover {
-            transform: translateY(-2px);
+        .btn-download:hover { transform: translateY(-2px); }
+
+        .btn-blue { background: var(--download-blue); }
+        .btn-blue:hover { background: #1d4ed8; }
+
+        .btn-free { background: var(--button-free); }
+        .btn-free:hover { background: #0b7a44; }
+
+        .btn-paid { background: var(--button-paid); }
+        .btn-paid:hover { background: #e68a00; }
+
+        /* AVISO DE PARTILHA */
+        .aviso-partilha {
+            background: rgba(255, 170, 0, 0.15);
+            border: 1px solid #ffaa00;
+            border-radius: 12px;
+            padding: 12px;
+            margin-bottom: 15px;
+            color: #ffaa00;
+            font-size: 0.85rem;
+            text-align: center;
         }
 
-        .btn-blue {
-            background: var(--download-blue);
-        }
-        .btn-blue:hover {
-            background: #1d4ed8;
-        }
-
-        .btn-free {
-            background: var(--button-free);
-        }
-        .btn-free:hover {
-            background: #0b7a44;
-        }
-
-        .btn-paid {
-            background: var(--button-paid);
-        }
-        .btn-paid:hover {
-            background: #e68a00;
-        }
-
-        /* ==================== SENHA ==================== */
+        /* SENHA */
         .senha-area {
             background: rgba(255,0,79,0.1);
             border-radius: 12px;
@@ -502,32 +437,18 @@
             font-family: monospace;
         }
 
-        /* ==================== DESCRIÇÃO ==================== */
+        /* DESCRIÇÃO */
         .descricao-area {
             padding: 0 20px 20px 20px;
             border-bottom: 1px solid var(--border-color);
         }
 
-        .descricao-area h4 {
-            color: var(--accent);
-            margin-bottom: 10px;
-        }
+        .descricao-area h4 { color: var(--accent); margin-bottom: 10px; }
+        .descricao-longa { color: var(--text-secondary); font-size: 0.9rem; line-height: 1.6; }
 
-        .descricao-longa {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-            line-height: 1.6;
-        }
-
-        /* ==================== JOGOS RECOMENDADOS ==================== */
-        .recomendados {
-            padding: 20px;
-        }
-
-        .recomendados h4 {
-            color: var(--accent);
-            margin-bottom: 15px;
-        }
+        /* RECOMENDADOS */
+        .recomendados { padding: 20px; }
+        .recomendados h4 { color: var(--accent); margin-bottom: 15px; }
 
         .recomendados-scroll {
             display: flex;
@@ -538,17 +459,9 @@
             -webkit-overflow-scrolling: touch;
         }
 
-        .recomendados-scroll::-webkit-scrollbar {
-            height: 6px;
-        }
-        .recomendados-scroll::-webkit-scrollbar-track {
-            background: var(--border-color);
-            border-radius: 10px;
-        }
-        .recomendados-scroll::-webkit-scrollbar-thumb {
-            background: var(--accent);
-            border-radius: 10px;
-        }
+        .recomendados-scroll::-webkit-scrollbar { height: 6px; }
+        .recomendados-scroll::-webkit-scrollbar-track { background: var(--border-color); border-radius: 10px; }
+        .recomendados-scroll::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 10px; }
 
         .recom-card {
             flex: 0 0 160px;
@@ -561,46 +474,15 @@
             scroll-snap-align: start;
         }
 
-        .recom-card:hover {
-            transform: translateY(-4px);
-            border-color: var(--accent);
-        }
+        .recom-card:hover { transform: translateY(-4px); border-color: var(--accent); }
+        .recom-card img { width: 100%; height: 120px; object-fit: cover; }
+        .recom-card .info { padding: 10px; text-align: left; border-bottom: none; }
+        .recom-card .info h5 { font-size: 0.8rem; margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .recom-card .info p { font-size: 0.65rem; color: var(--text-secondary); }
+        .recom-card .arrow { text-align: center; padding: 4px; color: var(--accent); font-size: 1.2rem; }
 
-        .recom-card img {
-            width: 100%;
-            height: 120px;
-            object-fit: cover;
-        }
-
-        .recom-card .info {
-            padding: 10px;
-            text-align: left;
-            border-bottom: none;
-        }
-
-        .recom-card .info h5 {
-            font-size: 0.8rem;
-            margin-bottom: 4px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .recom-card .info p {
-            font-size: 0.65rem;
-            color: var(--text-secondary);
-        }
-
-        .recom-card .arrow {
-            text-align: center;
-            padding: 4px;
-            color: var(--accent);
-            font-size: 1.2rem;
-        }
-
-        /* ==================== LOADING E ERRO ==================== */
-        .loading,
-        .error {
+        /* LOADING E ERRO */
+        .loading, .error {
             text-align: center;
             padding: 50px;
             color: var(--text-secondary);
@@ -613,550 +495,590 @@
             color: var(--text-secondary);
         }
 
-        footer a {
-            color: var(--accent);
+        footer a { color: var(--accent); text-decoration: none; }
+
+        /* TOAST */
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #ff004f;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            z-index: 10000;
+            display: none;
+            max-width: 90%;
+            text-align: center;
+        }
+
+        .toast.ativo { display: block; }
+
+        /* MODAL CONTA */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.97);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+
+        .modal-overlay.ativo { display: flex; }
+
+        .modal-content {
+            background: #111;
+            border-radius: 24px;
+            padding: 35px 30px;
+            max-width: 420px;
+            width: 92%;
+            border: 1px solid #ff004f;
+            box-shadow: 0 20px 60px rgba(255,0,79,0.3);
+            text-align: center;
+            position: relative;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #666;
+            background: none;
+            border: none;
+        }
+
+        .modal-close:hover { color: #ff004f; }
+
+        .modal-content h2 {
+            color: #ff004f;
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+        }
+
+        .modal-content p {
+            color: #aaa;
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        .modal-content .btn-modal {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(90deg, #00ff9c, #00cc7a);
+            border: none;
+            border-radius: 12px;
+            color: #0a0a0a;
+            font-weight: bold;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-bottom: 10px;
+            display: block;
             text-decoration: none;
         }
 
-        /* ==================== RESPONSIVIDADE ==================== */
-        @media (max-width: 600px) {
-            body {
-                padding: 12px;
-            }
-            .header {
-                margin: -12px -12px 20px -12px;
-            }
-            .logo {
-                font-size: 1.1rem;
-            }
-            .search-bar {
-                max-width: 160px;
-            }
-            .search-bar input {
-                padding: 7px 12px;
-                font-size: 0.8rem;
-            }
-            .info h1 {
-                font-size: 1.2rem;
-            }
-            .rating-share {
-                flex-direction: column;
-                align-items: stretch;
-                gap: 8px;
-            }
-            .rating {
-                justify-content: center;
-            }
-            .share-social {
-                justify-content: center;
-            }
-            .media-slide {
-                aspect-ratio: 4 / 3;
-            }
-            .recom-card {
-                flex: 0 0 140px;
-            }
-            .recom-card img {
-                height: 100px;
-            }
+        .modal-content .btn-modal:hover { transform: scale(1.02); }
+
+        .modal-content .btn-modal.outline {
+            background: transparent;
+            border: 2px solid #ff004f;
+            color: #ff004f;
         }
-        
-        .header-actions {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    flex-shrink: 0;
-}
 
-.btn-voltar {
-    background: rgba(255, 255, 255, 0.08);
-    border: 1px solid var(--border-color);
-    padding: 6px 14px;
-    border-radius: 30px;
-    color: var(--text-primary);
-    font-size: 0.8rem;
-    cursor: pointer;
-    transition: 0.3s;
-    display: flex;
-    align-items: center;
-    gap: 4px;
-}
+        .modal-content .btn-modal.outline:hover {
+            background: #ff004f;
+            color: white;
+        }
 
-.btn-voltar:hover {
-    background: var(--accent);
-    border-color: var(--accent);
-    transform: scale(1.02);
-}
-
-.theme-toggle,
-.menu-icon {
-    background: none;
-    border: none;
-    font-size: 1.3rem;
-    cursor: pointer;
-    padding: 8px;
-    border-radius: 50%;
-    color: var(--text-primary);
-    display: flex;
-    align-items: center;
-    flex-shrink: 0;
-}
-
-.menu-icon {
-    font-size: 1.5rem;
-    order: 1;
-}
+        /* RESPONSIVIDADE */
+        @media (max-width: 600px) {
+            body { padding: 12px; }
+            .header { margin: -12px -12px 20px -12px; }
+            .logo { font-size: 1.1rem; }
+            .search-bar { max-width: 160px; }
+            .search-bar input { padding: 7px 12px; font-size: 0.8rem; }
+            .info h1 { font-size: 1.2rem; }
+            .rating-share { flex-direction: column; align-items: stretch; gap: 8px; }
+            .rating { justify-content: center; }
+            .share-social { justify-content: center; }
+            .like-btn .icon, .dislike-btn .icon { font-size: 1.5rem; }
+            .recom-card { flex: 0 0 140px; }
+            .recom-card img { height: 100px; }
+        }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <!-- ========== HEADER ========== -->
-        <div class="header">
-    <div class="header-content">
-        <div class="logo">ZonaXP</div>
-        <div class="search-bar">
-            <input type="text" id="searchInput" placeholder="Buscar jogos...">
+<div class="container">
+    <!-- HEADER -->
+    <div class="header">
+        <div class="header-content">
+            <div class="logo">ZonaXP</div>
+            <div class="search-bar">
+                <input type="text" id="searchInput" placeholder="Buscar jogos...">
+            </div>
+            <div class="header-actions">
+                <button class="btn-voltar" onclick="window.location.href='/'">← Voltar</button>
+                <button class="theme-toggle" id="themeToggle">🌙</button>
+                <button class="menu-icon" id="menuBtn">☰</button>
+            </div>
         </div>
-        <div class="header-actions">
-            <button class="btn-voltar" onclick="window.location.href='/'">← Voltar</button>
-            <button class="theme-toggle" id="themeToggle">🌙</button>
-            <button class="menu-icon" id="menuBtn">☰</button>
+    </div>
+
+    <!-- SIDEBAR -->
+    <div class="sidebar" id="sidebar">
+        <div class="close-btn" id="closeMenu">✕</div>
+        <ul>
+            <li id="menuHome">🏠 Home</li>
+            <li id="menuApresentacao">📖 Apresentação</li>
+            <li id="menuSuporte">🛡️ Suporte</li>
+            <li><a href="compartilhar.html">🎁 Ganhar Jogos</a></li>
+        </ul>
+    </div>
+    <div class="overlay" id="overlay"></div>
+
+    <!-- CARD PRINCIPAL -->
+    <div class="download-card" id="downloadCard">
+        <div id="content">
+            <div class="loading">🔄 Carregando informações do jogo...</div>
         </div>
+    </div>
+
+    <footer>
+        <p>ZonaXP - Jogos PSP e Mobile</p>
+    </footer>
+</div>
+
+<!-- MODAL DE CONTA -->
+<div class="modal-overlay" id="modalConta">
+    <div class="modal-content">
+        <button class="modal-close" onclick="fecharModalConta()">✕</button>
+        <h2>🔐 Precisas de conta</h2>
+        <p>Para baixar jogos precisas estar registado.</p>
+        <a href="login.html" class="btn-modal">🔐 Entrar</a>
+        <a href="registar.html" class="btn-modal outline">📝 Criar Conta</a>
     </div>
 </div>
 
-        <!-- ========== SIDEBAR ========== -->
-        <div class="sidebar" id="sidebar">
-            <div class="close-btn" id="closeMenu">✕</div>
-            <ul>
-                <li id="menuHome">🏠 Home</li>
-                <li id="menuApresentacao">📖 Apresentação</li>
-                <li id="menuSuporte">🛡️ Suporte</li>
-                <li><a href="compartilhar.html">🎁 Ganhar Jogos</a></li>
-            </ul>
-        </div>
-        <div class="overlay" id="overlay"></div>
+<div class="toast" id="toast"></div>
 
-        <!-- ========== CARD PRINCIPAL ========== -->
-        <div class="download-card" id="downloadCard">
-            <div id="content">
-                <div class="loading">🔄 Carregando informações do jogo...</div>
-            </div>
-        </div>
+<script>
+    // ==================== CONFIG ====================
+    const API_URL = 'https://zona-backend-v3h1.onrender.com';
 
-        <footer>
-            <p>ZonaXP - Jogos PSP e Mobile</p>
-        </footer>
-    </div>
+    let jogoAtual = null;
+    let todosJogos = [];
+    let utilizadorAtual = null;
 
-    <script>
-        // ==================== CONFIGURAÇÃO ====================
-        const API_URL = 'https://zona-backend-v3h1.onrender.com';
-        const TEMPO_ESPERA_HORAS = 8;
-        const TEMPO_ESPERA_MS = TEMPO_ESPERA_HORAS * 60 * 60 * 1000;
+    // Elementos
+    const content = document.getElementById('content');
+    const searchInput = document.getElementById('searchInput');
+    const themeToggle = document.getElementById('themeToggle');
+    const menuBtn = document.getElementById('menuBtn');
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('overlay');
+    const closeMenu = document.getElementById('closeMenu');
+    const modalConta = document.getElementById('modalConta');
+    const toast = document.getElementById('toast');
 
-        let jogoAtual = null;
-        let todosJogos = [];
-        let votosUsuario = JSON.parse(localStorage.getItem('votos') || '{}');
-        let mediaIndex = 0;
+    // ==================== VERIFICAR SESSÃO ====================
+    function verificarSessao() {
+        const sessao = localStorage.getItem('sessaoAtiva');
+        const utilizadorStr = localStorage.getItem('utilizador');
 
-        // Elementos DOM
-        const content = document.getElementById('content');
-        const searchInput = document.getElementById('searchInput');
-        const themeToggle = document.getElementById('themeToggle');
-        const menuBtn = document.getElementById('menuBtn');
-        const sidebar = document.getElementById('sidebar');
-        const overlay = document.getElementById('overlay');
-        const closeMenu = document.getElementById('closeMenu');
-
-        // ==================== MODO ESCURO/CLARO ====================
-        function initTheme() {
-            const saved = localStorage.getItem('theme');
-            if (saved === 'light') {
-                document.documentElement.setAttribute('data-theme', 'light');
-                themeToggle.textContent = '☀️';
-            } else {
-                document.documentElement.setAttribute('data-theme', 'dark');
-                themeToggle.textContent = '🌙';
-            }
-        }
-
-        themeToggle.addEventListener('click', function() {
-            const current = document.documentElement.getAttribute('data-theme');
-            if (current === 'dark') {
-                document.documentElement.setAttribute('data-theme', 'light');
-                localStorage.setItem('theme', 'light');
-                themeToggle.textContent = '☀️';
-            } else {
-                document.documentElement.setAttribute('data-theme', 'dark');
-                localStorage.setItem('theme', 'dark');
-                themeToggle.textContent = '🌙';
-            }
-        });
-
-        // ==================== MENU ====================
-        function initMenu() {
-            if (menuBtn) {
-                menuBtn.addEventListener('click', function() {
-                    sidebar.classList.add('active');
-                    overlay.classList.add('active');
-                });
-            }
-            if (closeMenu) closeMenu.addEventListener('click', fecharMenu);
-            if (overlay) overlay.addEventListener('click', fecharMenu);
-            if (document.getElementById('menuHome')) {
-                document.getElementById('menuHome').addEventListener('click', function() {
-                    fecharMenu();
-                    window.location.href = '/';
-                });
-            }
-            if (document.getElementById('menuApresentacao')) {
-                document.getElementById('menuApresentacao').addEventListener('click', function() {
-                    fecharMenu();
-                    alert('📖 Sobre a ZonaXP\n\nPlataforma de distribuição de jogos para PSP, PS2, PC e APK Android.');
-                });
-            }
-            if (document.getElementById('menuSuporte')) {
-                document.getElementById('menuSuporte').addEventListener('click', function() {
-                    fecharMenu();
-                    alert('🛡️ Suporte\n\n📧 Email: suporte@zonaxp.com\n📱 WhatsApp: +258 85 811 2264');
-                });
-            }
-        }
-
-        function fecharMenu() {
-            sidebar.classList.remove('active');
-            overlay.classList.remove('active');
-        }
-
-        // ==================== BUSCA ====================
-        searchInput.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter' && searchInput.value.trim()) {
-                window.location.href = '/?busca=' + encodeURIComponent(searchInput.value);
-            }
-        });
-
-        // ==================== VERIFICAÇÃO DE DOWNLOAD ====================
-        function verificarUltimoDownload() {
-            const ultimoDownload = localStorage.getItem('ultimoDownload');
-            if (!ultimoDownload) return true;
-            return (Date.now() - parseInt(ultimoDownload)) >= TEMPO_ESPERA_MS;
-        }
-
-        function registrarDownload() {
-            localStorage.setItem('ultimoDownload', Date.now().toString());
-        }
-
-        function mostrarModalEspera() {
-            const ultimoDownload = localStorage.getItem('ultimoDownload');
-            const horasRestantes = Math.ceil((TEMPO_ESPERA_MS - (Date.now() - parseInt(ultimoDownload))) / (60 * 60 * 1000));
-            alert('⏰ Aguarde ' + horasRestantes + 'h para baixar outro jogo.');
-        }
-
-        // ==================== LIKES/DISLIKES ====================
-        async function votar(tipo, event) {
-            if (event) event.stopPropagation();
-            if (!jogoAtual) return;
-
-            const votoAtual = votosUsuario[jogoAtual.id];
-
-            if (votoAtual === tipo) {
-                delete votosUsuario[jogoAtual.id];
-                if (tipo === 'like') jogoAtual.likes--;
-                else jogoAtual.dislikes--;
-            } else {
-                if (votoAtual === 'like') jogoAtual.likes--;
-                if (votoAtual === 'dislike') jogoAtual.dislikes--;
-                votosUsuario[jogoAtual.id] = tipo;
-                if (tipo === 'like') jogoAtual.likes++;
-                else jogoAtual.dislikes++;
-            }
-
-            localStorage.setItem('votos', JSON.stringify(votosUsuario));
-
+        if (sessao === 'true' && utilizadorStr) {
             try {
+                return JSON.parse(utilizadorStr);
+            } catch (e) {
+                return null;
+            }
+        }
+        return null;
+    }
+
+    // ==================== TOAST ====================
+    function mostrarToast(mensagem) {
+        toast.textContent = mensagem;
+        toast.classList.add('ativo');
+        setTimeout(() => toast.classList.remove('ativo'), 3000);
+    }
+
+    // ==================== MODO ESCURO/CLARO ====================
+    function initTheme() {
+        const saved = localStorage.getItem('theme');
+        if (saved === 'light') {
+            document.documentElement.setAttribute('data-theme', 'light');
+            themeToggle.textContent = '☀️';
+        } else {
+            document.documentElement.setAttribute('data-theme', 'dark');
+            themeToggle.textContent = '🌙';
+        }
+    }
+
+    themeToggle.addEventListener('click', () => {
+        const current = document.documentElement.getAttribute('data-theme');
+        if (current === 'dark') {
+            document.documentElement.setAttribute('data-theme', 'light');
+            localStorage.setItem('theme', 'light');
+            themeToggle.textContent = '☀️';
+        } else {
+            document.documentElement.setAttribute('data-theme', 'dark');
+            localStorage.setItem('theme', 'dark');
+            themeToggle.textContent = '🌙';
+        }
+    });
+
+    // ==================== MENU ====================
+    function initMenu() {
+        if (menuBtn) {
+            menuBtn.addEventListener('click', () => {
+                sidebar.classList.add('active');
+                overlay.classList.add('active');
+            });
+        }
+        if (closeMenu) closeMenu.addEventListener('click', fecharMenu);
+        if (overlay) overlay.addEventListener('click', fecharMenu);
+        if (document.getElementById('menuHome')) {
+            document.getElementById('menuHome').addEventListener('click', () => {
+                fecharMenu();
+                window.location.href = '/';
+            });
+        }
+        if (document.getElementById('menuApresentacao')) {
+            document.getElementById('menuApresentacao').addEventListener('click', () => {
+                fecharMenu();
+                mostrarToast('📖 ZonaXP - Distribuição de jogos PSP e Mobile');
+            });
+        }
+        if (document.getElementById('menuSuporte')) {
+            document.getElementById('menuSuporte').addEventListener('click', () => {
+                fecharMenu();
+                window.location.href = 'mensagens.html';
+            });
+        }
+    }
+
+    function fecharMenu() {
+        sidebar.classList.remove('active');
+        overlay.classList.remove('active');
+    }
+
+    // ==================== BUSCA ====================
+    searchInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter' && searchInput.value.trim()) {
+            window.location.href = '/?busca=' + encodeURIComponent(searchInput.value);
+        }
+    });
+
+    // ==================== CARREGAR JOGO ====================
+    async function carregarJogo() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const jogoId = urlParams.get('jogo');
+        const slug = urlParams.get('slug');
+
+        if (!jogoId && !slug) {
+            mostrarErro('Nenhum jogo especificado');
+            return;
+        }
+
+        try {
+            // Buscar jogo por slug ou ID
+            let jogo = null;
+            if (slug) {
+                const res = await fetch(API_URL + '/api/jogos/slug/' + slug);
+                if (res.ok) jogo = await res.json();
+            } else {
+                const res = await fetch(API_URL + '/api/jogos/' + jogoId);
+                if (res.ok) jogo = await res.json();
+            }
+
+            if (!jogo) {
+                mostrarErro('Jogo não encontrado');
+                return;
+            }
+
+            jogoAtual = jogo;
+
+            // Buscar todos os jogos para relacionados
+            const resTodos = await fetch(API_URL + '/api/jogos');
+            const dataTodos = await resTodos.json();
+            todosJogos = dataTodos.jogos || [];
+
+            renderizarPagina();
+        } catch (error) {
+            console.error('Erro:', error);
+            mostrarErro('Erro ao carregar jogo');
+        }
+    }
+
+    function getImagemUrl(jogo) {
+        if (!jogo.imagem) return 'https://via.placeholder.com/800x300?text=ZonaXP';
+        if (jogo.imagem.startsWith('http')) return jogo.imagem;
+        return API_URL + '/imagens/' + jogo.imagem + '.jpg';
+    }
+
+    // ==================== RENDERIZAR ====================
+    function renderizarPagina() {
+        const imagemUrl = getImagemUrl(jogoAtual);
+        const badgeClass = jogoAtual.pago ? 'badge-paid' : 'badge-free';
+        const badgeText = jogoAtual.pago ? '💰 ' + jogoAtual.preco : '🎁 Grátis';
+
+        // Likes do utilizador
+        let isLiked = false;
+        let isDisliked = false;
+        if (utilizadorAtual && utilizadorAtual.likes) {
+            if (utilizadorAtual.likes[jogoAtual.id] !== undefined) {
+                isLiked = utilizadorAtual.likes[jogoAtual.id] === true;
+                isDisliked = utilizadorAtual.likes[jogoAtual.id] === false;
+            }
+        }
+
+        // Links de download
+        const links = [];
+        if (jogoAtual.download) links.push({ nome: '⬇️ Download', link: jogoAtual.download });
+        if (jogoAtual.apk_link) links.push({ nome: '📱 APK', link: jogoAtual.apk_link });
+        if (jogoAtual.obb_link) links.push({ nome: '💾 OBB', link: jogoAtual.obb_link });
+        if (jogoAtual.data_link) links.push({ nome: '📁 DATA', link: jogoAtual.data_link });
+        if (jogoAtual.texture_link) links.push({ nome: '🎨 Texturas', link: jogoAtual.texture_link });
+        if (jogoAtual.save_link) links.push({ nome: '💾 Savedata', link: jogoAtual.save_link });
+        if (jogoAtual.iso_link) links.push({ nome: '🎮 ISO/ROM', link: jogoAtual.iso_link });
+
+        let botoesDownload = '';
+
+        if (jogoAtual.pago) {
+            const mensagemWhatsApp = 'Quero%20comprar%20' + encodeURIComponent(jogoAtual.nome);
+            botoesDownload = `
+                <div class="download-buttons">
+                    <button class="btn-download btn-paid" onclick="window.location.href='checkout.html?jogo=${jogoAtual.id}'">
+                        💳 Pagar Automático
+                    </button>
+                    <button class="btn-download btn-blue" onclick="window.open('https://wa.me/258858523520?text=${mensagemWhatsApp}', '_blank')">
+                        📱 Pagar Manual (WhatsApp)
+                    </button>
+                </div>
+            `;
+        } else if (links.length > 0) {
+            botoesDownload = '<div class="download-buttons">';
+            links.forEach(link => {
+                botoesDownload += `<button class="btn-download btn-blue" onclick="fazerDownload('${link.link}', '${jogoAtual.nome}')">${link.nome}</button>`;
+            });
+            botoesDownload += '</div>';
+        } else {
+            botoesDownload = '<p style="text-align:center;color:red;">Nenhum link disponível</p>';
+        }
+
+        // Relacionados
+        const relacionados = todosJogos.filter(j => j.id !== jogoAtual.id && j.categoria === jogoAtual.categoria && !j.pago).slice(0, 10);
+
+        let htmlRelacionados = '';
+        if (relacionados.length > 0) {
+            htmlRelacionados = '<div class="recomendados"><h4>🎮 Você também pode gostar</h4><div class="recomendados-scroll">';
+            relacionados.forEach(jogo => {
+                const img = getImagemUrl(jogo);
+                const link = jogo.slug ? 'download.html?slug=' + jogo.slug : 'download.html?jogo=' + jogo.id;
+                htmlRelacionados += `
+                    <div class="recom-card" onclick="window.location.href='${link}'">
+                        <img src="${img}" onerror="this.src='https://via.placeholder.com/160x120?text=${encodeURIComponent(jogo.nome)}'">
+                        <div class="info"><h5>${jogo.nome}</h5><p>${jogo.categoria}</p></div>
+                        <div class="arrow">→</div>
+                    </div>
+                `;
+            });
+            htmlRelacionados += '</div></div>';
+        }
+
+        content.innerHTML = `
+            <div class="imagem-area">
+                <img src="${imagemUrl}" onerror="this.src='https://via.placeholder.com/800x300?text=${encodeURIComponent(jogoAtual.nome)}'">
+                <div class="price-badge ${badgeClass}">${badgeText}</div>
+            </div>
+
+            <div class="info">
+                <h1>${jogoAtual.nome}</h1>
+                <div>
+                    <span class="categoria">${jogoAtual.categoria}</span>
+                    <span class="plataforma">${jogoAtual.plataforma === 'APK Android' ? '📱' : '🎮'} ${jogoAtual.plataforma}</span>
+                </div>
+                <div class="tamanho">📦 ${jogoAtual.tamanho || 'Tamanho não informado'}</div>
+            </div>
+
+            <div class="rating-share">
+                <div class="rating">
+                    <button class="like-btn" onclick="votar('like', event)">
+                        <span class="icon ${isLiked ? 'liked' : ''}">♥</span>
+                        <span class="count">${jogoAtual.likes || 0}</span>
+                    </button>
+                    <button class="dislike-btn" onclick="votar('dislike', event)">
+                        <span class="icon ${isDisliked ? 'disliked' : ''}">👎</span>
+                        <span class="count">${jogoAtual.dislikes || 0}</span>
+                    </button>
+                </div>
+                <div class="share-social">
+                    <button class="share-btn" onclick="partilharJogo()" title="Partilhar"><i class="fas fa-share-alt"></i></button>
+                    <a href="https://whatsapp.com/channel/0029Vb7YAqi3bbV9tuuiyC1p" target="_blank" class="share-icon whatsapp" title="Canal WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                    <a href="https://www.tiktok.com/@zonaxp" target="_blank" class="share-icon tiktok" title="TikTok"><i class="fab fa-tiktok"></i></a>
+                </div>
+            </div>
+
+            <div class="downloads-section">
+                <div class="download-title">📥 DOWNLOAD</div>
+                ${jogoAtual.partilha_ativa && !jogoAtual.pago ? '<div class="aviso-partilha">⚠️ Este jogo requer partilha antes de baixar</div>' : ''}
+                ${botoesDownload}
+            </div>
+
+            ${jogoAtual.senha ? `<div class="senha-area"><h4>🔐 Senha</h4><div class="senha">${jogoAtual.senha}</div></div>` : ''}
+
+            ${jogoAtual.descricao_longa ? `<div class="descricao-area"><h4>📖 Sobre o jogo</h4><div class="descricao-longa">${jogoAtual.descricao_longa}</div></div>` : ''}
+
+            ${htmlRelacionados}
+        `;
+    }
+
+    // ==================== VOTAR ====================
+    async function votar(tipo, event) {
+        if (event) event.stopPropagation();
+
+        if (!utilizadorAtual) {
+            mostrarToast('🔐 Cria conta para dar like');
+            modalConta.classList.add('ativo');
+            return;
+        }
+
+        try {
+            const res = await fetch(API_URL + '/api/utilizadores/' + utilizadorAtual.id + '/like', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ jogoId: jogoAtual.id, tipo })
+            });
+
+            const result = await res.json();
+
+            if (res.ok) {
+                utilizadorAtual.likes = result.likes;
+                localStorage.setItem('utilizador', JSON.stringify(utilizadorAtual));
+
+                const votoAtual = result.likes[jogoAtual.id];
+                if (votoAtual === true) {
+                    jogoAtual.likes = (jogoAtual.likes || 0) + 1;
+                    if (jogoAtual.dislikes > 0) jogoAtual.dislikes--;
+                } else if (votoAtual === false) {
+                    jogoAtual.dislikes = (jogoAtual.dislikes || 0) + 1;
+                    if (jogoAtual.likes > 0) jogoAtual.likes--;
+                } else {
+                    if (jogoAtual.likes > 0) jogoAtual.likes--;
+                    if (jogoAtual.dislikes > 0) jogoAtual.dislikes--;
+                }
+
                 await fetch(API_URL + '/api/avaliacao/' + jogoAtual.id, {
                     method: 'PUT',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ likes: jogoAtual.likes, dislikes: jogoAtual.dislikes })
                 });
-            } catch (e) { console.error('Erro ao salvar voto:', e); }
-
-            atualizarRating();
-        }
-
-        function atualizarRating() {
-            const ratingDiv = document.querySelector('.rating');
-            if (ratingDiv && jogoAtual) {
-                const isLiked = votosUsuario[jogoAtual.id] === 'like';
-                const isDisliked = votosUsuario[jogoAtual.id] === 'dislike';
-
-                ratingDiv.innerHTML =
-                    '<button class="like-btn ' + (isLiked ? 'active' : '') + '" onclick="votar(\'like\', event)">👍 <span>' + (jogoAtual.likes || 0) + '</span></button>' +
-                    '<button class="dislike-btn ' + (isDisliked ? 'active' : '') + '" onclick="votar(\'dislike\', event)">👎 <span>' + (jogoAtual.dislikes || 0) + '</span></button>';
-            }
-        }
-
-        // ==================== PARTILHAR JOGO ====================
-        function partilharJogo() {
-            if (!jogoAtual) return;
-            const shareUrl = window.location.origin + '/download.html?jogo=' + jogoAtual.id;
-            const shareText = jogoAtual.nome +
-                '\n📂 Categoria: ' + jogoAtual.categoria +
-                '\n🎯 Plataforma: ' + jogoAtual.plataforma +
-                '\n📦 Tamanho: ' + (jogoAtual.tamanho || 'Não informado') +
-                '\n\n✅ Grátis para download!' +
-                '\n\n👇 Clique no link abaixo: ' + shareUrl;
-
-            if (navigator.share) {
-                navigator.share({ title: 'ZonaXP - ' + jogoAtual.nome, text: shareText, url: shareUrl });
-            } else {
-                navigator.clipboard.writeText(shareText).then(function() {
-                    alert('📋 Mensagem copiada! Partilhe com amigos.');
-                }).catch(function() {
-                    prompt('Copie o texto:', shareText);
-                });
-            }
-        }
-
-        // ==================== CARREGAR JOGO ====================
-        async function carregarJogo() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const jogoId = urlParams.get('jogo');
-
-            if (!jogoId) {
-                mostrarErro('Nenhum jogo especificado');
-                return;
-            }
-
-            try {
-                const response = await fetch(API_URL + '/api/jogos');
-                const data = await response.json();
-                todosJogos = data.jogos;
-                jogoAtual = todosJogos.find(function(j) { return j.id == jogoId; });
-
-                if (!jogoAtual) {
-                    mostrarErro('Jogo não encontrado');
-                    return;
-                }
 
                 renderizarPagina();
-            } catch (error) {
-                mostrarErro('Erro ao carregar jogo');
             }
+        } catch (e) {
+            console.error('Erro ao votar:', e);
+            mostrarToast('❌ Erro ao votar');
+        }
+    }
+
+    // ==================== FAZER DOWNLOAD ====================
+    async function fazerDownload(link, nomeJogo) {
+        // Verificar se está logado
+        if (!utilizadorAtual) {
+            mostrarToast('🔐 Cria conta para baixar');
+            modalConta.classList.add('ativo');
+            return;
         }
 
-        function getImagemUrl(jogo) {
-            if (!jogo.imagem) return 'https://via.placeholder.com/800x300?text=ZonaXP';
-            if (jogo.imagem.startsWith('http')) return jogo.imagem;
-            return API_URL + '/imagens/' + jogo.imagem + '.jpg';
+        // Se o jogo tiver partilha ativa, vai para compartilhar.html
+        if (jogoAtual.partilha_ativa && !jogoAtual.pago) {
+            const linkJogo = jogoAtual.slug ? 'compartilhar.html?slug=' + jogoAtual.slug : 'compartilhar.html?jogo=' + jogoAtual.id;
+            window.location.href = linkJogo;
+            return;
         }
 
-        // ==================== CARROSSEL DE MÍDIA ====================
-        function renderizarCarrosselMedia() {
-            const slides = [];
-
-            if (jogoAtual.video_url) {
-                slides.push({ type: 'video', url: jogoAtual.video_url });
-            }
-
-            if (jogoAtual.imagens_extras && jogoAtual.imagens_extras.length > 0) {
-                jogoAtual.imagens_extras.forEach(function(img) {
-                    if (img) slides.push({ type: 'image', url: img });
-                });
-            }
-
-            if (slides.length === 0) {
-                slides.push({ type: 'image', url: getImagemUrl(jogoAtual) });
-            }
-
-            if (slides.length <= 1) {
-                return '<div class="media-slide"><img src="' + slides[0].url + '" alt="' + jogoAtual.nome + '" onerror="this.src=\'https://via.placeholder.com/800x300?text=' + encodeURIComponent(jogoAtual.nome) + '\'"></div>';
-            }
-
-            var html = '<div class="media-carousel" id="mediaCarousel">';
-            html += '<div class="media-track" id="mediaTrack">';
-
-            slides.forEach(function(slide, index) {
-                html += '<div class="media-slide" data-index="' + index + '">';
-                if (slide.type === 'video') {
-                    html += '<video controls playsinline preload="metadata">';
-                    html += '<source src="' + slide.url + '" type="video/mp4">';
-                    html += 'Seu navegador não suporta vídeo.';
-                    html += '</video>';
-                } else {
-                    html += '<img src="' + slide.url + '" alt="' + jogoAtual.nome + '" onerror="this.src=\'https://via.placeholder.com/800x300?text=' + encodeURIComponent(jogoAtual.nome) + '\'">';
-                }
-                html += '</div>';
+        // Guardar no histórico
+        try {
+            await fetch(API_URL + '/api/utilizadores/' + utilizadorAtual.id + '/historico', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ jogoId: jogoAtual.id })
             });
-
-            html += '</div>';
-            html += '<button class="media-btn prev" onclick="mediaSlide(-1)">❮</button>';
-            html += '<button class="media-btn next" onclick="mediaSlide(1)">❯</button>';
-            html += '<div class="media-dots" id="mediaDots">';
-            for (var i = 0; i < slides.length; i++) {
-                html += '<div class="media-dot' + (i === 0 ? ' active' : '') + '" onclick="mediaGoTo(' + i + ')"></div>';
-            }
-            html += '</div>';
-            html += '<div class="media-counter">' + (mediaIndex + 1) + ' / ' + slides.length + '</div>';
-            html += '</div>';
-
-            return html;
+        } catch (e) {
+            console.error('Erro ao guardar histórico:', e);
         }
 
-        function mediaSlide(direction) {
-            var slides = document.querySelectorAll('.media-slide');
-            if (slides.length === 0) return;
-            mediaIndex = mediaIndex + direction;
-            if (mediaIndex >= slides.length) mediaIndex = 0;
-            if (mediaIndex < 0) mediaIndex = slides.length - 1;
-            var track = document.getElementById('mediaTrack');
-            if (track) track.style.transform = 'translateX(-' + (mediaIndex * 100) + '%)';
-            var dots = document.querySelectorAll('.media-dot');
-            dots.forEach(function(dot, i) {
-                dot.classList.toggle('active', i === mediaIndex);
+        // Abrir link
+        window.open(link, '_blank');
+        mostrarToast('✅ Download iniciado: ' + nomeJogo);
+    }
+
+    // ==================== PARTILHAR ====================
+    function partilharJogo() {
+        if (!jogoAtual) return;
+
+        const shareUrl = jogoAtual.slug
+            ? window.location.origin + '/download.html?slug=' + jogoAtual.slug
+            : window.location.origin + '/download.html?jogo=' + jogoAtual.id;
+
+        const shareText = jogoAtual.nome +
+            '\n📂 Categoria: ' + jogoAtual.categoria +
+            '\n🎯 Plataforma: ' + jogoAtual.plataforma +
+            '\n📦 Tamanho: ' + (jogoAtual.tamanho || 'Não informado') +
+            '\n\n✅ Grátis para download!' +
+            '\n\n👇 Clique no link abaixo: ' + shareUrl;
+
+        if (navigator.share) {
+            navigator.share({ title: 'ZonaXP - ' + jogoAtual.nome, text: shareText, url: shareUrl });
+        } else {
+            navigator.clipboard.writeText(shareText).then(() => {
+                mostrarToast('📋 Link copiado!');
+            }).catch(() => {
+                prompt('Copie o link:', shareUrl);
             });
-            var counter = document.querySelector('.media-counter');
-            if (counter) counter.textContent = (mediaIndex + 1) + ' / ' + slides.length;
         }
+    }
 
-        function mediaGoTo(index) {
-            mediaIndex = index;
-            var track = document.getElementById('mediaTrack');
-            if (track) track.style.transform = 'translateX(-' + (mediaIndex * 100) + '%)';
-            var dots = document.querySelectorAll('.media-dot');
-            dots.forEach(function(dot, i) {
-                dot.classList.toggle('active', i === mediaIndex);
-            });
-            var counter = document.querySelector('.media-counter');
-            if (counter) counter.textContent = (mediaIndex + 1) + ' / ' + slides.length;
-        }
+    // ==================== FECHAR MODAL ====================
+    function fecharModalConta() {
+        modalConta.classList.remove('ativo');
+    }
 
-        // ==================== RENDERIZAR PÁGINA ====================
-        function renderizarPagina() {
-    var badgeClass = jogoAtual.pago ? 'badge-paid' : 'badge-free';
-    var badgeText = jogoAtual.pago ? '💰 ' + jogoAtual.preco : '🎁 Grátis';
-    var isLiked = votosUsuario[jogoAtual.id] === 'like';
-    var isDisliked = votosUsuario[jogoAtual.id] === 'dislike';
-
-    // ===== GERAR LINKS DE DOWNLOAD =====
-    var links = [];
-    if (jogoAtual.download) links.push({ nome: '⬇️ Download', link: jogoAtual.download });
-    if (jogoAtual.apk_link) links.push({ nome: '📱 APK', link: jogoAtual.apk_link });
-    if (jogoAtual.obb_link) links.push({ nome: '💾 OBB', link: jogoAtual.obb_link });
-    if (jogoAtual.data_link) links.push({ nome: '📁 DATA', link: jogoAtual.data_link });
-    if (jogoAtual.texture_link) links.push({ nome: '🎨 Texturas', link: jogoAtual.texture_link });
-    if (jogoAtual.save_link) links.push({ nome: '💾 Savedata', link: jogoAtual.save_link });
-    if (jogoAtual.iso_link) links.push({ nome: '🎮 ISO/ROM', link: jogoAtual.iso_link });
-
-    var botoesDownload = '';
-
-    if (jogoAtual.pago) {
-        // Jogo pago: dois botões
-        var mensagemWhatsApp = 'Quero%20comprar%20' + encodeURIComponent(jogoAtual.nome);
-        botoesDownload = `
-            <div class="download-buttons">
-                <button class="btn-download btn-paid" onclick="window.location.href='checkout.html?jogo=${jogoAtual.id}'">
-                    💳 Pagar Automático
-                </button>
-                <button class="btn-download btn-blue" onclick="window.open('https://wa.me/258858523520?text=${mensagemWhatsApp}', '_blank')">
-                    📱 Pagar Manual (WhatsApp)
-                </button>
+    // ==================== MOSTRAR ERRO ====================
+    function mostrarErro(mensagem) {
+        content.innerHTML = `
+            <div class="error">
+                <h3>⚠️ Erro</h3>
+                <p>${mensagem}</p>
+                <button class="btn-download btn-blue" onclick="window.location.href='/'">Voltar para Home</button>
             </div>
         `;
-    } else if (links.length > 0) {
-        // Jogo grátis: links normais
-        botoesDownload = '<div class="download-buttons">';
-        links.forEach(function(link) {
-            botoesDownload += '<button class="btn-download btn-blue" onclick="window.open(\'' + link.link + '\', \'_blank\'); registrarDownload();">' + link.nome + '</button>';
-        });
-        botoesDownload += '</div>';
-    } else {
-        botoesDownload = '<p style="text-align:center;color:red;">Nenhum link disponível</p>';
     }
 
-    // ===== JOGOS RECOMENDADOS =====
-    var recomendados = todosJogos.filter(function(j) {
-        return j.id !== jogoAtual.id && j.categoria === jogoAtual.categoria && !j.pago;
-    }).slice(0, 10);
+    // ==================== INICIALIZAR ====================
+    utilizadorAtual = verificarSessao();
+    initTheme();
+    initMenu();
+    carregarJogo();
 
-    var htmlRecomendados = '';
-    if (recomendados.length > 0) {
-        htmlRecomendados = '<div class="recomendados"><h4>🎮 Você também pode gostar</h4><div class="recomendados-scroll">';
-        recomendados.forEach(function(jogo) {
-            var imgUrl = jogo.imagem && jogo.imagem.startsWith('http') ? jogo.imagem : (API_URL + '/imagens/' + jogo.imagem + '.jpg');
-            htmlRecomendados += '<div class="recom-card" onclick="window.location.href=\'download.html?jogo=' + jogo.id + '\'">';
-            htmlRecomendados += '<img src="' + imgUrl + '" onerror="this.src=\'https://via.placeholder.com/160x120?text=' + encodeURIComponent(jogo.nome) + '\'">';
-            htmlRecomendados += '<div class="info"><h5>' + jogo.nome + '</h5><p>' + jogo.categoria + '</p></div>';
-            htmlRecomendados += '<div class="arrow">→</div>';
-            htmlRecomendados += '</div>';
-        });
-        htmlRecomendados += '</div></div>';
-    }
-
-    // ===== MONTAR PÁGINA =====
-    var mediaHtml = renderizarCarrosselMedia();
-
-    content.innerHTML =
-        '<div class="imagem-area">' +
-        mediaHtml +
-        '</div>' +
-
-        '<div class="info">' +
-        '<h1>' + jogoAtual.nome + '</h1>' +
-        '<div><span class="categoria">' + jogoAtual.categoria + '</span><span class="plataforma">' + (jogoAtual.plataforma === 'APK Android' ? '📱' : '🎮') + ' ' + jogoAtual.plataforma + '</span></div>' +
-        '<div class="tamanho">📦 ' + (jogoAtual.tamanho || 'Tamanho não informado') + '</div>' +
-        '</div>' +
-
-        '<div class="rating-share">' +
-        '<div class="rating">' +
-        '<button class="like-btn ' + (isLiked ? 'active' : '') + '" onclick="votar(\'like\', event)">👍 <span>' + (jogoAtual.likes || 0) + '</span></button>' +
-        '<button class="dislike-btn ' + (isDisliked ? 'active' : '') + '" onclick="votar(\'dislike\', event)">👎 <span>' + (jogoAtual.dislikes || 0) + '</span></button>' +
-        '</div>' +
-        '<div class="share-social">' +
-        '<button class="share-btn" onclick="partilharJogo()" title="Partilhar"><i class="fas fa-share-alt"></i></button>' +
-        '<a href="https://whatsapp.com/channel/0029Vb7YAqi3bbV9tuuiyC1p" target="_blank" class="share-icon whatsapp" title="Canal WhatsApp"><i class="fab fa-whatsapp"></i></a>' +
-        '<a href="https://www.tiktok.com/@zonaxp" target="_blank" class="share-icon tiktok" title="TikTok"><i class="fab fa-tiktok"></i></a>' +
-        '</div>' +
-        '</div>' +
-
-        '<div class="downloads-section">' +
-        '<div class="download-title">📥 DOWNLOAD</div>' +
-        botoesDownload +
-        '</div>' +
-
-        (jogoAtual.senha ? '<div class="senha-area"><h4>🔐 Senha</h4><div class="senha">' + jogoAtual.senha + '</div></div>' : '') +
-
-        (jogoAtual.descricao_longa ? '<div class="descricao-area"><h4>📖 Sobre o jogo</h4><div class="descricao-longa">' + jogoAtual.descricao_longa + '</div></div>' : '') +
-
-        htmlRecomendados;
-
-    // Inicializar carrossel de mídia
-    mediaIndex = 0;
-    var track = document.getElementById('mediaTrack');
-    if (track) track.style.transform = 'translateX(0)';
-
-    // Atualizar rating
-    atualizarRating();
-}
-
-        function mostrarErro(mensagem) {
-            content.innerHTML = '<div class="error"><h3>⚠️ Erro</h3><p>' + mensagem + '</p><button class="btn-download btn-blue" onclick="window.location.href=\'/\'">Voltar para Home</button></div>';
-        }
-
-        // ==================== EXPOR FUNÇÕES GLOBAIS ====================
-        window.votar = votar;
-        window.partilharJogo = partilharJogo;
-        window.mediaSlide = mediaSlide;
-        window.mediaGoTo = mediaGoTo;
-        window.registrarDownload = registrarDownload;
-
-        // ==================== INICIALIZAR ====================
-        initTheme();
-        initMenu();
-        carregarJogo();
-    </script>
+    // Expor funções globais
+    window.votar = votar;
+    window.fazerDownload = fazerDownload;
+    window.partilharJogo = partilharJogo;
+    window.fecharModalConta = fecharModalConta;
+</script>
 
 </body>
 </html>
