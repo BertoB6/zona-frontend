@@ -1408,6 +1408,19 @@
         window.fecharModalConta = fecharModalConta;
         window.toggleUserMenu = toggleUserMenu;
         window.fazerLogout = fazerLogout;
+
+        // ==================== SISTEMA ONLINE (Heartbeat) ====================
+        if (localStorage.getItem('sessaoAtiva') === 'true') {
+            const user = JSON.parse(localStorage.getItem('utilizador'));
+            if (user && user.id) {
+                // Avisa logo ao abrir
+                fetch(API_URL + '/api/utilizadores/' + user.id + '/online', { method: 'PUT' }).catch(() => {});
+                // E depois a cada 1 minuto
+                setInterval(() => {
+                    fetch(API_URL + '/api/utilizadores/' + user.id + '/online', { method: 'PUT' }).catch(() => {});
+                }, 60000);
+            }
+        }
     </script>
 </body>
 </html>

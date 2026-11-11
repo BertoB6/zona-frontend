@@ -809,6 +809,11 @@
 
             jogoAtual = jogo;
 
+            // REGISTAR VISUALIZAÇÃO (NOVO)
+            fetch(API_URL + '/api/jogos/' + jogo.id + '/visualizar', {
+                method: 'POST'
+            }).catch(() => {});
+
             // Buscar todos os jogos para relacionados
             const resTodos = await fetch(API_URL + '/api/jogos');
             const dataTodos = await resTodos.json();
