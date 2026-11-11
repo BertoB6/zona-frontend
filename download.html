@@ -6,11 +6,7 @@
     <title>ZonaXP - Download do Jogo</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         :root {
             --bg-primary: #121212;
@@ -41,10 +37,7 @@
             transition: all 0.3s ease;
         }
 
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-        }
+        .container { max-width: 800px; margin: 0 auto; }
 
         /* HEADER */
         .header {
@@ -106,10 +99,7 @@
             flex-shrink: 0;
         }
 
-        .menu-icon {
-            font-size: 1.5rem;
-            order: 1;
-        }
+        .menu-icon { font-size: 1.5rem; order: 1; }
 
         .header-actions {
             display: flex;
@@ -118,7 +108,8 @@
             flex-shrink: 0;
         }
 
-        .btn-voltar {
+        /* BOTÃO VOLTAR - Aparece no header se estiver logado */
+        .btn-voltar-header {
             background: rgba(255, 255, 255, 0.08);
             border: 1px solid var(--border-color);
             padding: 6px 14px;
@@ -127,12 +118,13 @@
             font-size: 0.8rem;
             cursor: pointer;
             transition: 0.3s;
-            display: flex;
+            display: none; /* Escondido por defeito, JS mostra se logado */
             align-items: center;
             gap: 4px;
+            text-decoration: none;
         }
 
-        .btn-voltar:hover {
+        .btn-voltar-header:hover {
             background: var(--accent);
             border-color: var(--accent);
             transform: scale(1.02);
@@ -173,16 +165,9 @@
             transition: 0.2s;
         }
 
-        .sidebar li:hover {
-            color: var(--accent);
-            padding-left: 10px;
-        }
+        .sidebar li:hover { color: var(--accent); padding-left: 10px; }
 
-        .sidebar a {
-            color: var(--text-primary);
-            text-decoration: none;
-            display: block;
-        }
+        .sidebar a { color: var(--text-primary); text-decoration: none; display: block; }
 
         .overlay {
             position: fixed;
@@ -218,11 +203,7 @@
             background: var(--bg-primary);
         }
 
-        .imagem-area img {
-            width: 100%;
-            max-height: 300px;
-            object-fit: cover;
-        }
+        .imagem-area img { width: 100%; max-height: 300px; object-fit: cover; }
 
         .price-badge {
             position: absolute;
@@ -245,10 +226,7 @@
             border-bottom: 1px solid var(--border-color);
         }
 
-        .info h1 {
-            font-size: 1.6rem;
-            margin-bottom: 8px;
-        }
+        .info h1 { font-size: 1.6rem; margin-bottom: 8px; }
 
         .categoria {
             display: inline-block;
@@ -288,8 +266,22 @@
 
         .rating {
             display: flex;
-            gap: 20px;
+            gap: 15px;
             align-items: center;
+            flex-wrap: wrap;
+        }
+
+        /* VISUALIZAÇÕES */
+        .views {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(255,255,255,0.05);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-weight: bold;
         }
 
         .like-btn,
@@ -319,19 +311,11 @@
         .dislike-btn .icon.disliked { color: #ff004f; transform: scale(1.15); }
 
         .like-btn .count,
-        .dislike-btn .count {
-            font-size: 0.85rem;
-            font-weight: bold;
-        }
+        .dislike-btn .count { font-size: 0.85rem; font-weight: bold; }
 
-        .share-social {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
+        .share-social { display: flex; align-items: center; gap: 8px; }
 
-        .share-btn,
-        .share-icon {
+        .share-btn, .share-icon {
             background: none;
             border: none;
             font-size: 1.4rem;
@@ -348,20 +332,13 @@
             height: 44px;
         }
 
-        .share-btn:hover,
-        .share-icon:hover {
-            background: rgba(255,255,255,0.1);
-        }
-
+        .share-btn:hover, .share-icon:hover { background: rgba(255,255,255,0.1); }
         .share-icon.whatsapp:hover { color: #25D366; background: rgba(37,211,102,0.15); }
         .share-icon.tiktok:hover { color: #000000; background: rgba(0,0,0,0.1); }
         .share-btn:hover { color: var(--accent); background: rgba(255,0,79,0.1); }
 
         /* BOTÕES DE DOWNLOAD */
-        .downloads-section {
-            padding: 20px;
-            border-bottom: 1px solid var(--border-color);
-        }
+        .downloads-section { padding: 20px; border-bottom: 1px solid var(--border-color); }
 
         .download-title {
             font-size: 0.9rem;
@@ -370,11 +347,7 @@
             text-align: center;
         }
 
-        .download-buttons {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
+        .download-buttons { display: flex; flex-direction: column; gap: 12px; }
 
         .btn-download {
             width: 100%;
@@ -393,13 +366,10 @@
         }
 
         .btn-download:hover { transform: translateY(-2px); }
-
         .btn-blue { background: var(--download-blue); }
         .btn-blue:hover { background: #1d4ed8; }
-
         .btn-free { background: var(--button-free); }
         .btn-free:hover { background: #0b7a44; }
-
         .btn-paid { background: var(--button-paid); }
         .btn-paid:hover { background: #e68a00; }
 
@@ -438,11 +408,7 @@
         }
 
         /* DESCRIÇÃO */
-        .descricao-area {
-            padding: 0 20px 20px 20px;
-            border-bottom: 1px solid var(--border-color);
-        }
-
+        .descricao-area { padding: 0 20px 20px 20px; border-bottom: 1px solid var(--border-color); }
         .descricao-area h4 { color: var(--accent); margin-bottom: 10px; }
         .descricao-longa { color: var(--text-secondary); font-size: 0.9rem; line-height: 1.6; }
 
@@ -482,11 +448,7 @@
         .recom-card .arrow { text-align: center; padding: 4px; color: var(--accent); font-size: 1.2rem; }
 
         /* LOADING E ERRO */
-        .loading, .error {
-            text-align: center;
-            padding: 50px;
-            color: var(--text-secondary);
-        }
+        .loading, .error { text-align: center; padding: 50px; color: var(--text-secondary); }
 
         footer {
             margin-top: 20px;
@@ -558,18 +520,8 @@
 
         .modal-close:hover { color: #ff004f; }
 
-        .modal-content h2 {
-            color: #ff004f;
-            font-size: 1.4rem;
-            margin-bottom: 15px;
-        }
-
-        .modal-content p {
-            color: #aaa;
-            font-size: 0.9rem;
-            margin-bottom: 20px;
-            line-height: 1.5;
-        }
+        .modal-content h2 { color: #ff004f; font-size: 1.4rem; margin-bottom: 15px; }
+        .modal-content p { color: #aaa; font-size: 0.9rem; margin-bottom: 20px; line-height: 1.5; }
 
         .modal-content .btn-modal {
             width: 100%;
@@ -595,10 +547,7 @@
             color: #ff004f;
         }
 
-        .modal-content .btn-modal.outline:hover {
-            background: #ff004f;
-            color: white;
-        }
+        .modal-content .btn-modal.outline:hover { background: #ff004f; color: white; }
 
         /* RESPONSIVIDADE */
         @media (max-width: 600px) {
@@ -609,18 +558,18 @@
             .search-bar input { padding: 7px 12px; font-size: 0.8rem; }
             .info h1 { font-size: 1.2rem; }
             .rating-share { flex-direction: column; align-items: stretch; gap: 8px; }
-            .rating { justify-content: center; }
+            .rating { justify-content: center; flex-wrap: wrap; }
             .share-social { justify-content: center; }
             .like-btn .icon, .dislike-btn .icon { font-size: 1.5rem; }
             .recom-card { flex: 0 0 140px; }
             .recom-card img { height: 100px; }
+            .btn-voltar-header { padding: 5px 10px; font-size: 0.7rem; }
         }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <!-- HEADER -->
     <div class="header">
         <div class="header-content">
             <div class="logo">ZonaXP</div>
@@ -628,14 +577,13 @@
                 <input type="text" id="searchInput" placeholder="Buscar jogos...">
             </div>
             <div class="header-actions">
-                <button class="btn-voltar" onclick="window.location.href='/'">← Voltar</button>
+                <a href="index.html" class="btn-voltar-header" id="btnVoltarHeader">← Voltar</a>
                 <button class="theme-toggle" id="themeToggle">🌙</button>
                 <button class="menu-icon" id="menuBtn">☰</button>
             </div>
         </div>
     </div>
 
-    <!-- SIDEBAR -->
     <div class="sidebar" id="sidebar">
         <div class="close-btn" id="closeMenu">✕</div>
         <ul>
@@ -643,11 +591,11 @@
             <li id="menuApresentacao">📖 Apresentação</li>
             <li id="menuSuporte">🛡️ Suporte</li>
             <li><a href="compartilhar.html">🎁 Ganhar Jogos</a></li>
+            <li><a href="#" onclick="fazerLogout(); return false;">🚪 Sair</a></li>
         </ul>
     </div>
     <div class="overlay" id="overlay"></div>
 
-    <!-- CARD PRINCIPAL -->
     <div class="download-card" id="downloadCard">
         <div id="content">
             <div class="loading">🔄 Carregando informações do jogo...</div>
@@ -659,7 +607,6 @@
     </footer>
 </div>
 
-<!-- MODAL DE CONTA -->
 <div class="modal-overlay" id="modalConta">
     <div class="modal-content">
         <button class="modal-close" onclick="fecharModalConta()">✕</button>
@@ -673,14 +620,12 @@
 <div class="toast" id="toast"></div>
 
 <script>
-    // ==================== CONFIG ====================
     const API_URL = 'https://zona-backend-v3h1.onrender.com';
 
     let jogoAtual = null;
     let todosJogos = [];
     let utilizadorAtual = null;
 
-    // Elementos
     const content = document.getElementById('content');
     const searchInput = document.getElementById('searchInput');
     const themeToggle = document.getElementById('themeToggle');
@@ -690,30 +635,23 @@
     const closeMenu = document.getElementById('closeMenu');
     const modalConta = document.getElementById('modalConta');
     const toast = document.getElementById('toast');
+    const btnVoltarHeader = document.getElementById('btnVoltarHeader');
 
-    // ==================== VERIFICAR SESSÃO ====================
     function verificarSessao() {
         const sessao = localStorage.getItem('sessaoAtiva');
         const utilizadorStr = localStorage.getItem('utilizador');
-
         if (sessao === 'true' && utilizadorStr) {
-            try {
-                return JSON.parse(utilizadorStr);
-            } catch (e) {
-                return null;
-            }
+            try { return JSON.parse(utilizadorStr); } catch (e) { return null; }
         }
         return null;
     }
 
-    // ==================== TOAST ====================
     function mostrarToast(mensagem) {
         toast.textContent = mensagem;
         toast.classList.add('ativo');
         setTimeout(() => toast.classList.remove('ativo'), 3000);
     }
 
-    // ==================== MODO ESCURO/CLARO ====================
     function initTheme() {
         const saved = localStorage.getItem('theme');
         if (saved === 'light') {
@@ -738,7 +676,6 @@
         }
     });
 
-    // ==================== MENU ====================
     function initMenu() {
         if (menuBtn) {
             menuBtn.addEventListener('click', () => {
@@ -773,14 +710,19 @@
         overlay.classList.remove('active');
     }
 
-    // ==================== BUSCA ====================
+    function fazerLogout() {
+        localStorage.removeItem('sessaoAtiva');
+        localStorage.removeItem('utilizador');
+        utilizadorAtual = null;
+        window.location.href = 'index.html';
+    }
+
     searchInput.addEventListener('keypress', (e) => {
         if (e.key === 'Enter' && searchInput.value.trim()) {
             window.location.href = '/?busca=' + encodeURIComponent(searchInput.value);
         }
     });
 
-    // ==================== CARREGAR JOGO ====================
     async function carregarJogo() {
         const urlParams = new URLSearchParams(window.location.search);
         const jogoId = urlParams.get('jogo');
@@ -792,7 +734,6 @@
         }
 
         try {
-            // Buscar jogo por slug ou ID
             let jogo = null;
             if (slug) {
                 const res = await fetch(API_URL + '/api/jogos/slug/' + slug);
@@ -809,12 +750,11 @@
 
             jogoAtual = jogo;
 
-            // REGISTAR VISUALIZAÇÃO (NOVO)
+            // REGISTAR VISUALIZAÇÃO
             fetch(API_URL + '/api/jogos/' + jogo.id + '/visualizar', {
                 method: 'POST'
             }).catch(() => {});
 
-            // Buscar todos os jogos para relacionados
             const resTodos = await fetch(API_URL + '/api/jogos');
             const dataTodos = await resTodos.json();
             todosJogos = dataTodos.jogos || [];
@@ -832,13 +772,11 @@
         return API_URL + '/imagens/' + jogo.imagem + '.jpg';
     }
 
-    // ==================== RENDERIZAR ====================
     function renderizarPagina() {
         const imagemUrl = getImagemUrl(jogoAtual);
         const badgeClass = jogoAtual.pago ? 'badge-paid' : 'badge-free';
         const badgeText = jogoAtual.pago ? '💰 ' + jogoAtual.preco : '🎁 Grátis';
 
-        // Likes do utilizador
         let isLiked = false;
         let isDisliked = false;
         if (utilizadorAtual && utilizadorAtual.likes) {
@@ -848,7 +786,6 @@
             }
         }
 
-        // Links de download
         const links = [];
         if (jogoAtual.download) links.push({ nome: '⬇️ Download', link: jogoAtual.download });
         if (jogoAtual.apk_link) links.push({ nome: '📱 APK', link: jogoAtual.apk_link });
@@ -882,7 +819,6 @@
             botoesDownload = '<p style="text-align:center;color:red;">Nenhum link disponível</p>';
         }
 
-        // Relacionados
         const relacionados = todosJogos.filter(j => j.id !== jogoAtual.id && j.categoria === jogoAtual.categoria && !j.pago).slice(0, 10);
 
         let htmlRelacionados = '';
@@ -927,6 +863,7 @@
                         <span class="icon ${isDisliked ? 'disliked' : ''}">👎</span>
                         <span class="count">${jogoAtual.dislikes || 0}</span>
                     </button>
+                    <div class="views">👁️ ${jogoAtual.visualizacoes || 0}</div>
                 </div>
                 <div class="share-social">
                     <button class="share-btn" onclick="partilharJogo()" title="Partilhar"><i class="fas fa-share-alt"></i></button>
@@ -949,10 +886,8 @@
         `;
     }
 
-    // ==================== VOTAR ====================
     async function votar(tipo, event) {
         if (event) event.stopPropagation();
-
         if (!utilizadorAtual) {
             mostrarToast('🔐 Cria conta para dar like');
             modalConta.classList.add('ativo');
@@ -965,7 +900,6 @@
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ jogoId: jogoAtual.id, tipo })
             });
-
             const result = await res.json();
 
             if (res.ok) {
@@ -998,23 +932,19 @@
         }
     }
 
-    // ==================== FAZER DOWNLOAD ====================
     async function fazerDownload(link, nomeJogo) {
-        // Verificar se está logado
         if (!utilizadorAtual) {
             mostrarToast('🔐 Cria conta para baixar');
             modalConta.classList.add('ativo');
             return;
         }
 
-        // Se o jogo tiver partilha ativa, vai para compartilhar.html
         if (jogoAtual.partilha_ativa && !jogoAtual.pago) {
             const linkJogo = jogoAtual.slug ? 'compartilhar.html?slug=' + jogoAtual.slug : 'compartilhar.html?jogo=' + jogoAtual.id;
             window.location.href = linkJogo;
             return;
         }
 
-        // Guardar no histórico
         try {
             await fetch(API_URL + '/api/utilizadores/' + utilizadorAtual.id + '/historico', {
                 method: 'POST',
@@ -1025,12 +955,10 @@
             console.error('Erro ao guardar histórico:', e);
         }
 
-        // Abrir link
         window.open(link, '_blank');
         mostrarToast('✅ Download iniciado: ' + nomeJogo);
     }
 
-    // ==================== PARTILHAR ====================
     function partilharJogo() {
         if (!jogoAtual) return;
 
@@ -1056,12 +984,10 @@
         }
     }
 
-    // ==================== FECHAR MODAL ====================
     function fecharModalConta() {
         modalConta.classList.remove('ativo');
     }
 
-    // ==================== MOSTRAR ERRO ====================
     function mostrarErro(mensagem) {
         content.innerHTML = `
             <div class="error">
@@ -1072,17 +998,22 @@
         `;
     }
 
-    // ==================== INICIALIZAR ====================
     utilizadorAtual = verificarSessao();
+    
+    // Lógica do botão voltar no header
+    if (utilizadorAtual) {
+        btnVoltarHeader.style.display = 'inline-flex';
+    }
+
     initTheme();
     initMenu();
     carregarJogo();
 
-    // Expor funções globais
     window.votar = votar;
     window.fazerDownload = fazerDownload;
     window.partilharJogo = partilharJogo;
     window.fecharModalConta = fecharModalConta;
+    window.fazerLogout = fazerLogout;
 </script>
 
 </body>
